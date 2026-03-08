@@ -1,0 +1,28 @@
+# Core ML
+torch>=2.0.0
+torchvision>=0.15.0
+timm>=0.9.0          # ViT implementations (DeiT, Swin, etc.)
+einops>=0.7.0        # Tensor manipulation for attention
+
+# FHE
+tenseal>=0.3.14      # SEAL Python bindings — easiest to start
+concrete-ml>=1.4.0   # Zama's sklearn/torch-compatible FHE
+
+# Scientific
+numpy>=1.24.0
+scipy>=1.11.0        # For minimax polynomial approximation
+scikit-learn>=1.3.0
+
+# Benchmarking & experiment tracking
+tqdm>=4.65.0
+pandas>=2.0.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# Notebooks
+jupyter>=1.0.0
+ipywidgets>=8.0.0
+
+# Utilities
+pyyaml>=6.0
+rich>=13.0.0         # Pretty terminal output
