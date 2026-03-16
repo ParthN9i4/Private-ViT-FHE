@@ -88,17 +88,30 @@ Private-ViT-FHE/
 │   ├── autofhe/             # AutoFHE (2023) — EvoReLU
 │   └── power_softmax/       # Power-Softmax (2024) — polynomial softmax
 ├── experiments/
-│   ├── baseline/            # Plaintext ViT baseline (PyTorch)
-│   ├── approximations/      # Polynomial approximation of non-linearities
-│   ├── week1_kd_basics/     # Week 1: KD pipeline experiments
-│   ├── week2_fhe_inference/ # Week 2: FHE inference experiments
-│   └── benchmarks/          # Latency/throughput across schemes
+│   ├── baseline/
+│   │   └── vit_plaintext_baseline.py      # Plaintext ViT accuracy baseline
+│   ├── approximations/
+│   │   └── gelu_approx_study.py           # Polynomial GELU approximation study
+│   ├── week1_kd_basics/                   # Week 1: KD pipeline experiments
+│   │   ├── 01_vit_medical_baseline.py     # ViT-Base teacher on RetinaMNIST
+│   │   ├── 02_deit_kd_pipeline.py         # DeiT-Tiny KD from ViT-Base teacher
+│   │   ├── 03_poly_gelu_kd.py             # PolyGELU (degree-4) with/without KD
+│   │   ├── 04_poly_softmax_study.py       # Polynomial attention mechanism comparison
+│   │   └── 05_layernorm_ablation.py       # LayerNorm variant ablation
+│   ├── week2_fhe_inference/               # Week 2: FHE inference experiments
+│   │   ├── 01_single_block_encryption.py  # Single PolyTransformerBlock under CKKS
+│   │   ├── 02_medmnist_fhe_baseline.py    # End-to-end FHE inference on MedMNIST
+│   │   └── 03_kd_fhe_comparison.py        # KD student vs FHE baseline comparison
+│   ├── fhe_inference/                     # End-to-end FHE forward pass experiments
+│   └── benchmarks/                        # Latency/throughput benchmark scripts
 ├── utils/
-│   ├── poly_approx.py       # Minimax polynomial approximation tools
-│   ├── depth_counter.py     # Multiplicative depth analysis
+│   ├── poly_approx.py       # Minimax & Chebyshev polynomial approximation
+│   ├── depth_counter.py     # Multiplicative depth analysis and budget estimation
 │   ├── ckks_helpers.py      # CKKS parameter selection utilities
 │   └── benchmark.py         # Unified benchmarking harness
-├── notebooks/               # Exploratory analysis and visualization
+├── notebooks/
+│   ├── 01_gelu_approximation.ipynb        # GELU polynomial approximation explorer
+│   └── 02_depth_budget_analysis.ipynb     # Depth budget analysis for ViT configs
 ├── benchmarks/              # Benchmark results (JSON/CSV)
 └── docs/
     ├── reading_log.md              # Annotated notes on every paper read
@@ -143,6 +156,34 @@ python -c "import medmnist; print(medmnist.INFO.keys())"
 # - DermaMNIST   (7007 train; 28×28 dermatoscopy, 7-class)
 # - BreastMNIST  (546 train; 28×28 ultrasound, binary)
 ```
+
+---
+
+## Utilities
+
+**`utils/poly_approx.py`** — Polynomial approximation for FHE-friendly activations:
+- `minimax_approx(fn, degree, domain)` — L-infinity optimal approximation via Nelder-Mead
+- `chebyshev_approx(fn, degree, domain)` — Fast Chebyshev approximation (good starting point)
+- `approx_gelu_degree4` — BOLT paper's degree-4 GELU for domain `[-5, 5]`
+- `eval_polynomial_ckks(coeffs, x)` — Horner's method evaluation (minimizes multiplications)
+- `approx_error(fn, coeffs, domain)` — Max/mean absolute error and depth metrics
+
+**`utils/depth_counter.py`** — Multiplicative depth analysis:
+- `vit_depth_budget(n_layers, gelu_degree, attention_type, layernorm_type)` — Per-component depth breakdown
+- `print_depth_report()` — Formatted table for common configs (Vanilla ViT, BOLT-style, Iron-style)
+
+**`utils/ckks_helpers.py`** — CKKS parameter selection utilities
+
+**`utils/benchmark.py`** — Unified benchmarking harness
+
+---
+
+## Notebooks
+
+| Notebook | Description |
+|----------|-------------|
+| [`01_gelu_approximation.ipynb`](notebooks/01_gelu_approximation.ipynb) | Interactive GELU polynomial approximation explorer — compare degree vs. accuracy vs. multiplicative depth |
+| [`02_depth_budget_analysis.ipynb`](notebooks/02_depth_budget_analysis.ipynb) | Depth budget analysis across ViT configurations — visualize level consumption per layer |
 
 ---
 
