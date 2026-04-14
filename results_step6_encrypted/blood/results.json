@@ -1,0 +1,23 @@
+{
+  "step": 6,
+  "description": "Encrypted inference with CKKS (TenSEAL)",
+  "dataset": "blood",
+  "model_source": "Step 5B (GELU+KD)",
+  "ckks_params": {
+    "poly_mod_degree": 16384,
+    "n_slots": 8192,
+    "n_mult_levels": 5,
+    "security_level": "~128 bits"
+  },
+  "level1_poly_gelu_max_error": 1.2565917357321155e-05,
+  "level2_poly_exp_max_error": 0.00010422908257101682,
+  "level3_linear_max_error": 5.110962259524676e-07,
+  "level4_classification": {
+    "n_samples": 20,
+    "plaintext_correct": 17,
+    "encrypted_correct": 17,
+    "prediction_match": 20,
+    "max_logit_error": 5.63868456682215e-06,
+    "avg_time_ms": 1182.9038619995117
+  }
+}

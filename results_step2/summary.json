@@ -1,0 +1,38 @@
+{
+  "retina": {
+    "accuracy": 17.0,
+    "auc": 0.5707,
+    "accuracy_delta": -36.75,
+    "auc_delta": -0.1798
+  },
+  "pneumonia": {
+    "accuracy": 87.34,
+    "auc": 0.9553,
+    "accuracy_delta": 0.48,
+    "auc_delta": -0.0159
+  },
+  "blood": {
+    "accuracy": 95.7,
+    "auc": 0.9969,
+    "accuracy_delta": 0.38,
+    "auc_delta": 0.0007
+  },
+  "derma": {
+    "accuracy": 11.32,
+    "auc": 0.4904,
+    "accuracy_delta": -65.34,
+    "auc_delta": -0.4387
+  },
+  "breast": {
+    "accuracy": 73.08,
+    "auc": 0.7536,
+    "accuracy_delta": -14.1,
+    "auc_delta": -0.1654
+  },
+  "path": {
+    "accuracy": 92.01,
+    "auc": 0.9848,
+    "accuracy_delta": -1.86,
+    "auc_delta": -0.0076
+  }
+}

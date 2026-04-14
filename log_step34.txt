@@ -1,0 +1,200 @@
+Device: cuda
+GPU: NVIDIA RTX A6000
+
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  Steps 3+4: FULLY POLYNOMIAL DeiT-Tiny + Cold-Start KD      ║
+  ║  Replacing ALL 49 non-polynomial operations:                 ║
+  ║    12 GELU → degree-2 polynomial                       ║
+  ║    12 softmax → poly_softmax (depth 3)                    ║
+  ║    25 LayerNorm → PolyLayerNorm (affine only)                ║
+  ║  KD: τ=4.0   α=0.5                                      ║
+  ╚══════════════════════════════════════════════════════════════╝
+
+======================================================================
+  Steps 3+4: Fully Polynomial DeiT-Tiny — RETINA
+  GELU deg: 2 | Softmax depth: 3 | τ=4.0 α=0.5
+======================================================================
+  Train: 1080 | Val: 120 | Test: 400
+  Teacher: loaded from results/retina/best_model.pth
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+  Teacher test acc: 53.75% | AUC: 0.7505
+  Student: ImageNet pretrained (cold-start)
+  Replaced 12 GELU → degree-2 polynomial
+  Replaced 12 softmax → poly_softmax (depth 3)
+  Replaced 25 LayerNorm → PolyLayerNorm (affine only)
+
+  ── Polynomial Verification ──
+  Remaining nn.GELU: 0
+  Remaining nn.LayerNorm: 0
+  ✓ All non-polynomial operations replaced
+  Total replacements: 49
+
+  Student: 5.53M total | 1.79M trainable
+  Blocks frozen: 8/12
+
+  Training for 30 epochs (fully polynomial, cold-start KD)...
+  Warning: AUC failed (Input contains NaN.)
+  Epoch  1/30 | Total: nan (D:nan T:nan) | Train: 45.0% | Val: 45.0% | AUC: 0.0000 | LR: 2.00e-05
+  Warning: AUC failed (Input contains NaN.)
+  Epoch  2/30 | Total: nan (D:nan T:nan) | Train: 45.0% | Val: 45.0% | AUC: 0.0000 | LR: 4.00e-05
+  Warning: AUC failed (Input contains NaN.)
+  Epoch  3/30 | Total: nan (D:nan T:nan) | Train: 45.0% | Val: 45.0% | AUC: 0.0000 | LR: 6.00e-05
+  Warning: AUC failed (Input contains NaN.)
+  Epoch  4/30 | Total: nan (D:nan T:nan) | Train: 45.0% | Val: 45.0% | AUC: 0.0000 | LR: 8.00e-05
+  Warning: AUC failed (Input contains NaN.)
+  Epoch  5/30 | Total: nan (D:nan T:nan) | Train: 45.0% | Val: 45.0% | AUC: 0.0000 | LR: 1.00e-04
+  Warning: AUC failed (Input contains NaN.)
+  Epoch  6/30 | Total: nan (D:nan T:nan) | Train: 45.0% | Val: 45.0% | AUC: 0.0000 | LR: 9.96e-05
+  Warning: AUC failed (Input contains NaN.)
+  Epoch  7/30 | Total: nan (D:nan T:nan) | Train: 45.0% | Val: 45.0% | AUC: 0.0000 | LR: 9.84e-05
+  Warning: AUC failed (Input contains NaN.)
+  Epoch  8/30 | Total: nan (D:nan T:nan) | Train: 45.0% | Val: 45.0% | AUC: 0.0000 | LR: 9.65e-05
+  Warning: AUC failed (Input contains NaN.)
+  Epoch  9/30 | Total: nan (D:nan T:nan) | Train: 45.0% | Val: 45.0% | AUC: 0.0000 | LR: 9.39e-05
+  Warning: AUC failed (Input contains NaN.)
+  Epoch 10/30 | Total: nan (D:nan T:nan) | Train: 45.0% | Val: 45.0% | AUC: 0.0000 | LR: 9.05e-05
+  Warning: AUC failed (Input contains NaN.)
+  Epoch 11/30 | Total: nan (D:nan T:nan) | Train: 45.0% | Val: 45.0% | AUC: 0.0000 | LR: 8.66e-05
+  Warning: AUC failed (Input contains NaN.)
+  Epoch 12/30 | Total: nan (D:nan T:nan) | Train: 45.0% | Val: 45.0% | AUC: 0.0000 | LR: 8.21e-05
+  Warning: AUC failed (Input contains NaN.)
+  Epoch 13/30 | Total: nan (D:nan T:nan) | Train: 45.0% | Val: 45.0% | AUC: 0.0000 | LR: 7.70e-05
+  Warning: AUC failed (Input contains NaN.)
+  Epoch 14/30 | Total: nan (D:nan T:nan) | Train: 45.0% | Val: 45.0% | AUC: 0.0000 | LR: 7.16e-05
+  Warning: AUC failed (Input contains NaN.)
+  Epoch 15/30 | Total: nan (D:nan T:nan) | Train: 45.0% | Val: 45.0% | AUC: 0.0000 | LR: 6.58e-05
+  Warning: AUC failed (Input contains NaN.)
+  Epoch 16/30 | Total: nan (D:nan T:nan) | Train: 45.0% | Val: 45.0% | AUC: 0.0000 | LR: 5.98e-05
+  Warning: AUC failed (Input contains NaN.)
+  Epoch 17/30 | Total: nan (D:nan T:nan) | Train: 45.0% | Val: 45.0% | AUC: 0.0000 | LR: 5.36e-05
+  Warning: AUC failed (Input contains NaN.)
+  Epoch 18/30 | Total: nan (D:nan T:nan) | Train: 45.0% | Val: 45.0% | AUC: 0.0000 | LR: 4.74e-05
+  Warning: AUC failed (Input contains NaN.)
+  Epoch 19/30 | Total: nan (D:nan T:nan) | Train: 45.0% | Val: 45.0% | AUC: 0.0000 | LR: 4.12e-05
+  Warning: AUC failed (Input contains NaN.)
+  Epoch 20/30 | Total: nan (D:nan T:nan) | Train: 45.0% | Val: 45.0% | AUC: 0.0000 | LR: 3.52e-05
+  Warning: AUC failed (Input contains NaN.)
+  Epoch 21/30 | Total: nan (D:nan T:nan) | Train: 45.0% | Val: 45.0% | AUC: 0.0000 | LR: 2.94e-05
+  Warning: AUC failed (Input contains NaN.)
+  Epoch 22/30 | Total: nan (D:nan T:nan) | Train: 45.0% | Val: 45.0% | AUC: 0.0000 | LR: 2.40e-05
+  Warning: AUC failed (Input contains NaN.)
+  Epoch 23/30 | Total: nan (D:nan T:nan) | Train: 45.0% | Val: 45.0% | AUC: 0.0000 | LR: 1.89e-05
+  Warning: AUC failed (Input contains NaN.)
+  Epoch 24/30 | Total: nan (D:nan T:nan) | Train: 45.0% | Val: 45.0% | AUC: 0.0000 | LR: 1.44e-05
+  Warning: AUC failed (Input contains NaN.)
+  Epoch 25/30 | Total: nan (D:nan T:nan) | Train: 45.0% | Val: 45.0% | AUC: 0.0000 | LR: 1.05e-05
+  Warning: AUC failed (Input contains NaN.)
+  Epoch 26/30 | Total: nan (D:nan T:nan) | Train: 45.0% | Val: 45.0% | AUC: 0.0000 | LR: 7.12e-06
+  Warning: AUC failed (Input contains NaN.)
+  Epoch 27/30 | Total: nan (D:nan T:nan) | Train: 45.0% | Val: 45.0% | AUC: 0.0000 | LR: 4.48e-06
+  Warning: AUC failed (Input contains NaN.)
+  Epoch 28/30 | Total: nan (D:nan T:nan) | Train: 45.0% | Val: 45.0% | AUC: 0.0000 | LR: 2.56e-06
+  Warning: AUC failed (Input contains NaN.)
+  Epoch 29/30 | Total: nan (D:nan T:nan) | Train: 45.0% | Val: 45.0% | AUC: 0.0000 | LR: 1.39e-06
+  Warning: AUC failed (Input contains NaN.)
+  Epoch 30/30 | Total: nan (D:nan T:nan) | Train: 45.0% | Val: 45.0% | AUC: 0.0000 | LR: 1.00e-06
+  Warning: AUC failed (Input contains NaN.)
+
+  ┌───────────────────────────────────────────────────────────────┐
+  │  RESULTS: Fully Polynomial DeiT-Tiny + Cold-Start KD         │
+  │  Dataset: RETINA                                           │
+  ├───────────────────────────────────────────────────────────────┤
+  │  Step 1 Baseline (teacher):    53.75%                    │
+  │  Step 5B (GELU-only poly+KD):  52.50%                    │
+  │  Steps 3+4 (full poly+KD):     43.50%  (AUC: 0.0000) │
+  │                                                               │
+  │  Δ vs Baseline:               -10.25%                      │
+  │  Δ vs GELU-only poly:          -9.00%                      │
+  │  Non-poly ops remaining:      0 / 49                          │
+  │  Poly softmax depth:          3                              │
+  │  Best Epoch:                   30                            │
+  │  Train Time:                  94.4s                      │
+  └───────────────────────────────────────────────────────────────┘
+
+  Learned GELU polynomial coefficients:
+    Block 0: f(x) = nan·x² + nan·x + nan
+    Block 1: f(x) = nan·x² + nan·x + nan
+    Block 2: f(x) = nan·x² + nan·x + nan
+    Block 3: f(x) = nan·x² + nan·x + nan
+    Block 4: f(x) = nan·x² + nan·x + nan
+    Block 5: f(x) = nan·x² + nan·x + nan
+    Block 6: f(x) = nan·x² + nan·x + nan
+    Block 7: f(x) = nan·x² + nan·x + nan
+    Block 8: f(x) = nan·x² + nan·x + nan
+    Block 9: f(x) = nan·x² + nan·x + nan
+    Block 10: f(x) = nan·x² + nan·x + nan
+    Block 11: f(x) = nan·x² + nan·x + nan
+
+  Per-class classification report:
+              precision    recall  f1-score   support
+
+     Class 0      0.435     1.000     0.606       174
+     Class 1      0.000     0.000     0.000        46
+     Class 2      0.000     0.000     0.000        92
+     Class 3      0.000     0.000     0.000        68
+     Class 4      0.000     0.000     0.000        20
+
+    accuracy                          0.435       400
+   macro avg      0.087     0.200     0.121       400
+weighted avg      0.189     0.435     0.264       400
+
+  Results saved to results_step34_full_poly/retina/results.json
+
+======================================================================
+  Steps 3+4: Fully Polynomial DeiT-Tiny — PNEUMONIA
+  GELU deg: 2 | Softmax depth: 3 | τ=4.0 α=0.5
+======================================================================
+  Train: 4708 | Val: 524 | Test: 624
+  Teacher: loaded from results/pneumonia/best_model.pth
+  Teacher test acc: 86.86% | AUC: 0.9712
+  Student: ImageNet pretrained (cold-start)
+  Replaced 12 GELU → degree-2 polynomial
+  Replaced 12 softmax → poly_softmax (depth 3)
+  Replaced 25 LayerNorm → PolyLayerNorm (affine only)
+
+  ── Polynomial Verification ──
+  Remaining nn.GELU: 0
+  Remaining nn.LayerNorm: 0
+  ✓ All non-polynomial operations replaced
+  Total replacements: 49
+
+  Student: 5.52M total | 1.79M trainable
+  Blocks frozen: 8/12
+
+  Training for 30 epochs (fully polynomial, cold-start KD)...
+  Warning: AUC failed (Input contains NaN.)
+  Epoch  1/30 | Total: nan (D:nan T:nan) | Train: 25.8% | Val: 25.8% | AUC: 0.0000 | LR: 2.00e-05
+  Warning: AUC failed (Input contains NaN.)
+  Epoch  2/30 | Total: nan (D:nan T:nan) | Train: 25.8% | Val: 25.8% | AUC: 0.0000 | LR: 4.00e-05
+  Warning: AUC failed (Input contains NaN.)
+  Epoch  3/30 | Total: nan (D:nan T:nan) | Train: 25.8% | Val: 25.8% | AUC: 0.0000 | LR: 6.00e-05
+  Warning: AUC failed (Input contains NaN.)
+  Epoch  4/30 | Total: nan (D:nan T:nan) | Train: 25.8% | Val: 25.8% | AUC: 0.0000 | LR: 8.00e-05
+  Warning: AUC failed (Input contains NaN.)
+  Epoch  5/30 | Total: nan (D:nan T:nan) | Train: 25.8% | Val: 25.8% | AUC: 0.0000 | LR: 1.00e-04
+  Warning: AUC failed (Input contains NaN.)
+  Epoch  6/30 | Total: nan (D:nan T:nan) | Train: 25.8% | Val: 25.8% | AUC: 0.0000 | LR: 9.96e-05
+  Warning: AUC failed (Input contains NaN.)
+  Epoch  7/30 | Total: nan (D:nan T:nan) | Train: 25.8% | Val: 25.8% | AUC: 0.0000 | LR: 9.84e-05
+  Warning: AUC failed (Input contains NaN.)
+  Epoch  8/30 | Total: nan (D:nan T:nan) | Train: 25.8% | Val: 25.8% | AUC: 0.0000 | LR: 9.65e-05
+  Warning: AUC failed (Input contains NaN.)
+  Epoch  9/30 | Total: nan (D:nan T:nan) | Train: 25.8% | Val: 25.8% | AUC: 0.0000 | LR: 9.39e-05
+  Warning: AUC failed (Input contains NaN.)
+  Epoch 10/30 | Total: nan (D:nan T:nan) | Train: 25.8% | Val: 25.8% | AUC: 0.0000 | LR: 9.05e-05
+  Warning: AUC failed (Input contains NaN.)
+  Epoch 11/30 | Total: nan (D:nan T:nan) | Train: 25.8% | Val: 25.8% | AUC: 0.0000 | LR: 8.66e-05
+  Warning: AUC failed (Input contains NaN.)
+  Epoch 12/30 | Total: nan (D:nan T:nan) | Train: 25.8% | Val: 25.8% | AUC: 0.0000 | LR: 8.21e-05
+  Warning: AUC failed (Input contains NaN.)
+  Epoch 13/30 | Total: nan (D:nan T:nan) | Train: 25.8% | Val: 25.8% | AUC: 0.0000 | LR: 7.70e-05
+  Warning: AUC failed (Input contains NaN.)
+  Epoch 14/30 | Total: nan (D:nan T:nan) | Train: 25.8% | Val: 25.8% | AUC: 0.0000 | LR: 7.16e-05
+  Warning: AUC failed (Input contains NaN.)
+  Epoch 15/30 | Total: nan (D:nan T:nan) | Train: 25.8% | Val: 25.8% | AUC: 0.0000 | LR: 6.58e-05
+  Warning: AUC failed (Input contains NaN.)
+  Epoch 16/30 | Total: nan (D:nan T:nan) | Train: 25.8% | Val: 25.8% | AUC: 0.0000 | LR: 5.98e-05
+  Warning: AUC failed (Input contains NaN.)
+  Epoch 17/30 | Total: nan (D:nan T:nan) | Train: 25.8% | Val: 25.8% | AUC: 0.0000 | LR: 5.36e-05
+  Warning: AUC failed (Input contains NaN.)
+  Epoch 18/30 | Total: nan (D:nan T:nan) | Train: 25.8% | Val: 25.8% | AUC: 0.0000 | LR: 4.74e-05

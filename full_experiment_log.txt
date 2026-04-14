@@ -1,0 +1,2376 @@
+╔══════════════════════════════════════════════════════╗
+║  Complete Experiment Pipeline                        ║
+║  Step 1: Plaintext baseline (DeiT-Tiny, 6 datasets) ║
+║  Step 2: Polynomial GELU cold-start                  ║
+║  Step 2v2: Polynomial GELU warm-start (bug-fixed)    ║
+║  Step 5: Knowledge Distillation + Polynomial GELU    ║
+╚══════════════════════════════════════════════════════╝
+
+Estimated total time: ~3-4 hours on A6000
+Started at: Friday 13 March 2026 03:49:36 PM IST
+
+═══════════════════════════════════════════════════
+  STEP 1: Plaintext DeiT-Tiny baselines
+  Output: results/
+═══════════════════════════════════════════════════
+Device: cuda
+GPU: NVIDIA RTX A6000
+
+============================================================
+  Dataset: RETINA
+============================================================
+  Train: 1080 | Val: 120 | Test: 400
+  Classes: 5 | Task: multi-class
+  Model: deit_tiny_patch16_224
+  Total: 5.53M | Trainable: 1.78M | Frozen: 3.74M
+  Blocks frozen: 8/12
+
+  ── FHE Compatibility Analysis ──
+  GELU activations (nn.GELU):     12
+  Softmax in attention (implicit): 12 (one per block)
+  LayerNorm layers:                25
+  Total non-polynomial ops:        49
+  ─────────────────────────────────
+  To make FHE-friendly, replace:
+    GELU → degree-2 polynomial (ax² + bx + c)
+    Softmax → MGF-softmax (depth 7-10) or Power-Softmax
+    LayerNorm → absorbed into linear layers or poly approx
+
+  Training for 30 epochs...
+  Epoch  1/30 | Loss: 1.5198 | Train: 38.2% | Val: 45.0% | AUC: 0.5625 | LR: 2.00e-05
+  Epoch  2/30 | Loss: 1.3881 | Train: 45.6% | Val: 44.2% | AUC: 0.7320 | LR: 4.00e-05
+  Epoch  3/30 | Loss: 1.2968 | Train: 49.2% | Val: 55.0% | AUC: 0.7580 | LR: 6.00e-05
+  Epoch  4/30 | Loss: 1.2686 | Train: 51.6% | Val: 44.2% | AUC: 0.7727 | LR: 8.00e-05
+  Epoch  5/30 | Loss: 1.2573 | Train: 51.4% | Val: 47.5% | AUC: 0.7796 | LR: 1.00e-04
+  Epoch  6/30 | Loss: 1.2326 | Train: 52.1% | Val: 52.5% | AUC: 0.7864 | LR: 9.96e-05
+  Epoch  7/30 | Loss: 1.2238 | Train: 53.5% | Val: 49.2% | AUC: 0.7918 | LR: 9.84e-05
+  Epoch  8/30 | Loss: 1.2157 | Train: 53.4% | Val: 60.0% | AUC: 0.7888 | LR: 9.65e-05
+  Epoch  9/30 | Loss: 1.1997 | Train: 56.7% | Val: 56.7% | AUC: 0.7908 | LR: 9.39e-05
+  Epoch 10/30 | Loss: 1.1985 | Train: 55.7% | Val: 50.0% | AUC: 0.7793 | LR: 9.05e-05
+  Epoch 11/30 | Loss: 1.1839 | Train: 56.3% | Val: 54.2% | AUC: 0.7892 | LR: 8.66e-05
+  Epoch 12/30 | Loss: 1.1560 | Train: 58.6% | Val: 53.3% | AUC: 0.7887 | LR: 8.21e-05
+  Epoch 13/30 | Loss: 1.1543 | Train: 58.1% | Val: 52.5% | AUC: 0.7833 | LR: 7.70e-05
+  Epoch 14/30 | Loss: 1.1523 | Train: 59.7% | Val: 55.8% | AUC: 0.7853 | LR: 7.16e-05
+  Epoch 15/30 | Loss: 1.1224 | Train: 60.3% | Val: 56.7% | AUC: 0.8029 | LR: 6.58e-05
+  Epoch 16/30 | Loss: 1.1126 | Train: 61.9% | Val: 54.2% | AUC: 0.7736 | LR: 5.98e-05
+  Epoch 17/30 | Loss: 1.0886 | Train: 61.9% | Val: 52.5% | AUC: 0.7880 | LR: 5.36e-05
+  Epoch 18/30 | Loss: 1.0629 | Train: 63.6% | Val: 50.8% | AUC: 0.7615 | LR: 4.74e-05
+  Epoch 19/30 | Loss: 1.0664 | Train: 64.5% | Val: 51.7% | AUC: 0.7807 | LR: 4.12e-05
+  Epoch 20/30 | Loss: 1.0256 | Train: 66.7% | Val: 50.0% | AUC: 0.7717 | LR: 3.52e-05
+  Epoch 21/30 | Loss: 1.0293 | Train: 65.9% | Val: 51.7% | AUC: 0.7667 | LR: 2.94e-05
+  Epoch 22/30 | Loss: 1.0112 | Train: 67.0% | Val: 51.7% | AUC: 0.7689 | LR: 2.40e-05
+  Epoch 23/30 | Loss: 0.9937 | Train: 68.2% | Val: 50.8% | AUC: 0.7678 | LR: 1.89e-05
+  Epoch 24/30 | Loss: 0.9852 | Train: 68.7% | Val: 51.7% | AUC: 0.7727 | LR: 1.44e-05
+  Epoch 25/30 | Loss: 0.9723 | Train: 69.4% | Val: 51.7% | AUC: 0.7732 | LR: 1.05e-05
+  Epoch 26/30 | Loss: 0.9816 | Train: 68.5% | Val: 50.8% | AUC: 0.7680 | LR: 7.12e-06
+  Epoch 27/30 | Loss: 0.9621 | Train: 71.1% | Val: 50.8% | AUC: 0.7730 | LR: 4.48e-06
+  Epoch 28/30 | Loss: 0.9578 | Train: 70.5% | Val: 50.8% | AUC: 0.7733 | LR: 2.56e-06
+  Epoch 29/30 | Loss: 0.9389 | Train: 73.1% | Val: 50.8% | AUC: 0.7707 | LR: 1.39e-06
+  Epoch 30/30 | Loss: 0.9444 | Train: 72.3% | Val: 50.8% | AUC: 0.7697 | LR: 1.00e-06
+
+  Training completed in 61.9s
+  Best val AUC: 0.8029 (epoch 15)
+
+  ┌─────────────────────────────────────────┐
+  │  RESULTS: DeiT-Tiny on RETINA           │
+  ├─────────────────────────────────────────┤
+  │  Test Accuracy:   53.75%               │
+  │  Test AUC-ROC:   0.7505                │
+  │  Best Epoch:      15                    │
+  │  Frozen Blocks:  8/12                  │
+  └─────────────────────────────────────────┘
+
+  Per-class classification report:
+              precision    recall  f1-score   support
+
+     Class 0      0.705     0.770     0.736       174
+     Class 1      0.333     0.022     0.041        46
+     Class 2      0.346     0.685     0.460        92
+     Class 3      0.909     0.147     0.253        68
+     Class 4      0.500     0.350     0.412        20
+
+    accuracy                          0.537       400
+   macro avg      0.559     0.395     0.380       400
+weighted avg      0.604     0.537     0.494       400
+
+  Results saved to results/retina/results.json
+
+============================================================
+  Dataset: PNEUMONIA
+============================================================
+  Train: 4708 | Val: 524 | Test: 624
+  Classes: 2 | Task: binary
+  Model: deit_tiny_patch16_224
+  Total: 5.52M | Trainable: 1.78M | Frozen: 3.74M
+  Blocks frozen: 8/12
+
+  ── FHE Compatibility Analysis ──
+  GELU activations (nn.GELU):     12
+  Softmax in attention (implicit): 12 (one per block)
+  LayerNorm layers:                25
+  Total non-polynomial ops:        49
+  ─────────────────────────────────
+  To make FHE-friendly, replace:
+    GELU → degree-2 polynomial (ax² + bx + c)
+    Softmax → MGF-softmax (depth 7-10) or Power-Softmax
+    LayerNorm → absorbed into linear layers or poly approx
+
+  Training for 30 epochs...
+  Epoch  1/30 | Loss: 0.4944 | Train: 80.6% | Val: 86.5% | AUC: 0.9462 | LR: 2.00e-05
+  Epoch  2/30 | Loss: 0.3566 | Train: 90.1% | Val: 93.1% | AUC: 0.9675 | LR: 4.00e-05
+  Epoch  3/30 | Loss: 0.3248 | Train: 92.3% | Val: 91.8% | AUC: 0.9694 | LR: 6.00e-05
+  Epoch  4/30 | Loss: 0.3140 | Train: 92.8% | Val: 88.7% | AUC: 0.9798 | LR: 8.00e-05
+  Epoch  5/30 | Loss: 0.3015 | Train: 93.5% | Val: 93.7% | AUC: 0.9791 | LR: 1.00e-04
+  Epoch  6/30 | Loss: 0.2874 | Train: 94.9% | Val: 93.9% | AUC: 0.9832 | LR: 9.96e-05
+  Epoch  7/30 | Loss: 0.2893 | Train: 94.3% | Val: 94.7% | AUC: 0.9847 | LR: 9.84e-05
+  Epoch  8/30 | Loss: 0.2840 | Train: 95.0% | Val: 95.0% | AUC: 0.9860 | LR: 9.65e-05
+  Epoch  9/30 | Loss: 0.2750 | Train: 95.5% | Val: 92.7% | AUC: 0.9880 | LR: 9.39e-05
+  Epoch 10/30 | Loss: 0.2788 | Train: 95.1% | Val: 95.2% | AUC: 0.9907 | LR: 9.05e-05
+  Epoch 11/30 | Loss: 0.2756 | Train: 95.5% | Val: 89.9% | AUC: 0.9882 | LR: 8.66e-05
+  Epoch 12/30 | Loss: 0.2636 | Train: 96.0% | Val: 95.2% | AUC: 0.9902 | LR: 8.21e-05
+  Epoch 13/30 | Loss: 0.2603 | Train: 96.4% | Val: 95.6% | AUC: 0.9899 | LR: 7.70e-05
+  Epoch 14/30 | Loss: 0.2597 | Train: 96.3% | Val: 96.0% | AUC: 0.9919 | LR: 7.16e-05
+  Epoch 15/30 | Loss: 0.2527 | Train: 96.9% | Val: 96.8% | AUC: 0.9933 | LR: 6.58e-05
+  Epoch 16/30 | Loss: 0.2520 | Train: 96.9% | Val: 96.0% | AUC: 0.9923 | LR: 5.98e-05
+  Epoch 17/30 | Loss: 0.2457 | Train: 97.2% | Val: 96.4% | AUC: 0.9928 | LR: 5.36e-05
+  Epoch 18/30 | Loss: 0.2433 | Train: 97.5% | Val: 94.1% | AUC: 0.9925 | LR: 4.74e-05
+  Epoch 19/30 | Loss: 0.2434 | Train: 97.3% | Val: 96.0% | AUC: 0.9912 | LR: 4.12e-05
+  Epoch 20/30 | Loss: 0.2427 | Train: 97.4% | Val: 96.4% | AUC: 0.9828 | LR: 3.52e-05
+  Epoch 21/30 | Loss: 0.2407 | Train: 97.6% | Val: 96.8% | AUC: 0.9886 | LR: 2.94e-05
+  Epoch 22/30 | Loss: 0.2378 | Train: 97.7% | Val: 96.6% | AUC: 0.9898 | LR: 2.40e-05
+  Epoch 23/30 | Loss: 0.2341 | Train: 98.0% | Val: 96.0% | AUC: 0.9906 | LR: 1.89e-05
+  Epoch 24/30 | Loss: 0.2366 | Train: 97.6% | Val: 96.6% | AUC: 0.9898 | LR: 1.44e-05
+  Epoch 25/30 | Loss: 0.2308 | Train: 98.1% | Val: 96.8% | AUC: 0.9863 | LR: 1.05e-05
+  Epoch 26/30 | Loss: 0.2295 | Train: 98.2% | Val: 96.2% | AUC: 0.9860 | LR: 7.12e-06
+  Epoch 27/30 | Loss: 0.2317 | Train: 97.9% | Val: 96.6% | AUC: 0.9861 | LR: 4.48e-06
+  Epoch 28/30 | Loss: 0.2327 | Train: 98.0% | Val: 96.9% | AUC: 0.9873 | LR: 2.56e-06
+  Epoch 29/30 | Loss: 0.2306 | Train: 98.0% | Val: 96.8% | AUC: 0.9873 | LR: 1.39e-06
+  Epoch 30/30 | Loss: 0.2314 | Train: 98.1% | Val: 96.8% | AUC: 0.9875 | LR: 1.00e-06
+
+  Training completed in 182.7s
+  Best val AUC: 0.9933 (epoch 15)
+
+  ┌─────────────────────────────────────────┐
+  │  RESULTS: DeiT-Tiny on PNEUMONIA        │
+  ├─────────────────────────────────────────┤
+  │  Test Accuracy:   86.86%               │
+  │  Test AUC-ROC:   0.9712                │
+  │  Best Epoch:      15                    │
+  │  Frozen Blocks:  8/12                  │
+  └─────────────────────────────────────────┘
+
+  Per-class classification report:
+              precision    recall  f1-score   support
+
+     Class 0      0.981     0.662     0.791       234
+     Class 1      0.830     0.992     0.904       390
+
+    accuracy                          0.869       624
+   macro avg      0.906     0.827     0.848       624
+weighted avg      0.887     0.869     0.862       624
+
+  Results saved to results/pneumonia/results.json
+
+============================================================
+  Dataset: BLOOD
+============================================================
+  Train: 11959 | Val: 1712 | Test: 3421
+  Classes: 8 | Task: multi-class
+  Model: deit_tiny_patch16_224
+  Total: 5.53M | Trainable: 1.78M | Frozen: 3.74M
+  Blocks frozen: 8/12
+
+  ── FHE Compatibility Analysis ──
+  GELU activations (nn.GELU):     12
+  Softmax in attention (implicit): 12 (one per block)
+  LayerNorm layers:                25
+  Total non-polynomial ops:        49
+  ─────────────────────────────────
+  To make FHE-friendly, replace:
+    GELU → degree-2 polynomial (ax² + bx + c)
+    Softmax → MGF-softmax (depth 7-10) or Power-Softmax
+    LayerNorm → absorbed into linear layers or poly approx
+
+  Training for 30 epochs...
+  Epoch  1/30 | Loss: 1.3991 | Train: 58.8% | Val: 78.0% | AUC: 0.9672 | LR: 2.00e-05
+  Epoch  2/30 | Loss: 0.8300 | Train: 83.9% | Val: 86.2% | AUC: 0.9854 | LR: 4.00e-05
+  Epoch  3/30 | Loss: 0.7392 | Train: 87.6% | Val: 89.4% | AUC: 0.9908 | LR: 6.00e-05
+  Epoch  4/30 | Loss: 0.6930 | Train: 89.8% | Val: 90.7% | AUC: 0.9928 | LR: 8.00e-05
+  Epoch  5/30 | Loss: 0.6644 | Train: 90.9% | Val: 91.7% | AUC: 0.9948 | LR: 1.00e-04
+  Epoch  6/30 | Loss: 0.6404 | Train: 92.2% | Val: 93.0% | AUC: 0.9960 | LR: 9.96e-05
+  Epoch  7/30 | Loss: 0.6151 | Train: 93.2% | Val: 93.7% | AUC: 0.9957 | LR: 9.84e-05
+  Epoch  8/30 | Loss: 0.6090 | Train: 93.6% | Val: 94.1% | AUC: 0.9962 | LR: 9.65e-05
+  Epoch  9/30 | Loss: 0.5953 | Train: 94.3% | Val: 92.6% | AUC: 0.9958 | LR: 9.39e-05
+  Epoch 10/30 | Loss: 0.5831 | Train: 94.8% | Val: 92.5% | AUC: 0.9959 | LR: 9.05e-05
+  Epoch 11/30 | Loss: 0.5743 | Train: 95.2% | Val: 94.6% | AUC: 0.9970 | LR: 8.66e-05
+  Epoch 12/30 | Loss: 0.5646 | Train: 95.6% | Val: 94.4% | AUC: 0.9965 | LR: 8.21e-05
+  Epoch 13/30 | Loss: 0.5569 | Train: 96.0% | Val: 95.7% | AUC: 0.9976 | LR: 7.70e-05
+  Epoch 14/30 | Loss: 0.5558 | Train: 95.9% | Val: 95.0% | AUC: 0.9972 | LR: 7.16e-05
+  Epoch 15/30 | Loss: 0.5490 | Train: 96.1% | Val: 94.7% | AUC: 0.9971 | LR: 6.58e-05
+  Epoch 16/30 | Loss: 0.5376 | Train: 96.8% | Val: 95.2% | AUC: 0.9971 | LR: 5.98e-05
+  Epoch 17/30 | Loss: 0.5365 | Train: 96.9% | Val: 94.9% | AUC: 0.9967 | LR: 5.36e-05
+  Epoch 18/30 | Loss: 0.5270 | Train: 97.2% | Val: 94.9% | AUC: 0.9971 | LR: 4.74e-05
+  Epoch 19/30 | Loss: 0.5236 | Train: 97.5% | Val: 94.9% | AUC: 0.9966 | LR: 4.12e-05
+  Epoch 20/30 | Loss: 0.5241 | Train: 97.4% | Val: 95.0% | AUC: 0.9971 | LR: 3.52e-05
+  Epoch 21/30 | Loss: 0.5152 | Train: 97.9% | Val: 94.8% | AUC: 0.9969 | LR: 2.94e-05
+  Epoch 22/30 | Loss: 0.5122 | Train: 98.0% | Val: 95.4% | AUC: 0.9971 | LR: 2.40e-05
+  Epoch 23/30 | Loss: 0.5105 | Train: 98.1% | Val: 95.6% | AUC: 0.9975 | LR: 1.89e-05
+  Epoch 24/30 | Loss: 0.5048 | Train: 98.4% | Val: 96.1% | AUC: 0.9975 | LR: 1.44e-05
+  Epoch 25/30 | Loss: 0.4997 | Train: 98.5% | Val: 96.1% | AUC: 0.9975 | LR: 1.05e-05
+  Epoch 26/30 | Loss: 0.4998 | Train: 98.5% | Val: 95.7% | AUC: 0.9977 | LR: 7.12e-06
+  Epoch 27/30 | Loss: 0.4970 | Train: 98.8% | Val: 96.0% | AUC: 0.9976 | LR: 4.48e-06
+  Epoch 28/30 | Loss: 0.4988 | Train: 98.6% | Val: 95.8% | AUC: 0.9977 | LR: 2.56e-06
+  Epoch 29/30 | Loss: 0.4940 | Train: 98.9% | Val: 95.9% | AUC: 0.9977 | LR: 1.39e-06
+  Epoch 30/30 | Loss: 0.4972 | Train: 98.7% | Val: 96.0% | AUC: 0.9977 | LR: 1.00e-06
+
+  Training completed in 442.0s
+  Best val AUC: 0.9977 (epoch 26)
+
+  ┌─────────────────────────────────────────┐
+  │  RESULTS: DeiT-Tiny on BLOOD            │
+  ├─────────────────────────────────────────┤
+  │  Test Accuracy:   95.32%               │
+  │  Test AUC-ROC:   0.9962                │
+  │  Best Epoch:      26                    │
+  │  Frozen Blocks:  8/12                  │
+  └─────────────────────────────────────────┘
+
+  Per-class classification report:
+              precision    recall  f1-score   support
+
+     Class 0      0.940     0.955     0.947       244
+     Class 1      0.986     0.994     0.990       624
+     Class 2      0.955     0.961     0.958       311
+     Class 3      0.888     0.907     0.897       579
+     Class 4      0.947     0.951     0.949       243
+     Class 5      0.931     0.852     0.890       284
+     Class 6      0.970     0.965     0.968       666
+     Class 7      0.989     0.996     0.993       470
+
+    accuracy                          0.953      3421
+   macro avg      0.951     0.948     0.949      3421
+weighted avg      0.953     0.953     0.953      3421
+
+  Results saved to results/blood/results.json
+
+============================================================
+  Dataset: DERMA
+============================================================
+  Train: 7007 | Val: 1003 | Test: 2005
+  Classes: 7 | Task: multi-class
+  Model: deit_tiny_patch16_224
+  Total: 5.53M | Trainable: 1.78M | Frozen: 3.74M
+  Blocks frozen: 8/12
+
+  ── FHE Compatibility Analysis ──
+  GELU activations (nn.GELU):     12
+  Softmax in attention (implicit): 12 (one per block)
+  LayerNorm layers:                25
+  Total non-polynomial ops:        49
+  ─────────────────────────────────
+  To make FHE-friendly, replace:
+    GELU → degree-2 polynomial (ax² + bx + c)
+    Softmax → MGF-softmax (depth 7-10) or Power-Softmax
+    LayerNorm → absorbed into linear layers or poly approx
+
+  Training for 30 epochs...
+  Epoch  1/30 | Loss: 1.2995 | Train: 63.5% | Val: 69.8% | AUC: 0.8161 | LR: 2.00e-05
+  Epoch  2/30 | Loss: 1.0758 | Train: 70.4% | Val: 72.4% | AUC: 0.8773 | LR: 4.00e-05
+  Epoch  3/30 | Loss: 1.0235 | Train: 72.5% | Val: 73.9% | AUC: 0.9000 | LR: 6.00e-05
+  Epoch  4/30 | Loss: 0.9876 | Train: 73.8% | Val: 75.0% | AUC: 0.9122 | LR: 8.00e-05
+  Epoch  5/30 | Loss: 0.9697 | Train: 74.2% | Val: 75.4% | AUC: 0.9193 | LR: 1.00e-04
+  Epoch  6/30 | Loss: 0.9469 | Train: 75.6% | Val: 73.4% | AUC: 0.9221 | LR: 9.96e-05
+  Epoch  7/30 | Loss: 0.9214 | Train: 76.9% | Val: 74.8% | AUC: 0.9189 | LR: 9.84e-05
+  Epoch  8/30 | Loss: 0.9076 | Train: 77.7% | Val: 74.1% | AUC: 0.9188 | LR: 9.65e-05
+  Epoch  9/30 | Loss: 0.8819 | Train: 78.8% | Val: 74.5% | AUC: 0.9152 | LR: 9.39e-05
+  Epoch 10/30 | Loss: 0.8581 | Train: 79.8% | Val: 75.4% | AUC: 0.9238 | LR: 9.05e-05
+  Epoch 11/30 | Loss: 0.8478 | Train: 80.1% | Val: 75.0% | AUC: 0.9230 | LR: 8.66e-05
+  Epoch 12/30 | Loss: 0.8197 | Train: 81.5% | Val: 76.9% | AUC: 0.9262 | LR: 8.21e-05
+  Epoch 13/30 | Loss: 0.8050 | Train: 82.6% | Val: 74.7% | AUC: 0.9234 | LR: 7.70e-05
+  Epoch 14/30 | Loss: 0.7849 | Train: 83.8% | Val: 75.3% | AUC: 0.9192 | LR: 7.16e-05
+  Epoch 15/30 | Loss: 0.7620 | Train: 84.8% | Val: 76.2% | AUC: 0.9185 | LR: 6.58e-05
+  Epoch 16/30 | Loss: 0.7360 | Train: 86.2% | Val: 75.5% | AUC: 0.9183 | LR: 5.98e-05
+  Epoch 17/30 | Loss: 0.7207 | Train: 87.4% | Val: 77.3% | AUC: 0.9175 | LR: 5.36e-05
+  Epoch 18/30 | Loss: 0.7054 | Train: 87.9% | Val: 76.8% | AUC: 0.9176 | LR: 4.74e-05
+  Epoch 19/30 | Loss: 0.6863 | Train: 88.6% | Val: 74.5% | AUC: 0.9095 | LR: 4.12e-05
+  Epoch 20/30 | Loss: 0.6760 | Train: 89.5% | Val: 76.3% | AUC: 0.9133 | LR: 3.52e-05
+  Epoch 21/30 | Loss: 0.6587 | Train: 90.3% | Val: 76.2% | AUC: 0.9085 | LR: 2.94e-05
+  Epoch 22/30 | Loss: 0.6422 | Train: 91.3% | Val: 76.5% | AUC: 0.9077 | LR: 2.40e-05
+  Epoch 23/30 | Loss: 0.6327 | Train: 91.9% | Val: 75.4% | AUC: 0.9052 | LR: 1.89e-05
+  Epoch 24/30 | Loss: 0.6259 | Train: 92.2% | Val: 75.8% | AUC: 0.9006 | LR: 1.44e-05
+  Epoch 25/30 | Loss: 0.6190 | Train: 92.6% | Val: 76.8% | AUC: 0.9065 | LR: 1.05e-05
+  Epoch 26/30 | Loss: 0.6104 | Train: 93.0% | Val: 75.7% | AUC: 0.9005 | LR: 7.12e-06
+  Epoch 27/30 | Loss: 0.6049 | Train: 93.3% | Val: 75.8% | AUC: 0.8994 | LR: 4.48e-06
+  Epoch 28/30 | Loss: 0.6000 | Train: 93.7% | Val: 76.5% | AUC: 0.9030 | LR: 2.56e-06
+  Epoch 29/30 | Loss: 0.6008 | Train: 93.6% | Val: 76.0% | AUC: 0.9010 | LR: 1.39e-06
+  Epoch 30/30 | Loss: 0.5994 | Train: 93.9% | Val: 75.8% | AUC: 0.9003 | LR: 1.00e-06
+
+  Training completed in 263.5s
+  Best val AUC: 0.9262 (epoch 12)
+
+  ┌─────────────────────────────────────────┐
+  │  RESULTS: DeiT-Tiny on DERMA            │
+  ├─────────────────────────────────────────┤
+  │  Test Accuracy:   76.66%               │
+  │  Test AUC-ROC:   0.9291                │
+  │  Best Epoch:      12                    │
+  │  Frozen Blocks:  8/12                  │
+  └─────────────────────────────────────────┘
+
+  Per-class classification report:
+              precision    recall  f1-score   support
+
+     Class 0      0.552     0.242     0.337        66
+     Class 1      0.480     0.592     0.530       103
+     Class 2      0.519     0.427     0.469       220
+     Class 3      0.625     0.217     0.323        23
+     Class 4      0.489     0.395     0.437       223
+     Class 5      0.862     0.935     0.897      1341
+     Class 6      0.760     0.655     0.704        29
+
+    accuracy                          0.767      2005
+   macro avg      0.612     0.495     0.528      2005
+weighted avg      0.749     0.767     0.752      2005
+
+  Results saved to results/derma/results.json
+
+============================================================
+  Dataset: BREAST
+============================================================
+  Train: 546 | Val: 78 | Test: 156
+  Classes: 2 | Task: binary
+  Model: deit_tiny_patch16_224
+  Total: 5.52M | Trainable: 1.78M | Frozen: 3.74M
+  Blocks frozen: 8/12
+
+  ── FHE Compatibility Analysis ──
+  GELU activations (nn.GELU):     12
+  Softmax in attention (implicit): 12 (one per block)
+  LayerNorm layers:                25
+  Total non-polynomial ops:        49
+  ─────────────────────────────────
+  To make FHE-friendly, replace:
+    GELU → degree-2 polynomial (ax² + bx + c)
+    Softmax → MGF-softmax (depth 7-10) or Power-Softmax
+    LayerNorm → absorbed into linear layers or poly approx
+
+  Training for 30 epochs...
+  Epoch  1/30 | Loss: 0.7725 | Train: 41.2% | Val: 73.1% | AUC: 0.6433 | LR: 2.00e-05
+  Epoch  2/30 | Loss: 0.6390 | Train: 72.7% | Val: 73.1% | AUC: 0.6926 | LR: 4.00e-05
+  Epoch  3/30 | Loss: 0.5951 | Train: 73.1% | Val: 73.1% | AUC: 0.7352 | LR: 6.00e-05
+  Epoch  4/30 | Loss: 0.5498 | Train: 74.0% | Val: 78.2% | AUC: 0.7310 | LR: 8.00e-05
+  Epoch  5/30 | Loss: 0.5322 | Train: 78.9% | Val: 76.9% | AUC: 0.7402 | LR: 1.00e-04
+  Epoch  6/30 | Loss: 0.5128 | Train: 78.2% | Val: 78.2% | AUC: 0.7393 | LR: 9.96e-05
+  Epoch  7/30 | Loss: 0.5070 | Train: 80.2% | Val: 79.5% | AUC: 0.7627 | LR: 9.84e-05
+  Epoch  8/30 | Loss: 0.5067 | Train: 78.2% | Val: 79.5% | AUC: 0.7836 | LR: 9.65e-05
+  Epoch  9/30 | Loss: 0.4974 | Train: 82.6% | Val: 80.8% | AUC: 0.7911 | LR: 9.39e-05
+  Epoch 10/30 | Loss: 0.4692 | Train: 81.0% | Val: 83.3% | AUC: 0.8112 | LR: 9.05e-05
+  Epoch 11/30 | Loss: 0.4667 | Train: 82.6% | Val: 79.5% | AUC: 0.8513 | LR: 8.66e-05
+  Epoch 12/30 | Loss: 0.4756 | Train: 82.2% | Val: 87.2% | AUC: 0.8396 | LR: 8.21e-05
+  Epoch 13/30 | Loss: 0.4627 | Train: 83.5% | Val: 85.9% | AUC: 0.8212 | LR: 7.70e-05
+  Epoch 14/30 | Loss: 0.4380 | Train: 84.6% | Val: 84.6% | AUC: 0.8212 | LR: 7.16e-05
+  Epoch 15/30 | Loss: 0.4271 | Train: 86.3% | Val: 84.6% | AUC: 0.8346 | LR: 6.58e-05
+  Epoch 16/30 | Loss: 0.4399 | Train: 86.4% | Val: 85.9% | AUC: 0.8404 | LR: 5.98e-05
+  Epoch 17/30 | Loss: 0.4478 | Train: 84.1% | Val: 84.6% | AUC: 0.8254 | LR: 5.36e-05
+  Epoch 18/30 | Loss: 0.4201 | Train: 86.4% | Val: 87.2% | AUC: 0.8246 | LR: 4.74e-05
+  Epoch 19/30 | Loss: 0.4087 | Train: 86.3% | Val: 85.9% | AUC: 0.8655 | LR: 4.12e-05
+  Epoch 20/30 | Loss: 0.4256 | Train: 86.3% | Val: 85.9% | AUC: 0.8730 | LR: 3.52e-05
+  Epoch 21/30 | Loss: 0.3993 | Train: 85.9% | Val: 84.6% | AUC: 0.8630 | LR: 2.94e-05
+  Epoch 22/30 | Loss: 0.3889 | Train: 89.0% | Val: 87.2% | AUC: 0.8638 | LR: 2.40e-05
+  Epoch 23/30 | Loss: 0.4015 | Train: 88.5% | Val: 87.2% | AUC: 0.8630 | LR: 1.89e-05
+  Epoch 24/30 | Loss: 0.4037 | Train: 86.8% | Val: 87.2% | AUC: 0.8663 | LR: 1.44e-05
+  Epoch 25/30 | Loss: 0.3973 | Train: 87.0% | Val: 87.2% | AUC: 0.8647 | LR: 1.05e-05
+  Epoch 26/30 | Loss: 0.4172 | Train: 88.1% | Val: 88.5% | AUC: 0.8680 | LR: 7.12e-06
+  Epoch 27/30 | Loss: 0.3872 | Train: 89.7% | Val: 88.5% | AUC: 0.8672 | LR: 4.48e-06
+  Epoch 28/30 | Loss: 0.3969 | Train: 88.3% | Val: 87.2% | AUC: 0.8688 | LR: 2.56e-06
+  Epoch 29/30 | Loss: 0.3923 | Train: 87.7% | Val: 87.2% | AUC: 0.8713 | LR: 1.39e-06
+  Epoch 30/30 | Loss: 0.3753 | Train: 89.2% | Val: 87.2% | AUC: 0.8747 | LR: 1.00e-06
+
+  Training completed in 44.7s
+  Best val AUC: 0.8747 (epoch 30)
+
+  ┌─────────────────────────────────────────┐
+  │  RESULTS: DeiT-Tiny on BREAST           │
+  ├─────────────────────────────────────────┤
+  │  Test Accuracy:   87.18%               │
+  │  Test AUC-ROC:   0.9190                │
+  │  Best Epoch:      30                    │
+  │  Frozen Blocks:  8/12                  │
+  └─────────────────────────────────────────┘
+
+  Per-class classification report:
+              precision    recall  f1-score   support
+
+     Class 0      0.893     0.595     0.714        42
+     Class 1      0.867     0.974     0.917       114
+
+    accuracy                          0.872       156
+   macro avg      0.880     0.784     0.816       156
+weighted avg      0.874     0.872     0.863       156
+
+  Results saved to results/breast/results.json
+
+============================================================
+  Dataset: PATH
+============================================================
+  Train: 89996 | Val: 10004 | Test: 7180
+  Classes: 9 | Task: multi-class
+  Model: deit_tiny_patch16_224
+  Total: 5.53M | Trainable: 1.78M | Frozen: 3.74M
+  Blocks frozen: 8/12
+
+  ── FHE Compatibility Analysis ──
+  GELU activations (nn.GELU):     12
+  Softmax in attention (implicit): 12 (one per block)
+  LayerNorm layers:                25
+  Total non-polynomial ops:        49
+  ─────────────────────────────────
+  To make FHE-friendly, replace:
+    GELU → degree-2 polynomial (ax² + bx + c)
+    Softmax → MGF-softmax (depth 7-10) or Power-Softmax
+    LayerNorm → absorbed into linear layers or poly approx
+
+  Training for 30 epochs...
+  Epoch  1/30 | Loss: 0.8799 | Train: 83.3% | Val: 89.8% | AUC: 0.9925 | LR: 2.00e-05
+  Epoch  2/30 | Loss: 0.6805 | Train: 91.6% | Val: 93.3% | AUC: 0.9962 | LR: 4.00e-05
+  Epoch  3/30 | Loss: 0.6399 | Train: 93.2% | Val: 94.7% | AUC: 0.9973 | LR: 6.00e-05
+  Epoch  4/30 | Loss: 0.6183 | Train: 94.2% | Val: 95.0% | AUC: 0.9977 | LR: 8.00e-05
+  Epoch  5/30 | Loss: 0.5989 | Train: 95.0% | Val: 95.5% | AUC: 0.9980 | LR: 1.00e-04
+  Epoch  6/30 | Loss: 0.5819 | Train: 95.8% | Val: 95.6% | AUC: 0.9979 | LR: 9.96e-05
+  Epoch  7/30 | Loss: 0.5702 | Train: 96.3% | Val: 96.4% | AUC: 0.9985 | LR: 9.84e-05
+  Epoch  8/30 | Loss: 0.5616 | Train: 96.7% | Val: 96.4% | AUC: 0.9987 | LR: 9.65e-05
+  Epoch  9/30 | Loss: 0.5541 | Train: 97.0% | Val: 96.3% | AUC: 0.9987 | LR: 9.39e-05
+  Epoch 10/30 | Loss: 0.5489 | Train: 97.2% | Val: 96.7% | AUC: 0.9987 | LR: 9.05e-05
+  Epoch 11/30 | Loss: 0.5424 | Train: 97.5% | Val: 97.2% | AUC: 0.9988 | LR: 8.66e-05
+  Epoch 12/30 | Loss: 0.5375 | Train: 97.7% | Val: 97.2% | AUC: 0.9988 | LR: 8.21e-05
+  Epoch 13/30 | Loss: 0.5317 | Train: 98.0% | Val: 97.3% | AUC: 0.9991 | LR: 7.70e-05
+  Epoch 14/30 | Loss: 0.5290 | Train: 98.0% | Val: 97.5% | AUC: 0.9990 | LR: 7.16e-05
+  Epoch 15/30 | Loss: 0.5262 | Train: 98.2% | Val: 97.6% | AUC: 0.9991 | LR: 6.58e-05
+  Epoch 16/30 | Loss: 0.5226 | Train: 98.4% | Val: 97.7% | AUC: 0.9990 | LR: 5.98e-05
+  Epoch 17/30 | Loss: 0.5188 | Train: 98.5% | Val: 97.8% | AUC: 0.9990 | LR: 5.36e-05
+  Epoch 18/30 | Loss: 0.5149 | Train: 98.7% | Val: 97.9% | AUC: 0.9990 | LR: 4.74e-05
+  Epoch 19/30 | Loss: 0.5124 | Train: 98.8% | Val: 98.0% | AUC: 0.9993 | LR: 4.12e-05
+  Epoch 20/30 | Loss: 0.5109 | Train: 98.9% | Val: 97.9% | AUC: 0.9989 | LR: 3.52e-05
+  Epoch 21/30 | Loss: 0.5069 | Train: 99.1% | Val: 98.1% | AUC: 0.9991 | LR: 2.94e-05
+  Epoch 22/30 | Loss: 0.5055 | Train: 99.1% | Val: 98.1% | AUC: 0.9992 | LR: 2.40e-05
+  Epoch 23/30 | Loss: 0.5032 | Train: 99.2% | Val: 98.1% | AUC: 0.9993 | LR: 1.89e-05
+  Epoch 24/30 | Loss: 0.5017 | Train: 99.3% | Val: 98.3% | AUC: 0.9992 | LR: 1.44e-05
+  Epoch 25/30 | Loss: 0.5000 | Train: 99.4% | Val: 98.3% | AUC: 0.9992 | LR: 1.05e-05
+  Epoch 26/30 | Loss: 0.4991 | Train: 99.4% | Val: 98.3% | AUC: 0.9992 | LR: 7.12e-06
+  Epoch 27/30 | Loss: 0.4972 | Train: 99.5% | Val: 98.3% | AUC: 0.9992 | LR: 4.48e-06
+  Epoch 28/30 | Loss: 0.4971 | Train: 99.5% | Val: 98.4% | AUC: 0.9991 | LR: 2.56e-06
+  Epoch 29/30 | Loss: 0.4966 | Train: 99.5% | Val: 98.3% | AUC: 0.9992 | LR: 1.39e-06
+  Epoch 30/30 | Loss: 0.4960 | Train: 99.5% | Val: 98.3% | AUC: 0.9992 | LR: 1.00e-06
+
+  Training completed in 2915.6s
+  Best val AUC: 0.9993 (epoch 23)
+
+  ┌─────────────────────────────────────────┐
+  │  RESULTS: DeiT-Tiny on PATH             │
+  ├─────────────────────────────────────────┤
+  │  Test Accuracy:   93.87%               │
+  │  Test AUC-ROC:   0.9924                │
+  │  Best Epoch:      23                    │
+  │  Frozen Blocks:  8/12                  │
+  └─────────────────────────────────────────┘
+
+  Per-class classification report:
+              precision    recall  f1-score   support
+
+     Class 0      0.990     0.996     0.993      1338
+     Class 1      0.992     0.999     0.995       847
+     Class 2      0.738     0.850     0.790       339
+     Class 3      0.952     0.972     0.962       634
+     Class 4      0.995     0.970     0.982      1035
+     Class 5      0.835     0.889     0.861       592
+     Class 6      0.925     0.972     0.948       741
+     Class 7      0.772     0.675     0.720       421
+     Class 8      0.970     0.911     0.939      1233
+
+    accuracy                          0.939      7180
+   macro avg      0.908     0.915     0.910      7180
+weighted avg      0.940     0.939     0.939      7180
+
+  Results saved to results/path/results.json
+
+======================================================================
+  SUMMARY: DeiT-Tiny Plaintext Baselines (Row 1 of Results Table)
+======================================================================
+  Dataset              Accuracy    AUC-ROC  Classes  Epoch
+  ──────────────────────────────────────────────────────
+  retina                 53.75%     0.7505        5     15
+  pneumonia              86.86%     0.9712        2     15
+  blood                  95.32%     0.9962        8     26
+  derma                  76.66%     0.9291        7     12
+  breast                 87.18%     0.9190        2     30
+  path                   93.87%     0.9924        9     23
+  ──────────────────────────────────────────────────────
+
+  Next steps:
+  1. Replace GELU with polynomial → measure accuracy drop
+  2. Replace softmax with MGF-softmax → measure accuracy drop
+  3. Apply KD from this plaintext model (teacher) → recover accuracy
+  4. Encrypt polynomial model with CKKS → measure ciphertext accuracy
+
+  Summary saved to results/summary.json
+
+Step 1 complete. Results in results/
+Timestamp: Friday 13 March 2026 04:55:13 PM IST
+
+═══════════════════════════════════════════════════
+  STEP 2 v1: Cold-start polynomial GELU
+  Output: results_step2/
+═══════════════════════════════════════════════════
+Device: cuda
+GPU: NVIDIA RTX A6000
+
+  ╔═══════════════════════════════════════════════════╗
+  ║  Step 2: GELU → Polynomial Activation Replacement ║
+  ║  Degree: 2  |  Init: gelu_fit                ║
+  ║  Smooth transition: True                        ║
+  ╚═══════════════════════════════════════════════════╝
+
+=================================================================
+  Step 2: Polynomial GELU — RETINA
+  Degree: 2 | Transition: epochs 6→18
+=================================================================
+  Train: 1080 | Val: 120 | Test: 400
+  Replaced 12 GELU activations with degree-2 polynomial
+  Total: 5.53M | Trainable: 1.78M
+  Polynomial parameters: 36 (12 layers × 3 coeffs)
+  Blocks frozen: 8/12 (poly coeffs remain trainable)
+
+  Initial polynomial coefficients (first layer):
+    f(x) = 0.2576·x² + 0.5000·x + 0.0711
+
+  Training for 30 epochs...
+  Transition schedule: GELU (ep 1-5) → blend (ep 6-18) → poly (ep 19-30)
+  Epoch  1/30 [   GELU] | Loss: 1.5199 | Train: 38.2% | Val: 45.0% | AUC: 0.5625 | LR: 2.00e-05
+  Epoch  2/30 [   GELU] | Loss: 1.3881 | Train: 45.6% | Val: 44.2% | AUC: 0.7320 | LR: 4.00e-05
+  Epoch  3/30 [   GELU] | Loss: 1.2968 | Train: 49.2% | Val: 55.0% | AUC: 0.7580 | LR: 6.00e-05
+  Epoch  4/30 [   GELU] | Loss: 1.2687 | Train: 51.6% | Val: 44.2% | AUC: 0.7727 | LR: 8.00e-05
+  Epoch  5/30 [   GELU] | Loss: 1.2574 | Train: 51.4% | Val: 47.5% | AUC: 0.7796 | LR: 1.00e-04
+  Epoch  6/30 [   GELU] | Loss: 1.2327 | Train: 52.1% | Val: 52.5% | AUC: 0.7864 | LR: 9.96e-05
+  Epoch  7/30 [ α=0.08] | Loss: 1.4832 | Train: 41.2% | Val: 45.0% | AUC: 0.7610 | LR: 9.84e-05
+  Epoch  8/30 [ α=0.17] | Loss: 1.4502 | Train: 45.0% | Val: 45.0% | AUC: 0.6623 | LR: 9.65e-05
+  Epoch  9/30 [ α=0.25] | Loss: 1.4526 | Train: 45.0% | Val: 45.0% | AUC: 0.6766 | LR: 9.39e-05
+  Epoch 10/30 [ α=0.33] | Loss: 1.4459 | Train: 45.0% | Val: 45.0% | AUC: 0.7206 | LR: 9.05e-05
+  Epoch 11/30 [ α=0.42] | Loss: 1.4394 | Train: 45.0% | Val: 45.0% | AUC: 0.7153 | LR: 8.66e-05
+  Epoch 12/30 [ α=0.50] | Loss: 1.4285 | Train: 45.0% | Val: 45.0% | AUC: 0.7130 | LR: 8.21e-05
+  Epoch 13/30 [ α=0.58] | Loss: 1.4104 | Train: 45.0% | Val: 45.0% | AUC: 0.7173 | LR: 7.70e-05
+  Epoch 14/30 [ α=0.67] | Loss: 1.3784 | Train: 45.6% | Val: 44.2% | AUC: 0.7206 | LR: 7.16e-05
+  Epoch 15/30 [ α=0.75] | Loss: 1.3498 | Train: 46.3% | Val: 45.8% | AUC: 0.7238 | LR: 6.58e-05
+  Epoch 16/30 [ α=0.83] | Loss: 1.3256 | Train: 47.4% | Val: 47.5% | AUC: 0.7280 | LR: 5.98e-05
+  Epoch 17/30 [ α=0.92] | Loss: 1.3144 | Train: 47.7% | Val: 47.5% | AUC: 0.7322 | LR: 5.36e-05
+  Epoch 18/30 [   POLY] | Loss: 1.3091 | Train: 48.2% | Val: 48.3% | AUC: 0.7316 | LR: 4.74e-05
+  Epoch 19/30 [   POLY] | Loss: 1.3020 | Train: 48.5% | Val: 53.3% | AUC: 0.7370 | LR: 4.12e-05
+  Epoch 20/30 [   POLY] | Loss: 1.2981 | Train: 48.5% | Val: 55.0% | AUC: 0.7462 | LR: 3.52e-05
+  Epoch 21/30 [   POLY] | Loss: 1.2895 | Train: 47.9% | Val: 47.5% | AUC: 0.7539 | LR: 2.94e-05
+  Epoch 22/30 [   POLY] | Loss: 1.2835 | Train: 48.3% | Val: 50.0% | AUC: 0.7518 | LR: 2.40e-05
+  Epoch 23/30 [   POLY] | Loss: 1.2824 | Train: 50.0% | Val: 54.2% | AUC: 0.7597 | LR: 1.89e-05
+  Epoch 24/30 [   POLY] | Loss: 1.2875 | Train: 49.9% | Val: 55.8% | AUC: 0.7661 | LR: 1.44e-05
+  Epoch 25/30 [   POLY] | Loss: 1.2775 | Train: 51.4% | Val: 54.2% | AUC: 0.7620 | LR: 1.05e-05
+  Epoch 26/30 [   POLY] | Loss: 1.2805 | Train: 49.8% | Val: 55.8% | AUC: 0.7670 | LR: 7.12e-06
+  Epoch 27/30 [   POLY] | Loss: 1.2797 | Train: 49.6% | Val: 54.2% | AUC: 0.7677 | LR: 4.48e-06
+  Epoch 28/30 [   POLY] | Loss: 1.2791 | Train: 51.2% | Val: 53.3% | AUC: 0.7686 | LR: 2.56e-06
+  Epoch 29/30 [   POLY] | Loss: 1.2748 | Train: 50.6% | Val: 53.3% | AUC: 0.7689 | LR: 1.39e-06
+  Epoch 30/30 [   POLY] | Loss: 1.2837 | Train: 51.2% | Val: 53.3% | AUC: 0.7691 | LR: 1.00e-06
+/data1/parth/miniconda3/envs/deit_baseline/lib/python3.10/site-packages/sklearn/metrics/_classification.py:1731: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
+/data1/parth/miniconda3/envs/deit_baseline/lib/python3.10/site-packages/sklearn/metrics/_classification.py:1731: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
+/data1/parth/miniconda3/envs/deit_baseline/lib/python3.10/site-packages/sklearn/metrics/_classification.py:1731: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
+
+  ┌─────────────────────────────────────────────────────┐
+  │  RESULTS: Poly-GELU DeiT-Tiny on RETINA           │
+  ├─────────────────────────────────────────────────────┤
+  │  Test Accuracy:    17.00%  (Δ  -36.75%)     │
+  │  Test AUC-ROC:    0.5707   (Δ  -0.1798)     │
+  │  Baseline Acc:     53.75%                       │
+  │  Baseline AUC:    0.7505                        │
+  │  Poly Degree:     2                              │
+  │  Best Epoch:        6                                │
+  └─────────────────────────────────────────────────────┘
+
+  Learned polynomial coefficients per block:
+    Block 0: f(x) = 0.2510·x² + 0.4998·x + 0.0711
+    Block 0: f(x) = 0.2510·x² + 0.4998·x + 0.0711
+    Block 1: f(x) = 0.2510·x² + 0.4998·x + 0.0711
+    Block 1: f(x) = 0.2510·x² + 0.4998·x + 0.0711
+    Block 2: f(x) = 0.2510·x² + 0.4998·x + 0.0711
+    Block 2: f(x) = 0.2510·x² + 0.4998·x + 0.0711
+    Block 3: f(x) = 0.2510·x² + 0.4998·x + 0.0711
+    Block 3: f(x) = 0.2510·x² + 0.4998·x + 0.0711
+    Block 4: f(x) = 0.2510·x² + 0.4998·x + 0.0711
+    Block 4: f(x) = 0.2510·x² + 0.4998·x + 0.0711
+    Block 5: f(x) = 0.2510·x² + 0.4998·x + 0.0711
+    Block 5: f(x) = 0.2510·x² + 0.4998·x + 0.0711
+    Block 6: f(x) = 0.2510·x² + 0.4998·x + 0.0711
+    Block 6: f(x) = 0.2510·x² + 0.4998·x + 0.0711
+    Block 7: f(x) = 0.2510·x² + 0.4998·x + 0.0711
+    Block 7: f(x) = 0.2510·x² + 0.4998·x + 0.0711
+    Block 8: f(x) = 0.2510·x² + 0.4998·x + 0.0711
+    Block 8: f(x) = 0.2510·x² + 0.4998·x + 0.0711
+    Block 9: f(x) = 0.2510·x² + 0.4998·x + 0.0711
+    Block 9: f(x) = 0.2510·x² + 0.4998·x + 0.0711
+    Block 10: f(x) = 0.2510·x² + 0.4998·x + 0.0711
+    Block 10: f(x) = 0.2510·x² + 0.4998·x + 0.0711
+    Block 11: f(x) = 0.2510·x² + 0.4998·x + 0.0711
+    Block 11: f(x) = 0.2510·x² + 0.4998·x + 0.0711
+
+  Per-class classification report:
+              precision    recall  f1-score   support
+
+     Class 0      0.000     0.000     0.000       174
+     Class 1      0.000     0.000     0.000        46
+     Class 2      0.000     0.000     0.000        92
+     Class 3      0.170     1.000     0.291        68
+     Class 4      0.000     0.000     0.000        20
+
+    accuracy                          0.170       400
+   macro avg      0.034     0.200     0.058       400
+weighted avg      0.029     0.170     0.049       400
+
+  Results saved to results_step2/retina/results.json
+
+=================================================================
+  Step 2: Polynomial GELU — PNEUMONIA
+  Degree: 2 | Transition: epochs 6→18
+=================================================================
+  Train: 4708 | Val: 524 | Test: 624
+  Replaced 12 GELU activations with degree-2 polynomial
+  Total: 5.52M | Trainable: 1.78M
+  Polynomial parameters: 36 (12 layers × 3 coeffs)
+  Blocks frozen: 8/12 (poly coeffs remain trainable)
+
+  Initial polynomial coefficients (first layer):
+    f(x) = 0.2576·x² + 0.5000·x + 0.0711
+
+  Training for 30 epochs...
+  Transition schedule: GELU (ep 1-5) → blend (ep 6-18) → poly (ep 19-30)
+  Epoch  1/30 [   GELU] | Loss: 0.4945 | Train: 80.6% | Val: 86.5% | AUC: 0.9462 | LR: 2.00e-05
+  Epoch  2/30 [   GELU] | Loss: 0.3567 | Train: 90.1% | Val: 93.1% | AUC: 0.9675 | LR: 4.00e-05
+  Epoch  3/30 [   GELU] | Loss: 0.3249 | Train: 92.3% | Val: 91.8% | AUC: 0.9694 | LR: 6.00e-05
+  Epoch  4/30 [   GELU] | Loss: 0.3140 | Train: 92.8% | Val: 88.7% | AUC: 0.9798 | LR: 8.00e-05
+  Epoch  5/30 [   GELU] | Loss: 0.3016 | Train: 93.5% | Val: 93.7% | AUC: 0.9791 | LR: 1.00e-04
+  Epoch  6/30 [   GELU] | Loss: 0.2875 | Train: 94.9% | Val: 93.9% | AUC: 0.9832 | LR: 9.96e-05
+  Epoch  7/30 [ α=0.08] | Loss: 0.3783 | Train: 88.2% | Val: 94.3% | AUC: 0.9885 | LR: 9.84e-05
+  Epoch  8/30 [ α=0.17] | Loss: 0.3128 | Train: 92.9% | Val: 95.2% | AUC: 0.9874 | LR: 9.65e-05
+  Epoch  9/30 [ α=0.25] | Loss: 0.3046 | Train: 93.7% | Val: 95.2% | AUC: 0.9836 | LR: 9.39e-05
+  Epoch 10/30 [ α=0.33] | Loss: 0.3254 | Train: 92.2% | Val: 91.2% | AUC: 0.9843 | LR: 9.05e-05
+  Epoch 11/30 [ α=0.42] | Loss: 0.3039 | Train: 93.4% | Val: 95.6% | AUC: 0.9879 | LR: 8.66e-05
+  Epoch 12/30 [ α=0.50] | Loss: 0.3147 | Train: 93.0% | Val: 93.3% | AUC: 0.9902 | LR: 8.21e-05
+  Epoch 13/30 [ α=0.58] | Loss: 0.2972 | Train: 93.9% | Val: 92.7% | AUC: 0.9859 | LR: 7.70e-05
+  Epoch 14/30 [ α=0.67] | Loss: 0.2975 | Train: 93.8% | Val: 95.8% | AUC: 0.9913 | LR: 7.16e-05
+  Epoch 15/30 [ α=0.75] | Loss: 0.3017 | Train: 93.3% | Val: 95.6% | AUC: 0.9901 | LR: 6.58e-05
+  Epoch 16/30 [ α=0.83] | Loss: 0.3018 | Train: 93.5% | Val: 93.1% | AUC: 0.9876 | LR: 5.98e-05
+  Epoch 17/30 [ α=0.92] | Loss: 0.3166 | Train: 92.8% | Val: 91.4% | AUC: 0.9835 | LR: 5.36e-05
+  Epoch 18/30 [   POLY] | Loss: 0.3361 | Train: 91.2% | Val: 95.2% | AUC: 0.9850 | LR: 4.74e-05
+  Epoch 19/30 [   POLY] | Loss: 0.2971 | Train: 94.1% | Val: 94.5% | AUC: 0.9883 | LR: 4.12e-05
+  Epoch 20/30 [   POLY] | Loss: 0.2913 | Train: 94.4% | Val: 93.9% | AUC: 0.9837 | LR: 3.52e-05
+  Epoch 21/30 [   POLY] | Loss: 0.2881 | Train: 94.4% | Val: 96.0% | AUC: 0.9917 | LR: 2.94e-05
+  Epoch 22/30 [   POLY] | Loss: 0.2844 | Train: 94.9% | Val: 96.2% | AUC: 0.9925 | LR: 2.40e-05
+  Epoch 23/30 [   POLY] | Loss: 0.2800 | Train: 95.1% | Val: 96.0% | AUC: 0.9934 | LR: 1.89e-05
+  Epoch 24/30 [   POLY] | Loss: 0.2761 | Train: 95.4% | Val: 94.8% | AUC: 0.9874 | LR: 1.44e-05
+  Epoch 25/30 [   POLY] | Loss: 0.2738 | Train: 95.4% | Val: 95.4% | AUC: 0.9879 | LR: 1.05e-05
+  Epoch 26/30 [   POLY] | Loss: 0.2736 | Train: 95.6% | Val: 96.0% | AUC: 0.9920 | LR: 7.12e-06
+  Epoch 27/30 [   POLY] | Loss: 0.2683 | Train: 95.8% | Val: 96.9% | AUC: 0.9918 | LR: 4.48e-06
+  Epoch 28/30 [   POLY] | Loss: 0.2689 | Train: 95.7% | Val: 96.4% | AUC: 0.9918 | LR: 2.56e-06
+  Epoch 29/30 [   POLY] | Loss: 0.2701 | Train: 95.8% | Val: 96.6% | AUC: 0.9919 | LR: 1.39e-06
+  Epoch 30/30 [   POLY] | Loss: 0.2668 | Train: 96.0% | Val: 96.6% | AUC: 0.9922 | LR: 1.00e-06
+
+  ┌─────────────────────────────────────────────────────┐
+  │  RESULTS: Poly-GELU DeiT-Tiny on PNEUMONIA        │
+  ├─────────────────────────────────────────────────────┤
+  │  Test Accuracy:    87.34%  (Δ   +0.48%)     │
+  │  Test AUC-ROC:    0.9553   (Δ  -0.0159)     │
+  │  Baseline Acc:     86.86%                       │
+  │  Baseline AUC:    0.9712                        │
+  │  Poly Degree:     2                              │
+  │  Best Epoch:       23                                │
+  └─────────────────────────────────────────────────────┘
+
+  Learned polynomial coefficients per block:
+    Block 0: f(x) = 0.2107·x² + 0.5168·x + 0.0402
+    Block 0: f(x) = 0.2107·x² + 0.5168·x + 0.0402
+    Block 1: f(x) = 0.2297·x² + 0.4896·x + 0.0626
+    Block 1: f(x) = 0.2297·x² + 0.4896·x + 0.0626
+    Block 2: f(x) = 0.2084·x² + 0.5163·x + 0.0412
+    Block 2: f(x) = 0.2084·x² + 0.5163·x + 0.0412
+    Block 3: f(x) = 0.2029·x² + 0.5191·x + 0.0751
+    Block 3: f(x) = 0.2029·x² + 0.5191·x + 0.0751
+    Block 4: f(x) = 0.1985·x² + 0.5240·x + 0.0487
+    Block 4: f(x) = 0.1985·x² + 0.5240·x + 0.0487
+    Block 5: f(x) = 0.1974·x² + 0.5265·x + 0.0427
+    Block 5: f(x) = 0.1974·x² + 0.5265·x + 0.0427
+    Block 6: f(x) = 0.1996·x² + 0.5266·x + 0.0404
+    Block 6: f(x) = 0.1996·x² + 0.5266·x + 0.0404
+    Block 7: f(x) = 0.2041·x² + 0.5186·x + 0.0552
+    Block 7: f(x) = 0.2041·x² + 0.5186·x + 0.0552
+    Block 8: f(x) = 0.2147·x² + 0.5117·x + 0.0572
+    Block 8: f(x) = 0.2147·x² + 0.5117·x + 0.0572
+    Block 9: f(x) = 0.2170·x² + 0.5108·x + 0.0593
+    Block 9: f(x) = 0.2170·x² + 0.5108·x + 0.0593
+    Block 10: f(x) = 0.2235·x² + 0.5041·x + 0.0648
+    Block 10: f(x) = 0.2235·x² + 0.5041·x + 0.0648
+    Block 11: f(x) = 0.2286·x² + 0.4993·x + 0.0690
+    Block 11: f(x) = 0.2286·x² + 0.4993·x + 0.0690
+
+  Per-class classification report:
+              precision    recall  f1-score   support
+
+     Class 0      0.914     0.731     0.812       234
+     Class 1      0.856     0.959     0.904       390
+
+    accuracy                          0.873       624
+   macro avg      0.885     0.845     0.858       624
+weighted avg      0.878     0.873     0.870       624
+
+  Results saved to results_step2/pneumonia/results.json
+
+=================================================================
+  Step 2: Polynomial GELU — BLOOD
+  Degree: 2 | Transition: epochs 6→18
+=================================================================
+  Train: 11959 | Val: 1712 | Test: 3421
+  Replaced 12 GELU activations with degree-2 polynomial
+  Total: 5.53M | Trainable: 1.78M
+  Polynomial parameters: 36 (12 layers × 3 coeffs)
+  Blocks frozen: 8/12 (poly coeffs remain trainable)
+
+  Initial polynomial coefficients (first layer):
+    f(x) = 0.2576·x² + 0.5000·x + 0.0711
+
+  Training for 30 epochs...
+  Transition schedule: GELU (ep 1-5) → blend (ep 6-18) → poly (ep 19-30)
+  Epoch  1/30 [   GELU] | Loss: 1.3992 | Train: 58.8% | Val: 78.0% | AUC: 0.9672 | LR: 2.00e-05
+  Epoch  2/30 [   GELU] | Loss: 0.8300 | Train: 83.9% | Val: 86.2% | AUC: 0.9854 | LR: 4.00e-05
+  Epoch  3/30 [   GELU] | Loss: 0.7393 | Train: 87.6% | Val: 89.4% | AUC: 0.9908 | LR: 6.00e-05
+  Epoch  4/30 [   GELU] | Loss: 0.6931 | Train: 89.8% | Val: 90.7% | AUC: 0.9928 | LR: 8.00e-05
+  Epoch  5/30 [   GELU] | Loss: 0.6645 | Train: 90.9% | Val: 91.7% | AUC: 0.9948 | LR: 1.00e-04
+  Epoch  6/30 [   GELU] | Loss: 0.6404 | Train: 92.2% | Val: 93.0% | AUC: 0.9960 | LR: 9.96e-05
+  Epoch  7/30 [ α=0.08] | Loss: 0.6447 | Train: 91.9% | Val: 94.0% | AUC: 0.9964 | LR: 9.84e-05
+  Epoch  8/30 [ α=0.17] | Loss: 0.6182 | Train: 93.1% | Val: 94.4% | AUC: 0.9972 | LR: 9.65e-05
+  Epoch  9/30 [ α=0.25] | Loss: 0.6034 | Train: 93.7% | Val: 94.5% | AUC: 0.9972 | LR: 9.39e-05
+  Epoch 10/30 [ α=0.33] | Loss: 0.5952 | Train: 94.2% | Val: 93.8% | AUC: 0.9960 | LR: 9.05e-05
+  Epoch 11/30 [ α=0.42] | Loss: 0.5959 | Train: 94.0% | Val: 94.7% | AUC: 0.9981 | LR: 8.66e-05
+  Epoch 12/30 [ α=0.50] | Loss: 0.6006 | Train: 94.0% | Val: 94.2% | AUC: 0.9977 | LR: 8.21e-05
+  Epoch 13/30 [ α=0.58] | Loss: 0.6098 | Train: 93.5% | Val: 94.0% | AUC: 0.9978 | LR: 7.70e-05
+  Epoch 14/30 [ α=0.67] | Loss: 0.6092 | Train: 93.6% | Val: 94.3% | AUC: 0.9973 | LR: 7.16e-05
+  Epoch 15/30 [ α=0.75] | Loss: 0.6246 | Train: 92.8% | Val: 94.6% | AUC: 0.9975 | LR: 6.58e-05
+  Epoch 16/30 [ α=0.83] | Loss: 0.6276 | Train: 92.5% | Val: 92.8% | AUC: 0.9971 | LR: 5.98e-05
+  Epoch 17/30 [ α=0.92] | Loss: 0.6306 | Train: 92.3% | Val: 92.5% | AUC: 0.9949 | LR: 5.36e-05
+  Epoch 18/30 [   POLY] | Loss: 0.6363 | Train: 92.3% | Val: 92.9% | AUC: 0.9943 | LR: 4.74e-05
+  Epoch 19/30 [   POLY] | Loss: 0.6176 | Train: 93.0% | Val: 93.2% | AUC: 0.9962 | LR: 4.12e-05
+  Epoch 20/30 [   POLY] | Loss: 0.6036 | Train: 93.7% | Val: 94.0% | AUC: 0.9968 | LR: 3.52e-05
+  Epoch 21/30 [   POLY] | Loss: 0.5902 | Train: 94.2% | Val: 94.0% | AUC: 0.9966 | LR: 2.94e-05
+  Epoch 22/30 [   POLY] | Loss: 0.5825 | Train: 94.6% | Val: 94.7% | AUC: 0.9975 | LR: 2.40e-05
+  Epoch 23/30 [   POLY] | Loss: 0.5781 | Train: 94.9% | Val: 95.3% | AUC: 0.9978 | LR: 1.89e-05
+  Epoch 24/30 [   POLY] | Loss: 0.5671 | Train: 95.3% | Val: 95.0% | AUC: 0.9975 | LR: 1.44e-05
+  Epoch 25/30 [   POLY] | Loss: 0.5621 | Train: 95.5% | Val: 95.7% | AUC: 0.9981 | LR: 1.05e-05
+  Epoch 26/30 [   POLY] | Loss: 0.5607 | Train: 95.7% | Val: 95.4% | AUC: 0.9978 | LR: 7.12e-06
+  Epoch 27/30 [   POLY] | Loss: 0.5541 | Train: 96.1% | Val: 95.5% | AUC: 0.9981 | LR: 4.48e-06
+  Epoch 28/30 [   POLY] | Loss: 0.5499 | Train: 96.1% | Val: 95.6% | AUC: 0.9982 | LR: 2.56e-06
+  Epoch 29/30 [   POLY] | Loss: 0.5512 | Train: 96.1% | Val: 95.7% | AUC: 0.9981 | LR: 1.39e-06
+  Epoch 30/30 [   POLY] | Loss: 0.5460 | Train: 96.5% | Val: 95.7% | AUC: 0.9982 | LR: 1.00e-06
+
+  ┌─────────────────────────────────────────────────────┐
+  │  RESULTS: Poly-GELU DeiT-Tiny on BLOOD            │
+  ├─────────────────────────────────────────────────────┤
+  │  Test Accuracy:    95.70%  (Δ   +0.38%)     │
+  │  Test AUC-ROC:    0.9969   (Δ  +0.0007)     │
+  │  Baseline Acc:     95.32%                       │
+  │  Baseline AUC:    0.9962                        │
+  │  Poly Degree:     2                              │
+  │  Best Epoch:       28                                │
+  └─────────────────────────────────────────────────────┘
+
+  Learned polynomial coefficients per block:
+    Block 0: f(x) = 0.1727·x² + 0.4762·x + 0.0061
+    Block 0: f(x) = 0.1727·x² + 0.4762·x + 0.0061
+    Block 1: f(x) = 0.2098·x² + 0.4510·x + 0.0712
+    Block 1: f(x) = 0.2098·x² + 0.4510·x + 0.0712
+    Block 2: f(x) = 0.1829·x² + 0.4846·x + 0.0768
+    Block 2: f(x) = 0.1829·x² + 0.4846·x + 0.0768
+    Block 3: f(x) = 0.1775·x² + 0.4781·x + 0.0921
+    Block 3: f(x) = 0.1775·x² + 0.4781·x + 0.0921
+    Block 4: f(x) = 0.1991·x² + 0.4609·x + 0.0963
+    Block 4: f(x) = 0.1991·x² + 0.4609·x + 0.0963
+    Block 5: f(x) = 0.1759·x² + 0.4864·x + 0.0769
+    Block 5: f(x) = 0.1759·x² + 0.4864·x + 0.0769
+    Block 6: f(x) = 0.1665·x² + 0.4966·x + 0.0687
+    Block 6: f(x) = 0.1665·x² + 0.4966·x + 0.0687
+    Block 7: f(x) = 0.1638·x² + 0.4964·x + 0.0777
+    Block 7: f(x) = 0.1638·x² + 0.4964·x + 0.0777
+    Block 8: f(x) = 0.1631·x² + 0.5003·x + 0.0742
+    Block 8: f(x) = 0.1631·x² + 0.5003·x + 0.0742
+    Block 9: f(x) = 0.1636·x² + 0.5010·x + 0.0653
+    Block 9: f(x) = 0.1636·x² + 0.5010·x + 0.0653
+    Block 10: f(x) = 0.1777·x² + 0.4952·x + 0.0687
+    Block 10: f(x) = 0.1777·x² + 0.4952·x + 0.0687
+    Block 11: f(x) = 0.1842·x² + 0.4973·x + 0.0695
+    Block 11: f(x) = 0.1842·x² + 0.4973·x + 0.0695
+
+  Per-class classification report:
+              precision    recall  f1-score   support
+
+     Class 0      0.928     0.951     0.939       244
+     Class 1      0.997     0.995     0.996       624
+     Class 2      0.964     0.936     0.949       311
+     Class 3      0.912     0.908     0.910       579
+     Class 4      0.931     0.947     0.939       243
+     Class 5      0.915     0.905     0.910       284
+     Class 6      0.967     0.976     0.972       666
+     Class 7      0.996     0.994     0.995       470
+
+    accuracy                          0.957      3421
+   macro avg      0.951     0.951     0.951      3421
+weighted avg      0.957     0.957     0.957      3421
+
+  Results saved to results_step2/blood/results.json
+
+=================================================================
+  Step 2: Polynomial GELU — DERMA
+  Degree: 2 | Transition: epochs 6→18
+=================================================================
+  Train: 7007 | Val: 1003 | Test: 2005
+  Replaced 12 GELU activations with degree-2 polynomial
+  Total: 5.53M | Trainable: 1.78M
+  Polynomial parameters: 36 (12 layers × 3 coeffs)
+  Blocks frozen: 8/12 (poly coeffs remain trainable)
+
+  Initial polynomial coefficients (first layer):
+    f(x) = 0.2576·x² + 0.5000·x + 0.0711
+
+  Training for 30 epochs...
+  Transition schedule: GELU (ep 1-5) → blend (ep 6-18) → poly (ep 19-30)
+  Epoch  1/30 [   GELU] | Loss: 1.2996 | Train: 63.5% | Val: 69.8% | AUC: 0.8161 | LR: 2.00e-05
+  Epoch  2/30 [   GELU] | Loss: 1.0758 | Train: 70.4% | Val: 72.4% | AUC: 0.8773 | LR: 4.00e-05
+  Epoch  3/30 [   GELU] | Loss: 1.0236 | Train: 72.5% | Val: 73.9% | AUC: 0.9000 | LR: 6.00e-05
+  Epoch  4/30 [   GELU] | Loss: 0.9877 | Train: 73.8% | Val: 75.0% | AUC: 0.9122 | LR: 8.00e-05
+  Epoch  5/30 [   GELU] | Loss: 0.9698 | Train: 74.2% | Val: 75.4% | AUC: 0.9193 | LR: 1.00e-04
+  Epoch  6/30 [   GELU] | Loss: 0.9469 | Train: 75.6% | Val: 73.4% | AUC: 0.9221 | LR: 9.96e-05
+  Epoch  7/30 [ α=0.08] | Loss: 0.9683 | Train: 75.1% | Val: 76.1% | AUC: 0.9223 | LR: 9.84e-05
+  Epoch  8/30 [ α=0.17] | Loss: 0.9459 | Train: 76.2% | Val: 74.5% | AUC: 0.9142 | LR: 9.65e-05
+  Epoch  9/30 [ α=0.25] | Loss: 0.9374 | Train: 76.3% | Val: 75.3% | AUC: 0.9144 | LR: 9.39e-05
+  Epoch 10/30 [ α=0.33] | Loss: 0.9354 | Train: 76.3% | Val: 77.2% | AUC: 0.9199 | LR: 9.05e-05
+  Epoch 11/30 [ α=0.42] | Loss: 0.9388 | Train: 76.0% | Val: 76.1% | AUC: 0.9210 | LR: 8.66e-05
+  Epoch 12/30 [ α=0.50] | Loss: 0.9420 | Train: 76.3% | Val: 76.4% | AUC: 0.9221 | LR: 8.21e-05
+  Epoch 13/30 [ α=0.58] | Loss: 0.9505 | Train: 75.9% | Val: 76.3% | AUC: 0.9203 | LR: 7.70e-05
+  Epoch 14/30 [ α=0.67] | Loss: 0.9623 | Train: 75.2% | Val: 74.9% | AUC: 0.9154 | LR: 7.16e-05
+  Epoch 15/30 [ α=0.75] | Loss: 0.9679 | Train: 74.9% | Val: 76.4% | AUC: 0.9138 | LR: 6.58e-05
+  Epoch 16/30 [ α=0.83] | Loss: 0.9742 | Train: 75.2% | Val: 74.8% | AUC: 0.9145 | LR: 5.98e-05
+  Epoch 17/30 [ α=0.92] | Loss: 0.9759 | Train: 74.6% | Val: 73.9% | AUC: 0.9074 | LR: 5.36e-05
+  Epoch 18/30 [   POLY] | Loss: 0.9922 | Train: 73.4% | Val: 73.5% | AUC: 0.9068 | LR: 4.74e-05
+  Epoch 19/30 [   POLY] | Loss: 0.9723 | Train: 74.8% | Val: 73.8% | AUC: 0.9090 | LR: 4.12e-05
+  Epoch 20/30 [   POLY] | Loss: 0.9519 | Train: 75.5% | Val: 74.8% | AUC: 0.9149 | LR: 3.52e-05
+  Epoch 21/30 [   POLY] | Loss: 0.9366 | Train: 75.7% | Val: 75.4% | AUC: 0.9163 | LR: 2.94e-05
+  Epoch 22/30 [   POLY] | Loss: 0.9332 | Train: 76.2% | Val: 74.3% | AUC: 0.9140 | LR: 2.40e-05
+  Epoch 23/30 [   POLY] | Loss: 0.9276 | Train: 76.5% | Val: 75.5% | AUC: 0.9127 | LR: 1.89e-05
+  Epoch 24/30 [   POLY] | Loss: 0.9173 | Train: 76.8% | Val: 75.4% | AUC: 0.9175 | LR: 1.44e-05
+  Epoch 25/30 [   POLY] | Loss: 0.9087 | Train: 77.3% | Val: 75.5% | AUC: 0.9151 | LR: 1.05e-05
+  Epoch 26/30 [   POLY] | Loss: 0.9072 | Train: 77.9% | Val: 75.2% | AUC: 0.9163 | LR: 7.12e-06
+  Epoch 27/30 [   POLY] | Loss: 0.9044 | Train: 77.2% | Val: 75.6% | AUC: 0.9189 | LR: 4.48e-06
+  Epoch 28/30 [   POLY] | Loss: 0.9003 | Train: 77.4% | Val: 75.3% | AUC: 0.9183 | LR: 2.56e-06
+  Epoch 29/30 [   POLY] | Loss: 0.8916 | Train: 78.5% | Val: 75.4% | AUC: 0.9181 | LR: 1.39e-06
+  Epoch 30/30 [   POLY] | Loss: 0.8918 | Train: 78.2% | Val: 75.5% | AUC: 0.9178 | LR: 1.00e-06
+/data1/parth/miniconda3/envs/deit_baseline/lib/python3.10/site-packages/sklearn/metrics/_classification.py:1731: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
+/data1/parth/miniconda3/envs/deit_baseline/lib/python3.10/site-packages/sklearn/metrics/_classification.py:1731: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
+/data1/parth/miniconda3/envs/deit_baseline/lib/python3.10/site-packages/sklearn/metrics/_classification.py:1731: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+  ┌─────────────────────────────────────────────────────┐
+  │  RESULTS: Poly-GELU DeiT-Tiny on DERMA            │
+  ├─────────────────────────────────────────────────────┤
+  │  Test Accuracy:    11.32%  (Δ  -65.34%)     │
+  │  Test AUC-ROC:    0.4904   (Δ  -0.4387)     │
+  │  Baseline Acc:     76.66%                       │
+  │  Baseline AUC:    0.9291                        │
+  │  Poly Degree:     2                              │
+  │  Best Epoch:        7                                │
+  └─────────────────────────────────────────────────────┘
+
+  Learned polynomial coefficients per block:
+    Block 0: f(x) = 0.2105·x² + 0.5166·x + 0.0535
+    Block 0: f(x) = 0.2105·x² + 0.5166·x + 0.0535
+    Block 1: f(x) = 0.2285·x² + 0.5066·x + 0.0498
+    Block 1: f(x) = 0.2285·x² + 0.5066·x + 0.0498
+    Block 2: f(x) = 0.2137·x² + 0.4994·x + 0.0829
+    Block 2: f(x) = 0.2137·x² + 0.4994·x + 0.0829
+    Block 3: f(x) = 0.1972·x² + 0.5155·x + 0.0792
+    Block 3: f(x) = 0.1972·x² + 0.5155·x + 0.0792
+    Block 4: f(x) = 0.2060·x² + 0.5087·x + 0.0627
+    Block 4: f(x) = 0.2060·x² + 0.5087·x + 0.0627
+    Block 5: f(x) = 0.2095·x² + 0.5075·x + 0.0619
+    Block 5: f(x) = 0.2095·x² + 0.5075·x + 0.0619
+    Block 6: f(x) = 0.2066·x² + 0.5101·x + 0.0596
+    Block 6: f(x) = 0.2066·x² + 0.5101·x + 0.0596
+    Block 7: f(x) = 0.2071·x² + 0.5091·x + 0.0612
+    Block 7: f(x) = 0.2071·x² + 0.5091·x + 0.0612
+    Block 8: f(x) = 0.2040·x² + 0.5114·x + 0.0594
+    Block 8: f(x) = 0.2040·x² + 0.5114·x + 0.0594
+    Block 9: f(x) = 0.2065·x² + 0.5075·x + 0.0650
+    Block 9: f(x) = 0.2065·x² + 0.5075·x + 0.0650
+    Block 10: f(x) = 0.2125·x² + 0.5034·x + 0.0677
+    Block 10: f(x) = 0.2125·x² + 0.5034·x + 0.0677
+    Block 11: f(x) = 0.2141·x² + 0.5022·x + 0.0677
+    Block 11: f(x) = 0.2141·x² + 0.5022·x + 0.0677
+
+  Per-class classification report:
+              precision    recall  f1-score   support
+
+     Class 0      0.000     0.000     0.000        66
+     Class 1      0.000     0.000     0.000       103
+     Class 2      0.000     0.000     0.000       220
+     Class 3      0.000     0.000     0.000        23
+     Class 4      0.112     1.000     0.201       223
+     Class 5      0.667     0.003     0.006      1341
+     Class 6      0.000     0.000     0.000        29
+
+    accuracy                          0.113      2005
+   macro avg      0.111     0.143     0.030      2005
+weighted avg      0.458     0.113     0.026      2005
+
+  Results saved to results_step2/derma/results.json
+
+=================================================================
+  Step 2: Polynomial GELU — BREAST
+  Degree: 2 | Transition: epochs 6→18
+=================================================================
+  Train: 546 | Val: 78 | Test: 156
+  Replaced 12 GELU activations with degree-2 polynomial
+  Total: 5.52M | Trainable: 1.78M
+  Polynomial parameters: 36 (12 layers × 3 coeffs)
+  Blocks frozen: 8/12 (poly coeffs remain trainable)
+
+  Initial polynomial coefficients (first layer):
+    f(x) = 0.2576·x² + 0.5000·x + 0.0711
+
+  Training for 30 epochs...
+  Transition schedule: GELU (ep 1-5) → blend (ep 6-18) → poly (ep 19-30)
+  Epoch  1/30 [   GELU] | Loss: 0.7725 | Train: 41.2% | Val: 73.1% | AUC: 0.6433 | LR: 2.00e-05
+  Epoch  2/30 [   GELU] | Loss: 0.6391 | Train: 72.7% | Val: 73.1% | AUC: 0.6926 | LR: 4.00e-05
+  Epoch  3/30 [   GELU] | Loss: 0.5951 | Train: 73.1% | Val: 73.1% | AUC: 0.7352 | LR: 6.00e-05
+  Epoch  4/30 [   GELU] | Loss: 0.5498 | Train: 74.0% | Val: 78.2% | AUC: 0.7310 | LR: 8.00e-05
+  Epoch  5/30 [   GELU] | Loss: 0.5323 | Train: 78.9% | Val: 76.9% | AUC: 0.7402 | LR: 1.00e-04
+  Epoch  6/30 [   GELU] | Loss: 0.5128 | Train: 78.2% | Val: 78.2% | AUC: 0.7393 | LR: 9.96e-05
+  Epoch  7/30 [ α=0.08] | Loss: 0.5798 | Train: 73.1% | Val: 73.1% | AUC: 0.7293 | LR: 9.84e-05
+  Epoch  8/30 [ α=0.17] | Loss: 0.6224 | Train: 73.1% | Val: 73.1% | AUC: 0.7034 | LR: 9.65e-05
+  Epoch  9/30 [ α=0.25] | Loss: 0.6113 | Train: 73.1% | Val: 73.1% | AUC: 0.7018 | LR: 9.39e-05
+  Epoch 10/30 [ α=0.33] | Loss: 0.6035 | Train: 73.1% | Val: 73.1% | AUC: 0.6834 | LR: 9.05e-05
+  Epoch 11/30 [ α=0.42] | Loss: 0.6054 | Train: 73.1% | Val: 73.1% | AUC: 0.7360 | LR: 8.66e-05
+  Epoch 12/30 [ α=0.50] | Loss: 0.6038 | Train: 73.1% | Val: 73.1% | AUC: 0.7343 | LR: 8.21e-05
+  Epoch 13/30 [ α=0.58] | Loss: 0.6098 | Train: 73.1% | Val: 73.1% | AUC: 0.7193 | LR: 7.70e-05
+  Epoch 14/30 [ α=0.67] | Loss: 0.6043 | Train: 73.1% | Val: 73.1% | AUC: 0.6992 | LR: 7.16e-05
+  Epoch 15/30 [ α=0.75] | Loss: 0.6082 | Train: 73.1% | Val: 73.1% | AUC: 0.7068 | LR: 6.58e-05
+  Epoch 16/30 [ α=0.83] | Loss: 0.6066 | Train: 73.1% | Val: 73.1% | AUC: 0.7310 | LR: 5.98e-05
+  Epoch 17/30 [ α=0.92] | Loss: 0.5990 | Train: 73.1% | Val: 73.1% | AUC: 0.7435 | LR: 5.36e-05
+  Epoch 18/30 [   POLY] | Loss: 0.5973 | Train: 73.1% | Val: 73.1% | AUC: 0.7452 | LR: 4.74e-05
+  Epoch 19/30 [   POLY] | Loss: 0.5984 | Train: 73.1% | Val: 73.1% | AUC: 0.7427 | LR: 4.12e-05
+  Epoch 20/30 [   POLY] | Loss: 0.5942 | Train: 73.1% | Val: 73.1% | AUC: 0.7402 | LR: 3.52e-05
+  Epoch 21/30 [   POLY] | Loss: 0.5898 | Train: 73.1% | Val: 73.1% | AUC: 0.7335 | LR: 2.94e-05
+  Epoch 22/30 [   POLY] | Loss: 0.5935 | Train: 73.1% | Val: 73.1% | AUC: 0.7343 | LR: 2.40e-05
+  Epoch 23/30 [   POLY] | Loss: 0.5926 | Train: 73.1% | Val: 73.1% | AUC: 0.7343 | LR: 1.89e-05
+  Epoch 24/30 [   POLY] | Loss: 0.5862 | Train: 73.1% | Val: 73.1% | AUC: 0.7343 | LR: 1.44e-05
+  Epoch 25/30 [   POLY] | Loss: 0.5887 | Train: 73.1% | Val: 73.1% | AUC: 0.7327 | LR: 1.05e-05
+  Epoch 26/30 [   POLY] | Loss: 0.5897 | Train: 73.1% | Val: 73.1% | AUC: 0.7327 | LR: 7.12e-06
+  Epoch 27/30 [   POLY] | Loss: 0.5918 | Train: 73.1% | Val: 73.1% | AUC: 0.7318 | LR: 4.48e-06
+  Epoch 28/30 [   POLY] | Loss: 0.5936 | Train: 73.1% | Val: 73.1% | AUC: 0.7318 | LR: 2.56e-06
+  Epoch 29/30 [   POLY] | Loss: 0.5945 | Train: 73.1% | Val: 73.1% | AUC: 0.7327 | LR: 1.39e-06
+  Epoch 30/30 [   POLY] | Loss: 0.5835 | Train: 73.1% | Val: 73.1% | AUC: 0.7327 | LR: 1.00e-06
+/data1/parth/miniconda3/envs/deit_baseline/lib/python3.10/site-packages/sklearn/metrics/_classification.py:1731: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
+/data1/parth/miniconda3/envs/deit_baseline/lib/python3.10/site-packages/sklearn/metrics/_classification.py:1731: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
+/data1/parth/miniconda3/envs/deit_baseline/lib/python3.10/site-packages/sklearn/metrics/_classification.py:1731: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
+
+  ┌─────────────────────────────────────────────────────┐
+  │  RESULTS: Poly-GELU DeiT-Tiny on BREAST           │
+  ├─────────────────────────────────────────────────────┤
+  │  Test Accuracy:    73.08%  (Δ  -14.10%)     │
+  │  Test AUC-ROC:    0.7536   (Δ  -0.1654)     │
+  │  Baseline Acc:     87.18%                       │
+  │  Baseline AUC:     0.919                        │
+  │  Poly Degree:     2                              │
+  │  Best Epoch:       18                                │
+  └─────────────────────────────────────────────────────┘
+
+  Learned polynomial coefficients per block:
+    Block 0: f(x) = 0.2565·x² + 0.4974·x + 0.0729
+    Block 0: f(x) = 0.2565·x² + 0.4974·x + 0.0729
+    Block 1: f(x) = 0.2570·x² + 0.4980·x + 0.0662
+    Block 1: f(x) = 0.2570·x² + 0.4980·x + 0.0662
+    Block 2: f(x) = 0.2509·x² + 0.5037·x + 0.0676
+    Block 2: f(x) = 0.2509·x² + 0.5037·x + 0.0676
+    Block 3: f(x) = 0.2495·x² + 0.5045·x + 0.0667
+    Block 3: f(x) = 0.2495·x² + 0.5045·x + 0.0667
+    Block 4: f(x) = 0.2502·x² + 0.5036·x + 0.0670
+    Block 4: f(x) = 0.2502·x² + 0.5036·x + 0.0670
+    Block 5: f(x) = 0.2492·x² + 0.5042·x + 0.0663
+    Block 5: f(x) = 0.2492·x² + 0.5042·x + 0.0663
+    Block 6: f(x) = 0.2494·x² + 0.5039·x + 0.0667
+    Block 6: f(x) = 0.2494·x² + 0.5039·x + 0.0667
+    Block 7: f(x) = 0.2499·x² + 0.5033·x + 0.0674
+    Block 7: f(x) = 0.2499·x² + 0.5033·x + 0.0674
+    Block 8: f(x) = 0.2510·x² + 0.5023·x + 0.0685
+    Block 8: f(x) = 0.2510·x² + 0.5023·x + 0.0685
+    Block 9: f(x) = 0.2527·x² + 0.5009·x + 0.0703
+    Block 9: f(x) = 0.2527·x² + 0.5009·x + 0.0703
+    Block 10: f(x) = 0.2529·x² + 0.5002·x + 0.0707
+    Block 10: f(x) = 0.2529·x² + 0.5002·x + 0.0707
+    Block 11: f(x) = 0.2533·x² + 0.5000·x + 0.0709
+    Block 11: f(x) = 0.2533·x² + 0.5000·x + 0.0709
+
+  Per-class classification report:
+              precision    recall  f1-score   support
+
+     Class 0      0.000     0.000     0.000        42
+     Class 1      0.731     1.000     0.844       114
+
+    accuracy                          0.731       156
+   macro avg      0.365     0.500     0.422       156
+weighted avg      0.534     0.731     0.617       156
+
+  Results saved to results_step2/breast/results.json
+
+=================================================================
+  Step 2: Polynomial GELU — PATH
+  Degree: 2 | Transition: epochs 6→18
+=================================================================
+  Train: 89996 | Val: 10004 | Test: 7180
+  Replaced 12 GELU activations with degree-2 polynomial
+  Total: 5.53M | Trainable: 1.78M
+  Polynomial parameters: 36 (12 layers × 3 coeffs)
+  Blocks frozen: 8/12 (poly coeffs remain trainable)
+
+  Initial polynomial coefficients (first layer):
+    f(x) = 0.2576·x² + 0.5000·x + 0.0711
+
+  Training for 30 epochs...
+  Transition schedule: GELU (ep 1-5) → blend (ep 6-18) → poly (ep 19-30)
+  Epoch  1/30 [   GELU] | Loss: 0.8800 | Train: 83.3% | Val: 89.8% | AUC: 0.9925 | LR: 2.00e-05
+  Epoch  2/30 [   GELU] | Loss: 0.6806 | Train: 91.6% | Val: 93.3% | AUC: 0.9962 | LR: 4.00e-05
+  Epoch  3/30 [   GELU] | Loss: 0.6399 | Train: 93.2% | Val: 94.7% | AUC: 0.9973 | LR: 6.00e-05
+  Epoch  4/30 [   GELU] | Loss: 0.6183 | Train: 94.2% | Val: 95.0% | AUC: 0.9977 | LR: 8.00e-05
+  Epoch  5/30 [   GELU] | Loss: 0.5989 | Train: 95.0% | Val: 95.5% | AUC: 0.9980 | LR: 1.00e-04
+  Epoch  6/30 [   GELU] | Loss: 0.5819 | Train: 95.8% | Val: 95.6% | AUC: 0.9979 | LR: 9.96e-05
+  Epoch  7/30 [ α=0.08] | Loss: 0.6394 | Train: 93.2% | Val: 96.0% | AUC: 0.9984 | LR: 9.84e-05
+  Epoch  8/30 [ α=0.17] | Loss: 0.5741 | Train: 96.1% | Val: 96.4% | AUC: 0.9989 | LR: 9.65e-05
+  Epoch  9/30 [ α=0.25] | Loss: 0.5650 | Train: 96.5% | Val: 96.0% | AUC: 0.9984 | LR: 9.39e-05
+  Epoch 10/30 [ α=0.33] | Loss: 0.5593 | Train: 96.8% | Val: 96.8% | AUC: 0.9990 | LR: 9.05e-05
+  Epoch 11/30 [ α=0.42] | Loss: 0.5544 | Train: 97.0% | Val: 97.1% | AUC: 0.9991 | LR: 8.66e-05
+  Epoch 12/30 [ α=0.50] | Loss: 0.5517 | Train: 97.1% | Val: 96.9% | AUC: 0.9990 | LR: 8.21e-05
+  Epoch 13/30 [ α=0.58] | Loss: 0.5514 | Train: 97.1% | Val: 97.5% | AUC: 0.9994 | LR: 7.70e-05
+  Epoch 14/30 [ α=0.67] | Loss: 0.5538 | Train: 97.0% | Val: 97.2% | AUC: 0.9991 | LR: 7.16e-05
+  Epoch 15/30 [ α=0.75] | Loss: 0.5576 | Train: 96.8% | Val: 97.0% | AUC: 0.9992 | LR: 6.58e-05
+  Epoch 16/30 [ α=0.83] | Loss: 0.5646 | Train: 96.5% | Val: 95.6% | AUC: 0.9984 | LR: 5.98e-05
+  Epoch 17/30 [ α=0.92] | Loss: 0.5724 | Train: 96.1% | Val: 96.3% | AUC: 0.9985 | LR: 5.36e-05
+  Epoch 18/30 [   POLY] | Loss: 0.5784 | Train: 95.8% | Val: 95.4% | AUC: 0.9982 | LR: 4.74e-05
+  Epoch 19/30 [   POLY] | Loss: 0.5636 | Train: 96.5% | Val: 95.8% | AUC: 0.9982 | LR: 4.12e-05
+  Epoch 20/30 [   POLY] | Loss: 0.5525 | Train: 97.0% | Val: 96.5% | AUC: 0.9985 | LR: 3.52e-05
+  Epoch 21/30 [   POLY] | Loss: 0.5445 | Train: 97.4% | Val: 97.3% | AUC: 0.9992 | LR: 2.94e-05
+  Epoch 22/30 [   POLY] | Loss: 0.5365 | Train: 97.8% | Val: 97.7% | AUC: 0.9993 | LR: 2.40e-05
+  Epoch 23/30 [   POLY] | Loss: 0.5312 | Train: 98.0% | Val: 98.0% | AUC: 0.9994 | LR: 1.89e-05
+  Epoch 24/30 [   POLY] | Loss: 0.5265 | Train: 98.2% | Val: 97.9% | AUC: 0.9994 | LR: 1.44e-05
+  Epoch 25/30 [   POLY] | Loss: 0.5218 | Train: 98.4% | Val: 98.2% | AUC: 0.9995 | LR: 1.05e-05
+  Epoch 26/30 [   POLY] | Loss: 0.5203 | Train: 98.5% | Val: 98.1% | AUC: 0.9995 | LR: 7.12e-06
+  Epoch 27/30 [   POLY] | Loss: 0.5170 | Train: 98.6% | Val: 98.3% | AUC: 0.9995 | LR: 4.48e-06
+  Epoch 28/30 [   POLY] | Loss: 0.5149 | Train: 98.7% | Val: 98.3% | AUC: 0.9996 | LR: 2.56e-06
+  Epoch 29/30 [   POLY] | Loss: 0.5139 | Train: 98.8% | Val: 98.3% | AUC: 0.9995 | LR: 1.39e-06
+  Epoch 30/30 [   POLY] | Loss: 0.5124 | Train: 98.8% | Val: 98.4% | AUC: 0.9996 | LR: 1.00e-06
+
+  ┌─────────────────────────────────────────────────────┐
+  │  RESULTS: Poly-GELU DeiT-Tiny on PATH             │
+  ├─────────────────────────────────────────────────────┤
+  │  Test Accuracy:    92.01%  (Δ   -1.86%)     │
+  │  Test AUC-ROC:    0.9848   (Δ  -0.0076)     │
+  │  Baseline Acc:     93.87%                       │
+  │  Baseline AUC:    0.9924                        │
+  │  Poly Degree:     2                              │
+  │  Best Epoch:       28                                │
+  └─────────────────────────────────────────────────────┘
+
+  Learned polynomial coefficients per block:
+    Block 0: f(x) = 0.1183·x² + 0.3086·x + -0.0295
+    Block 0: f(x) = 0.1183·x² + 0.3086·x + -0.0295
+    Block 1: f(x) = 0.1288·x² + 0.3294·x + 0.0190
+    Block 1: f(x) = 0.1288·x² + 0.3294·x + 0.0190
+    Block 2: f(x) = 0.1203·x² + 0.3103·x + 0.0207
+    Block 2: f(x) = 0.1203·x² + 0.3103·x + 0.0207
+    Block 3: f(x) = 0.0989·x² + 0.3414·x + 0.1294
+    Block 3: f(x) = 0.0989·x² + 0.3414·x + 0.1294
+    Block 4: f(x) = 0.1056·x² + 0.2991·x + 0.1745
+    Block 4: f(x) = 0.1056·x² + 0.2991·x + 0.1745
+    Block 5: f(x) = 0.0834·x² + 0.3397·x + 0.1385
+    Block 5: f(x) = 0.0834·x² + 0.3397·x + 0.1385
+    Block 6: f(x) = 0.0862·x² + 0.3304·x + 0.1686
+    Block 6: f(x) = 0.0862·x² + 0.3304·x + 0.1686
+    Block 7: f(x) = 0.0662·x² + 0.3241·x + 0.1586
+    Block 7: f(x) = 0.0662·x² + 0.3241·x + 0.1586
+    Block 8: f(x) = 0.0789·x² + 0.3262·x + 0.1700
+    Block 8: f(x) = 0.0789·x² + 0.3262·x + 0.1700
+    Block 9: f(x) = 0.0904·x² + 0.3160·x + 0.1257
+    Block 9: f(x) = 0.0904·x² + 0.3160·x + 0.1257
+    Block 10: f(x) = 0.1087·x² + 0.3378·x + 0.1200
+    Block 10: f(x) = 0.1087·x² + 0.3378·x + 0.1200
+    Block 11: f(x) = 0.1322·x² + 0.3710·x + 0.0956
+    Block 11: f(x) = 0.1322·x² + 0.3710·x + 0.0956
+
+  Per-class classification report:
+              precision    recall  f1-score   support
+
+     Class 0      0.968     0.989     0.978      1338
+     Class 1      0.930     1.000     0.964       847
+     Class 2      0.721     0.876     0.791       339
+     Class 3      0.929     0.992     0.960       634
+     Class 4      0.987     0.897     0.940      1035
+     Class 5      0.860     0.895     0.877       592
+     Class 6      0.949     0.897     0.922       741
+     Class 7      0.796     0.508     0.620       421
+     Class 8      0.911     0.951     0.931      1233
+
+    accuracy                          0.920      7180
+   macro avg      0.895     0.890     0.887      7180
+weighted avg      0.920     0.920     0.917      7180
+
+  Results saved to results_step2/path/results.json
+
+===========================================================================
+  SUMMARY: Step 2 — Polynomial GELU (degree-2) vs Step 1 Baseline
+===========================================================================
+  Dataset          Baseline  Poly-GELU    Δ Acc   Base AUC   Poly AUC    Δ AUC
+  ────────────────────────────────────────────────────────────────────────
+  retina             53.75%     17.00%  -36.75%     0.7505    0.5707  -0.1798
+  pneumonia          86.86%     87.34%   +0.48%     0.9712    0.9553  -0.0159
+  blood              95.32%     95.70%   +0.38%     0.9962    0.9969  +0.0007
+  derma              76.66%     11.32%  -65.34%     0.9291    0.4904  -0.4387
+  breast             87.18%     73.08%  -14.10%     0.9190    0.7536  -0.1654
+  path               93.87%     92.01%   -1.86%     0.9924    0.9848  -0.0076
+  ────────────────────────────────────────────────────────────────────────
+
+  Average accuracy change from GELU→polynomial: -19.53%
+  ⚠ Larger than expected — consider increasing polynomial degree or epochs
+
+  Next step: Replace softmax with MGF-softmax/Power-Softmax (Step 3)
+  Then: Apply KD from Step 1 teacher to recover accuracy (Step 5)
+
+Step 2 v1 complete. Results in results_step2/
+Timestamp: Friday 13 March 2026 06:11:55 PM IST
+
+═══════════════════════════════════════════════════
+  STEP 2 v2: Warm-start polynomial GELU
+  Output: results_step2v2/
+═══════════════════════════════════════════════════
+Device: cuda
+GPU: NVIDIA RTX A6000
+
+  ╔════════════════════════════════════════════════════════════╗
+  ║  Step 2v2: GELU → Polynomial (Warm-Start from Step 1)     ║
+  ║  Degree: 2  |  Init: gelu_fit    |  LR: 5e-05     ║
+  ║  Transition: epochs  3 → 15                          ║
+  ╚════════════════════════════════════════════════════════════╝
+
+=================================================================
+  Step 2v2: Warm-Start Polynomial GELU — RETINA
+  Degree: 2 | Transition: epochs 3→15
+=================================================================
+  Train: 1080 | Val: 120 | Test: 400
+  ✓ Loaded Step 1 checkpoint: results/retina/best_model.pth
+  Replaced 12 GELU → degree-2 polynomial (α=0, pure GELU mode)
+  Total: 5.53M | Trainable: 1.78M
+  Polynomial params: 36 (12 layers × 3 coeffs)
+  Blocks frozen: 8/12 (poly coeffs remain trainable)
+
+  ── Checkpoint Verification ──
+  Loaded model test acc:  53.75%
+  Step 1 baseline acc:    53.75%
+  Match: ✓ PASS
+
+  Initial polynomial coefficients (before training):
+    Block 0: f(x) = 0.2576·x² + 0.5000·x + 0.0711
+    Block 1: f(x) = 0.2576·x² + 0.5000·x + 0.0711
+
+  Training for 30 epochs (warm-start from Step 1)...
+  Schedule: warmup (ep 1-2) → transition (ep 3-15) → pure poly (ep 16-30)
+  Epoch  1/30 [   GELU] | Loss: 1.0896 | Train: 62.6% | Val: 52.5% | AUC: 0.7915 | LR: 2.50e-05
+  Epoch  2/30 [   GELU] | Loss: 1.0778 | Train: 62.2% | Val: 50.8% | AUC: 0.7697 | LR: 5.00e-05
+  Epoch  3/30 [   GELU] | Loss: 1.0843 | Train: 63.2% | Val: 53.3% | AUC: 0.7741 | LR: 4.98e-05
+  Epoch  4/30 [ α=0.08] | Loss: 1.5486 | Train: 31.8% | Val: 45.0% | AUC: 0.7165 | LR: 4.94e-05
+  Epoch  5/30 [ α=0.17] | Loss: 1.4550 | Train: 45.0% | Val: 45.0% | AUC: 0.5282 | LR: 4.86e-05
+  Epoch  6/30 [ α=0.25] | Loss: 1.4470 | Train: 45.0% | Val: 45.0% | AUC: 0.5149 | LR: 4.76e-05
+  Epoch  7/30 [ α=0.33] | Loss: 1.4492 | Train: 45.0% | Val: 45.0% | AUC: 0.6619 | LR: 4.62e-05
+  Epoch  8/30 [ α=0.42] | Loss: 1.4448 | Train: 45.0% | Val: 45.0% | AUC: 0.6840 | LR: 4.47e-05
+  Epoch  9/30 [ α=0.50] | Loss: 1.4482 | Train: 45.0% | Val: 45.0% | AUC: 0.6819 | LR: 4.28e-05
+  Epoch 10/30 [ α=0.58] | Loss: 1.4435 | Train: 45.0% | Val: 45.0% | AUC: 0.7056 | LR: 4.08e-05
+  Epoch 11/30 [ α=0.67] | Loss: 1.4440 | Train: 45.0% | Val: 45.0% | AUC: 0.7282 | LR: 3.85e-05
+  Epoch 12/30 [ α=0.75] | Loss: 1.4412 | Train: 45.0% | Val: 45.0% | AUC: 0.7266 | LR: 3.61e-05
+  Epoch 13/30 [ α=0.83] | Loss: 1.4398 | Train: 45.0% | Val: 45.0% | AUC: 0.7221 | LR: 3.36e-05
+  Epoch 14/30 [ α=0.92] | Loss: 1.4357 | Train: 45.0% | Val: 45.0% | AUC: 0.7154 | LR: 3.10e-05
+  Epoch 15/30 [   POLY] | Loss: 1.4318 | Train: 45.0% | Val: 45.0% | AUC: 0.7138 | LR: 2.82e-05
+  Epoch 16/30 [   POLY] | Loss: 1.4294 | Train: 45.0% | Val: 45.0% | AUC: 0.7112 | LR: 2.55e-05
+  Epoch 17/30 [   POLY] | Loss: 1.4234 | Train: 45.0% | Val: 45.0% | AUC: 0.7103 | LR: 2.28e-05
+  Epoch 18/30 [   POLY] | Loss: 1.4207 | Train: 45.0% | Val: 45.0% | AUC: 0.7077 | LR: 2.00e-05
+  Epoch 19/30 [   POLY] | Loss: 1.4140 | Train: 45.0% | Val: 45.0% | AUC: 0.7084 | LR: 1.74e-05
+  Epoch 20/30 [   POLY] | Loss: 1.4108 | Train: 45.0% | Val: 45.0% | AUC: 0.7076 | LR: 1.49e-05
+  Epoch 21/30 [   POLY] | Loss: 1.4067 | Train: 45.0% | Val: 45.0% | AUC: 0.7082 | LR: 1.25e-05
+  Epoch 22/30 [   POLY] | Loss: 1.4013 | Train: 45.0% | Val: 45.0% | AUC: 0.7084 | LR: 1.02e-05
+  Epoch 23/30 [   POLY] | Loss: 1.3985 | Train: 45.0% | Val: 45.0% | AUC: 0.7081 | LR: 8.18e-06
+  Epoch 24/30 [   POLY] | Loss: 1.3961 | Train: 45.0% | Val: 45.0% | AUC: 0.7081 | LR: 6.35e-06
+  Epoch 25/30 [   POLY] | Loss: 1.3950 | Train: 45.0% | Val: 45.0% | AUC: 0.7078 | LR: 4.76e-06
+  Epoch 26/30 [   POLY] | Loss: 1.3914 | Train: 45.1% | Val: 45.0% | AUC: 0.7076 | LR: 3.43e-06
+  Epoch 27/30 [   POLY] | Loss: 1.3900 | Train: 45.2% | Val: 45.0% | AUC: 0.7075 | LR: 2.37e-06
+  Epoch 28/30 [   POLY] | Loss: 1.3900 | Train: 45.1% | Val: 45.0% | AUC: 0.7076 | LR: 1.61e-06
+  Epoch 29/30 [   POLY] | Loss: 1.3864 | Train: 45.2% | Val: 45.0% | AUC: 0.7074 | LR: 1.15e-06
+  Epoch 30/30 [   POLY] | Loss: 1.3871 | Train: 45.3% | Val: 45.0% | AUC: 0.7075 | LR: 1.00e-06
+
+  Loaded best POLY-phase checkpoint (epoch 15)
+
+  ┌─────────────────────────────────────────────────────────┐
+  │  RESULTS: Poly-GELU DeiT-Tiny (warm-start)             │
+  │  Dataset: RETINA                                   │
+  ├─────────────────────────────────────────────────────────┤
+  │  Step 1 Baseline:   53.75%  (AUC: 0.7505)      │
+  │  Step 2v2 Result:   43.50%  (AUC: 0.6908)      │
+  │  Δ Accuracy:       -10.25%                           │
+  │  Δ AUC:            -0.0597                           │
+  │  Poly Degree:      2                                │
+  │  Best Epoch:        15                                  │
+  │  Train Time:       66.1s                           │
+  └─────────────────────────────────────────────────────────┘
+
+  Learned polynomial coefficients per block:
+    Block 0: f(x) = 0.2592·x² + 0.4991·x + 0.0779
+    Block 1: f(x) = 0.2571·x² + 0.5031·x + 0.0657
+    Block 2: f(x) = 0.2543·x² + 0.5061·x + 0.0705
+    Block 3: f(x) = 0.2586·x² + 0.5067·x + 0.0629
+    Block 4: f(x) = 0.2506·x² + 0.5070·x + 0.0631
+    Block 5: f(x) = 0.2510·x² + 0.5068·x + 0.0636
+    Block 6: f(x) = 0.2520·x² + 0.5055·x + 0.0650
+    Block 7: f(x) = 0.2536·x² + 0.5035·x + 0.0675
+    Block 8: f(x) = 0.2558·x² + 0.5019·x + 0.0696
+    Block 9: f(x) = 0.2575·x² + 0.4998·x + 0.0711
+    Block 10: f(x) = 0.2582·x² + 0.4994·x + 0.0711
+    Block 11: f(x) = 0.2566·x² + 0.5007·x + 0.0701
+
+  Per-class classification report:
+              precision    recall  f1-score   support
+
+     Class 0      0.435     1.000     0.606       174
+     Class 1      0.000     0.000     0.000        46
+     Class 2      0.000     0.000     0.000        92
+     Class 3      0.000     0.000     0.000        68
+     Class 4      0.000     0.000     0.000        20
+
+    accuracy                          0.435       400
+   macro avg      0.087     0.200     0.121       400
+weighted avg      0.189     0.435     0.264       400
+
+  Results saved to results_step2v2/retina/results.json
+
+=================================================================
+  Step 2v2: Warm-Start Polynomial GELU — PNEUMONIA
+  Degree: 2 | Transition: epochs 3→15
+=================================================================
+  Train: 4708 | Val: 524 | Test: 624
+  ✓ Loaded Step 1 checkpoint: results/pneumonia/best_model.pth
+  Replaced 12 GELU → degree-2 polynomial (α=0, pure GELU mode)
+  Total: 5.52M | Trainable: 1.78M
+  Polynomial params: 36 (12 layers × 3 coeffs)
+  Blocks frozen: 8/12 (poly coeffs remain trainable)
+
+  ── Checkpoint Verification ──
+  Loaded model test acc:  86.86%
+  Step 1 baseline acc:    86.86%
+  Match: ✓ PASS
+
+  Initial polynomial coefficients (before training):
+    Block 0: f(x) = 0.2576·x² + 0.5000·x + 0.0711
+    Block 1: f(x) = 0.2576·x² + 0.5000·x + 0.0711
+
+  Training for 30 epochs (warm-start from Step 1)...
+  Schedule: warmup (ep 1-2) → transition (ep 3-15) → pure poly (ep 16-30)
+  Epoch  1/30 [   GELU] | Loss: 0.2459 | Train: 97.2% | Val: 96.0% | AUC: 0.9930 | LR: 2.50e-05
+  Epoch  2/30 [   GELU] | Loss: 0.2492 | Train: 96.8% | Val: 96.0% | AUC: 0.9886 | LR: 5.00e-05
+  Epoch  3/30 [   GELU] | Loss: 0.2491 | Train: 97.0% | Val: 95.8% | AUC: 0.9944 | LR: 4.98e-05
+  Epoch  4/30 [ α=0.08] | Loss: 0.4600 | Train: 80.2% | Val: 92.2% | AUC: 0.9854 | LR: 4.94e-05
+  Epoch  5/30 [ α=0.17] | Loss: 0.5603 | Train: 73.6% | Val: 84.9% | AUC: 0.9551 | LR: 4.86e-05
+  Epoch  6/30 [ α=0.25] | Loss: 0.5238 | Train: 75.1% | Val: 84.7% | AUC: 0.9370 | LR: 4.76e-05
+  Epoch  7/30 [ α=0.33] | Loss: 0.5723 | Train: 71.6% | Val: 85.7% | AUC: 0.9336 | LR: 4.62e-05
+  Epoch  8/30 [ α=0.42] | Loss: 0.5492 | Train: 74.3% | Val: 83.8% | AUC: 0.9298 | LR: 4.47e-05
+  Epoch  9/30 [ α=0.50] | Loss: 0.5722 | Train: 70.8% | Val: 82.3% | AUC: 0.9226 | LR: 4.28e-05
+  Epoch 10/30 [ α=0.58] | Loss: 0.5333 | Train: 74.7% | Val: 78.4% | AUC: 0.9169 | LR: 4.08e-05
+  Epoch 11/30 [ α=0.67] | Loss: 0.4732 | Train: 81.3% | Val: 83.2% | AUC: 0.9212 | LR: 3.85e-05
+  Epoch 12/30 [ α=0.75] | Loss: 0.4449 | Train: 82.8% | Val: 81.7% | AUC: 0.9168 | LR: 3.61e-05
+  Epoch 13/30 [ α=0.83] | Loss: 0.4304 | Train: 84.3% | Val: 81.5% | AUC: 0.9158 | LR: 3.36e-05
+  Epoch 14/30 [ α=0.92] | Loss: 0.4260 | Train: 84.9% | Val: 78.2% | AUC: 0.8813 | LR: 3.10e-05
+  Epoch 15/30 [   POLY] | Loss: 0.4196 | Train: 84.7% | Val: 78.6% | AUC: 0.8283 | LR: 2.82e-05
+  Epoch 16/30 [   POLY] | Loss: 0.4160 | Train: 85.4% | Val: 78.4% | AUC: 0.8458 | LR: 2.55e-05
+  Epoch 17/30 [   POLY] | Loss: 0.4157 | Train: 85.7% | Val: 79.0% | AUC: 0.8801 | LR: 2.28e-05
+  Epoch 18/30 [   POLY] | Loss: 0.4085 | Train: 85.9% | Val: 80.9% | AUC: 0.9048 | LR: 2.00e-05
+  Epoch 19/30 [   POLY] | Loss: 0.4048 | Train: 86.1% | Val: 81.5% | AUC: 0.8998 | LR: 1.74e-05
+  Epoch 20/30 [   POLY] | Loss: 0.4039 | Train: 86.2% | Val: 80.9% | AUC: 0.9004 | LR: 1.49e-05
+  Epoch 21/30 [   POLY] | Loss: 0.3953 | Train: 86.7% | Val: 80.7% | AUC: 0.8808 | LR: 1.25e-05
+  Epoch 22/30 [   POLY] | Loss: 0.3890 | Train: 87.7% | Val: 82.1% | AUC: 0.8927 | LR: 1.02e-05
+  Epoch 23/30 [   POLY] | Loss: 0.3916 | Train: 87.0% | Val: 83.0% | AUC: 0.8902 | LR: 8.18e-06
+  Epoch 24/30 [   POLY] | Loss: 0.3815 | Train: 88.1% | Val: 81.7% | AUC: 0.9021 | LR: 6.35e-06
+  Epoch 25/30 [   POLY] | Loss: 0.3812 | Train: 88.3% | Val: 84.5% | AUC: 0.9088 | LR: 4.76e-06
+  Epoch 26/30 [   POLY] | Loss: 0.3773 | Train: 88.1% | Val: 83.4% | AUC: 0.9035 | LR: 3.43e-06
+  Epoch 27/30 [   POLY] | Loss: 0.3775 | Train: 88.2% | Val: 83.4% | AUC: 0.9059 | LR: 2.37e-06
+  Epoch 28/30 [   POLY] | Loss: 0.3757 | Train: 88.1% | Val: 81.1% | AUC: 0.9047 | LR: 1.61e-06
+  Epoch 29/30 [   POLY] | Loss: 0.3770 | Train: 88.1% | Val: 83.6% | AUC: 0.9110 | LR: 1.15e-06
+  Epoch 30/30 [   POLY] | Loss: 0.3712 | Train: 88.5% | Val: 84.2% | AUC: 0.9123 | LR: 1.00e-06
+
+  Loaded best POLY-phase checkpoint (epoch 30)
+
+  ┌─────────────────────────────────────────────────────────┐
+  │  RESULTS: Poly-GELU DeiT-Tiny (warm-start)             │
+  │  Dataset: PNEUMONIA                                │
+  ├─────────────────────────────────────────────────────────┤
+  │  Step 1 Baseline:   86.86%  (AUC: 0.9712)      │
+  │  Step 2v2 Result:   77.72%  (AUC: 0.8611)      │
+  │  Δ Accuracy:        -9.14%                           │
+  │  Δ AUC:            -0.1101                           │
+  │  Poly Degree:      2                                │
+  │  Best Epoch:        30                                  │
+  │  Train Time:       197.1s                           │
+  └─────────────────────────────────────────────────────────┘
+
+  Learned polynomial coefficients per block:
+    Block 0: f(x) = 0.2599·x² + 0.4986·x + 0.0733
+    Block 1: f(x) = 0.2573·x² + 0.5014·x + 0.0695
+    Block 2: f(x) = 0.2503·x² + 0.5118·x + 0.0514
+    Block 3: f(x) = 0.2444·x² + 0.5162·x + 0.0528
+    Block 4: f(x) = 0.2362·x² + 0.5199·x + 0.0464
+    Block 5: f(x) = 0.2363·x² + 0.5194·x + 0.0500
+    Block 6: f(x) = 0.2388·x² + 0.5165·x + 0.0535
+    Block 7: f(x) = 0.2437·x² + 0.5111·x + 0.0590
+    Block 8: f(x) = 0.2507·x² + 0.5063·x + 0.0636
+    Block 9: f(x) = 0.2496·x² + 0.5061·x + 0.0642
+    Block 10: f(x) = 0.2554·x² + 0.5016·x + 0.0672
+    Block 11: f(x) = 0.2562·x² + 0.5009·x + 0.0683
+
+  Per-class classification report:
+              precision    recall  f1-score   support
+
+     Class 0      0.847     0.496     0.625       234
+     Class 1      0.758     0.946     0.842       390
+
+    accuracy                          0.777       624
+   macro avg      0.802     0.721     0.733       624
+weighted avg      0.791     0.777     0.760       624
+
+  Results saved to results_step2v2/pneumonia/results.json
+
+=================================================================
+  Step 2v2: Warm-Start Polynomial GELU — BLOOD
+  Degree: 2 | Transition: epochs 3→15
+=================================================================
+  Train: 11959 | Val: 1712 | Test: 3421
+  ✓ Loaded Step 1 checkpoint: results/blood/best_model.pth
+  Replaced 12 GELU → degree-2 polynomial (α=0, pure GELU mode)
+  Total: 5.53M | Trainable: 1.78M
+  Polynomial params: 36 (12 layers × 3 coeffs)
+  Blocks frozen: 8/12 (poly coeffs remain trainable)
+
+  ── Checkpoint Verification ──
+  Loaded model test acc:  95.32%
+  Step 1 baseline acc:    95.32%
+  Match: ✓ PASS
+
+  Initial polynomial coefficients (before training):
+    Block 0: f(x) = 0.2576·x² + 0.5000·x + 0.0711
+    Block 1: f(x) = 0.2576·x² + 0.5000·x + 0.0711
+
+  Training for 30 epochs (warm-start from Step 1)...
+  Schedule: warmup (ep 1-2) → transition (ep 3-15) → pure poly (ep 16-30)
+  Epoch  1/30 [   GELU] | Loss: 0.5057 | Train: 98.3% | Val: 95.1% | AUC: 0.9967 | LR: 2.50e-05
+  Epoch  2/30 [   GELU] | Loss: 0.5090 | Train: 98.2% | Val: 95.2% | AUC: 0.9962 | LR: 5.00e-05
+  Epoch  3/30 [   GELU] | Loss: 0.5131 | Train: 98.0% | Val: 95.5% | AUC: 0.9963 | LR: 4.98e-05
+  Epoch  4/30 [ α=0.08] | Loss: 1.0000 | Train: 76.1% | Val: 94.0% | AUC: 0.9965 | LR: 4.94e-05
+  Epoch  5/30 [ α=0.17] | Loss: 0.7251 | Train: 88.4% | Val: 92.9% | AUC: 0.9968 | LR: 4.86e-05
+  Epoch  6/30 [ α=0.25] | Loss: 0.6883 | Train: 89.7% | Val: 93.5% | AUC: 0.9964 | LR: 4.76e-05
+  Epoch  7/30 [ α=0.33] | Loss: 0.6613 | Train: 91.0% | Val: 93.6% | AUC: 0.9969 | LR: 4.62e-05
+  Epoch  8/30 [ α=0.42] | Loss: 0.6596 | Train: 91.1% | Val: 92.0% | AUC: 0.9960 | LR: 4.47e-05
+  Epoch  9/30 [ α=0.50] | Loss: 0.6551 | Train: 91.2% | Val: 91.6% | AUC: 0.9954 | LR: 4.28e-05
+  Epoch 10/30 [ α=0.58] | Loss: 0.6617 | Train: 91.2% | Val: 93.3% | AUC: 0.9957 | LR: 4.08e-05
+  Epoch 11/30 [ α=0.67] | Loss: 0.6587 | Train: 91.2% | Val: 91.9% | AUC: 0.9951 | LR: 3.85e-05
+  Epoch 12/30 [ α=0.75] | Loss: 0.6604 | Train: 91.3% | Val: 92.1% | AUC: 0.9954 | LR: 3.61e-05
+  Epoch 13/30 [ α=0.83] | Loss: 0.6733 | Train: 90.4% | Val: 91.0% | AUC: 0.9938 | LR: 3.36e-05
+  Epoch 14/30 [ α=0.92] | Loss: 0.6756 | Train: 90.4% | Val: 91.4% | AUC: 0.9939 | LR: 3.10e-05
+  Epoch 15/30 [   POLY] | Loss: 0.6799 | Train: 90.1% | Val: 90.1% | AUC: 0.9925 | LR: 2.82e-05
+  Epoch 16/30 [   POLY] | Loss: 0.6501 | Train: 91.6% | Val: 92.2% | AUC: 0.9949 | LR: 2.55e-05
+  Epoch 17/30 [   POLY] | Loss: 0.6380 | Train: 92.3% | Val: 93.2% | AUC: 0.9952 | LR: 2.28e-05
+  Epoch 18/30 [   POLY] | Loss: 0.6254 | Train: 92.7% | Val: 91.9% | AUC: 0.9943 | LR: 2.00e-05
+  Epoch 19/30 [   POLY] | Loss: 0.6127 | Train: 93.4% | Val: 93.6% | AUC: 0.9952 | LR: 1.74e-05
+  Epoch 20/30 [   POLY] | Loss: 0.6090 | Train: 93.6% | Val: 92.6% | AUC: 0.9948 | LR: 1.49e-05
+  Epoch 21/30 [   POLY] | Loss: 0.6004 | Train: 94.0% | Val: 93.6% | AUC: 0.9960 | LR: 1.25e-05
+  Epoch 22/30 [   POLY] | Loss: 0.5952 | Train: 94.3% | Val: 93.6% | AUC: 0.9962 | LR: 1.02e-05
+  Epoch 23/30 [   POLY] | Loss: 0.5883 | Train: 94.5% | Val: 94.5% | AUC: 0.9966 | LR: 8.18e-06
+  Epoch 24/30 [   POLY] | Loss: 0.5837 | Train: 94.9% | Val: 94.0% | AUC: 0.9964 | LR: 6.35e-06
+  Epoch 25/30 [   POLY] | Loss: 0.5845 | Train: 94.6% | Val: 94.5% | AUC: 0.9968 | LR: 4.76e-06
+  Epoch 26/30 [   POLY] | Loss: 0.5801 | Train: 94.9% | Val: 94.2% | AUC: 0.9968 | LR: 3.43e-06
+  Epoch 27/30 [   POLY] | Loss: 0.5763 | Train: 95.1% | Val: 94.6% | AUC: 0.9970 | LR: 2.37e-06
+  Epoch 28/30 [   POLY] | Loss: 0.5759 | Train: 95.0% | Val: 94.6% | AUC: 0.9967 | LR: 1.61e-06
+  Epoch 29/30 [   POLY] | Loss: 0.5756 | Train: 94.9% | Val: 94.8% | AUC: 0.9969 | LR: 1.15e-06
+  Epoch 30/30 [   POLY] | Loss: 0.5697 | Train: 95.4% | Val: 94.8% | AUC: 0.9969 | LR: 1.00e-06
+
+  Loaded best POLY-phase checkpoint (epoch 27)
+
+  ┌─────────────────────────────────────────────────────────┐
+  │  RESULTS: Poly-GELU DeiT-Tiny (warm-start)             │
+  │  Dataset: BLOOD                                    │
+  ├─────────────────────────────────────────────────────────┤
+  │  Step 1 Baseline:   95.32%  (AUC: 0.9962)      │
+  │  Step 2v2 Result:   94.30%  (AUC: 0.9965)      │
+  │  Δ Accuracy:        -1.02%                           │
+  │  Δ AUC:            +0.0003                           │
+  │  Poly Degree:      2                                │
+  │  Best Epoch:        27                                  │
+  │  Train Time:       461.8s                           │
+  └─────────────────────────────────────────────────────────┘
+
+  Learned polynomial coefficients per block:
+    Block 0: f(x) = 0.2073·x² + 0.5293·x + 0.0359
+    Block 1: f(x) = 0.2501·x² + 0.4834·x + 0.0757
+    Block 2: f(x) = 0.2117·x² + 0.5427·x + 0.0445
+    Block 3: f(x) = 0.2356·x² + 0.5192·x + 0.0492
+    Block 4: f(x) = 0.2229·x² + 0.5263·x + 0.0353
+    Block 5: f(x) = 0.2147·x² + 0.5327·x + 0.0327
+    Block 6: f(x) = 0.2179·x² + 0.5306·x + 0.0370
+    Block 7: f(x) = 0.2183·x² + 0.5244·x + 0.0510
+    Block 8: f(x) = 0.2322·x² + 0.5166·x + 0.0564
+    Block 9: f(x) = 0.2357·x² + 0.5162·x + 0.0534
+    Block 10: f(x) = 0.2440·x² + 0.5087·x + 0.0601
+    Block 11: f(x) = 0.2393·x² + 0.5173·x + 0.0512
+
+  Per-class classification report:
+              precision    recall  f1-score   support
+
+     Class 0      0.819     0.963     0.885       244
+     Class 1      0.987     0.992     0.990       624
+     Class 2      0.966     0.916     0.941       311
+     Class 3      0.890     0.870     0.880       579
+     Class 4      0.927     0.942     0.935       243
+     Class 5      0.902     0.842     0.871       284
+     Class 6      0.973     0.973     0.973       666
+     Class 7      0.998     0.994     0.996       470
+
+    accuracy                          0.943      3421
+   macro avg      0.933     0.937     0.934      3421
+weighted avg      0.944     0.943     0.943      3421
+
+  Results saved to results_step2v2/blood/results.json
+
+=================================================================
+  Step 2v2: Warm-Start Polynomial GELU — DERMA
+  Degree: 2 | Transition: epochs 3→15
+=================================================================
+  Train: 7007 | Val: 1003 | Test: 2005
+  ✓ Loaded Step 1 checkpoint: results/derma/best_model.pth
+  Replaced 12 GELU → degree-2 polynomial (α=0, pure GELU mode)
+  Total: 5.53M | Trainable: 1.78M
+  Polynomial params: 36 (12 layers × 3 coeffs)
+  Blocks frozen: 8/12 (poly coeffs remain trainable)
+
+  ── Checkpoint Verification ──
+  Loaded model test acc:  76.66%
+  Step 1 baseline acc:    76.66%
+  Match: ✓ PASS
+
+  Initial polynomial coefficients (before training):
+    Block 0: f(x) = 0.2576·x² + 0.5000·x + 0.0711
+    Block 1: f(x) = 0.2576·x² + 0.5000·x + 0.0711
+
+  Training for 30 epochs (warm-start from Step 1)...
+  Schedule: warmup (ep 1-2) → transition (ep 3-15) → pure poly (ep 16-30)
+  Epoch  1/30 [   GELU] | Loss: 0.7766 | Train: 84.3% | Val: 75.9% | AUC: 0.9230 | LR: 2.50e-05
+  Epoch  2/30 [   GELU] | Loss: 0.7697 | Train: 84.4% | Val: 75.5% | AUC: 0.9220 | LR: 5.00e-05
+  Epoch  3/30 [   GELU] | Loss: 0.7544 | Train: 85.1% | Val: 75.8% | AUC: 0.9178 | LR: 4.98e-05
+  Epoch  4/30 [ α=0.08] | Loss: 1.1834 | Train: 67.1% | Val: 74.5% | AUC: 0.9016 | LR: 4.94e-05
+  Epoch  5/30 [ α=0.17] | Loss: 1.1589 | Train: 67.1% | Val: 72.2% | AUC: 0.8858 | LR: 4.86e-05
+  Epoch  6/30 [ α=0.25] | Loss: 1.1114 | Train: 69.0% | Val: 74.5% | AUC: 0.8960 | LR: 4.76e-05
+  Epoch  7/30 [ α=0.33] | Loss: 1.1093 | Train: 68.9% | Val: 72.3% | AUC: 0.8997 | LR: 4.62e-05
+  Epoch  8/30 [ α=0.42] | Loss: 1.1341 | Train: 68.9% | Val: 71.0% | AUC: 0.8870 | LR: 4.47e-05
+  Epoch  9/30 [ α=0.50] | Loss: 1.1176 | Train: 69.2% | Val: 73.3% | AUC: 0.8776 | LR: 4.28e-05
+  Epoch 10/30 [ α=0.58] | Loss: 1.1112 | Train: 69.2% | Val: 71.9% | AUC: 0.8763 | LR: 4.08e-05
+  Epoch 11/30 [ α=0.67] | Loss: 1.0853 | Train: 70.0% | Val: 71.5% | AUC: 0.8833 | LR: 3.85e-05
+  Epoch 12/30 [ α=0.75] | Loss: 1.0751 | Train: 70.3% | Val: 72.4% | AUC: 0.8867 | LR: 3.61e-05
+  Epoch 13/30 [ α=0.83] | Loss: 1.0760 | Train: 70.2% | Val: 68.8% | AUC: 0.8746 | LR: 3.36e-05
+  Epoch 14/30 [ α=0.92] | Loss: 1.0727 | Train: 70.4% | Val: 70.9% | AUC: 0.8721 | LR: 3.10e-05
+  Epoch 15/30 [   POLY] | Loss: 1.0678 | Train: 70.5% | Val: 68.0% | AUC: 0.8632 | LR: 2.82e-05
+  Epoch 16/30 [   POLY] | Loss: 1.0522 | Train: 70.8% | Val: 69.0% | AUC: 0.8708 | LR: 2.55e-05
+  Epoch 17/30 [   POLY] | Loss: 1.0343 | Train: 71.8% | Val: 72.6% | AUC: 0.8846 | LR: 2.28e-05
+  Epoch 18/30 [   POLY] | Loss: 1.0311 | Train: 71.7% | Val: 73.1% | AUC: 0.8897 | LR: 2.00e-05
+  Epoch 19/30 [   POLY] | Loss: 1.0184 | Train: 72.3% | Val: 73.7% | AUC: 0.8925 | LR: 1.74e-05
+  Epoch 20/30 [   POLY] | Loss: 1.0105 | Train: 72.7% | Val: 73.1% | AUC: 0.8962 | LR: 1.49e-05
+  Epoch 21/30 [   POLY] | Loss: 1.0035 | Train: 72.8% | Val: 74.9% | AUC: 0.8955 | LR: 1.25e-05
+  Epoch 22/30 [   POLY] | Loss: 1.0022 | Train: 73.3% | Val: 75.2% | AUC: 0.8995 | LR: 1.02e-05
+  Epoch 23/30 [   POLY] | Loss: 0.9947 | Train: 73.7% | Val: 74.1% | AUC: 0.8983 | LR: 8.18e-06
+  Epoch 24/30 [   POLY] | Loss: 0.9905 | Train: 74.0% | Val: 74.9% | AUC: 0.9026 | LR: 6.35e-06
+  Epoch 25/30 [   POLY] | Loss: 0.9947 | Train: 73.6% | Val: 74.5% | AUC: 0.9012 | LR: 4.76e-06
+  Epoch 26/30 [   POLY] | Loss: 0.9849 | Train: 73.9% | Val: 74.2% | AUC: 0.9009 | LR: 3.43e-06
+  Epoch 27/30 [   POLY] | Loss: 0.9870 | Train: 74.0% | Val: 75.1% | AUC: 0.9021 | LR: 2.37e-06
+  Epoch 28/30 [   POLY] | Loss: 0.9842 | Train: 73.8% | Val: 75.0% | AUC: 0.9031 | LR: 1.61e-06
+  Epoch 29/30 [   POLY] | Loss: 0.9745 | Train: 74.6% | Val: 74.7% | AUC: 0.9027 | LR: 1.15e-06
+  Epoch 30/30 [   POLY] | Loss: 0.9811 | Train: 74.1% | Val: 74.5% | AUC: 0.9022 | LR: 1.00e-06
+
+  Loaded best POLY-phase checkpoint (epoch 28)
+
+  ┌─────────────────────────────────────────────────────────┐
+  │  RESULTS: Poly-GELU DeiT-Tiny (warm-start)             │
+  │  Dataset: DERMA                                    │
+  ├─────────────────────────────────────────────────────────┤
+  │  Step 1 Baseline:   76.66%  (AUC: 0.9291)      │
+  │  Step 2v2 Result:   73.57%  (AUC: 0.8943)      │
+  │  Δ Accuracy:        -3.09%                           │
+  │  Δ AUC:            -0.0348                           │
+  │  Poly Degree:      2                                │
+  │  Best Epoch:        28                                  │
+  │  Train Time:       282.3s                           │
+  └─────────────────────────────────────────────────────────┘
+
+  Learned polynomial coefficients per block:
+    Block 0: f(x) = 0.2427·x² + 0.5238·x + 0.0538
+    Block 1: f(x) = 0.2405·x² + 0.5046·x + 0.0613
+    Block 2: f(x) = 0.2465·x² + 0.5063·x + 0.0708
+    Block 3: f(x) = 0.2315·x² + 0.5298·x + 0.0471
+    Block 4: f(x) = 0.2234·x² + 0.5320·x + 0.0364
+    Block 5: f(x) = 0.2207·x² + 0.5321·x + 0.0377
+    Block 6: f(x) = 0.2261·x² + 0.5273·x + 0.0413
+    Block 7: f(x) = 0.2307·x² + 0.5191·x + 0.0549
+    Block 8: f(x) = 0.2459·x² + 0.5078·x + 0.0639
+    Block 9: f(x) = 0.2458·x² + 0.5081·x + 0.0606
+    Block 10: f(x) = 0.2536·x² + 0.5019·x + 0.0667
+    Block 11: f(x) = 0.2524·x² + 0.5036·x + 0.0644
+
+  Per-class classification report:
+              precision    recall  f1-score   support
+
+     Class 0      0.533     0.242     0.333        66
+     Class 1      0.435     0.359     0.394       103
+     Class 2      0.507     0.336     0.404       220
+     Class 3      0.000     0.000     0.000        23
+     Class 4      0.468     0.296     0.363       223
+     Class 5      0.801     0.943     0.866      1341
+     Class 6      0.708     0.586     0.642        29
+
+    accuracy                          0.736      2005
+   macro avg      0.493     0.395     0.429      2005
+weighted avg      0.694     0.736     0.705      2005
+
+  Results saved to results_step2v2/derma/results.json
+
+=================================================================
+  Step 2v2: Warm-Start Polynomial GELU — BREAST
+  Degree: 2 | Transition: epochs 3→15
+=================================================================
+  Train: 546 | Val: 78 | Test: 156
+  ✓ Loaded Step 1 checkpoint: results/breast/best_model.pth
+  Replaced 12 GELU → degree-2 polynomial (α=0, pure GELU mode)
+  Total: 5.52M | Trainable: 1.78M
+  Polynomial params: 36 (12 layers × 3 coeffs)
+  Blocks frozen: 8/12 (poly coeffs remain trainable)
+
+  ── Checkpoint Verification ──
+  Loaded model test acc:  87.18%
+  Step 1 baseline acc:    87.18%
+  Match: ✓ PASS
+
+  Initial polynomial coefficients (before training):
+    Block 0: f(x) = 0.2576·x² + 0.5000·x + 0.0711
+    Block 1: f(x) = 0.2576·x² + 0.5000·x + 0.0711
+
+  Training for 30 epochs (warm-start from Step 1)...
+  Schedule: warmup (ep 1-2) → transition (ep 3-15) → pure poly (ep 16-30)
+  Epoch  1/30 [   GELU] | Loss: 0.3904 | Train: 88.3% | Val: 88.5% | AUC: 0.8655 | LR: 2.50e-05
+  Epoch  2/30 [   GELU] | Loss: 0.3879 | Train: 88.1% | Val: 87.2% | AUC: 0.8780 | LR: 5.00e-05
+  Epoch  3/30 [   GELU] | Loss: 0.3798 | Train: 89.7% | Val: 85.9% | AUC: 0.8655 | LR: 4.98e-05
+  Epoch  4/30 [ α=0.08] | Loss: 0.5923 | Train: 73.1% | Val: 73.1% | AUC: 0.7970 | LR: 4.94e-05
+  Epoch  5/30 [ α=0.17] | Loss: 0.6172 | Train: 73.1% | Val: 73.1% | AUC: 0.6550 | LR: 4.86e-05
+  Epoch  6/30 [ α=0.25] | Loss: 0.6101 | Train: 73.1% | Val: 73.1% | AUC: 0.6700 | LR: 4.76e-05
+  Epoch  7/30 [ α=0.33] | Loss: 0.6060 | Train: 73.1% | Val: 73.1% | AUC: 0.6566 | LR: 4.62e-05
+  Epoch  8/30 [ α=0.42] | Loss: 0.6087 | Train: 73.1% | Val: 73.1% | AUC: 0.7226 | LR: 4.47e-05
+  Epoch  9/30 [ α=0.50] | Loss: 0.6051 | Train: 73.1% | Val: 73.1% | AUC: 0.7093 | LR: 4.28e-05
+  Epoch 10/30 [ α=0.58] | Loss: 0.6013 | Train: 73.1% | Val: 73.1% | AUC: 0.6767 | LR: 4.08e-05
+  Epoch 11/30 [ α=0.67] | Loss: 0.6002 | Train: 73.1% | Val: 73.1% | AUC: 0.6692 | LR: 3.85e-05
+  Epoch 12/30 [ α=0.75] | Loss: 0.6081 | Train: 73.1% | Val: 73.1% | AUC: 0.6884 | LR: 3.61e-05
+  Epoch 13/30 [ α=0.83] | Loss: 0.6046 | Train: 73.1% | Val: 73.1% | AUC: 0.7201 | LR: 3.36e-05
+  Epoch 14/30 [ α=0.92] | Loss: 0.6085 | Train: 73.1% | Val: 73.1% | AUC: 0.7402 | LR: 3.10e-05
+  Epoch 15/30 [   POLY] | Loss: 0.6039 | Train: 73.1% | Val: 73.1% | AUC: 0.7494 | LR: 2.82e-05
+  Epoch 16/30 [   POLY] | Loss: 0.6017 | Train: 73.1% | Val: 73.1% | AUC: 0.7502 | LR: 2.55e-05
+  Epoch 17/30 [   POLY] | Loss: 0.6040 | Train: 73.1% | Val: 73.1% | AUC: 0.7527 | LR: 2.28e-05
+  Epoch 18/30 [   POLY] | Loss: 0.6056 | Train: 73.1% | Val: 73.1% | AUC: 0.7510 | LR: 2.00e-05
+  Epoch 19/30 [   POLY] | Loss: 0.6037 | Train: 73.1% | Val: 73.1% | AUC: 0.7485 | LR: 1.74e-05
+  Epoch 20/30 [   POLY] | Loss: 0.5978 | Train: 73.1% | Val: 73.1% | AUC: 0.7510 | LR: 1.49e-05
+  Epoch 21/30 [   POLY] | Loss: 0.5956 | Train: 73.1% | Val: 73.1% | AUC: 0.7519 | LR: 1.25e-05
+  Epoch 22/30 [   POLY] | Loss: 0.6038 | Train: 73.1% | Val: 73.1% | AUC: 0.7510 | LR: 1.02e-05
+  Epoch 23/30 [   POLY] | Loss: 0.6037 | Train: 73.1% | Val: 73.1% | AUC: 0.7502 | LR: 8.18e-06
+  Epoch 24/30 [   POLY] | Loss: 0.6056 | Train: 73.1% | Val: 73.1% | AUC: 0.7510 | LR: 6.35e-06
+  Epoch 25/30 [   POLY] | Loss: 0.5974 | Train: 73.1% | Val: 73.1% | AUC: 0.7502 | LR: 4.76e-06
+  Epoch 26/30 [   POLY] | Loss: 0.6030 | Train: 73.1% | Val: 73.1% | AUC: 0.7502 | LR: 3.43e-06
+  Epoch 27/30 [   POLY] | Loss: 0.5990 | Train: 73.1% | Val: 73.1% | AUC: 0.7519 | LR: 2.37e-06
+  Epoch 28/30 [   POLY] | Loss: 0.6043 | Train: 73.1% | Val: 73.1% | AUC: 0.7519 | LR: 1.61e-06
+  Epoch 29/30 [   POLY] | Loss: 0.6002 | Train: 73.1% | Val: 73.1% | AUC: 0.7519 | LR: 1.15e-06
+  Epoch 30/30 [   POLY] | Loss: 0.5975 | Train: 73.1% | Val: 73.1% | AUC: 0.7519 | LR: 1.00e-06
+
+  Loaded best POLY-phase checkpoint (epoch 17)
+
+  ┌─────────────────────────────────────────────────────────┐
+  │  RESULTS: Poly-GELU DeiT-Tiny (warm-start)             │
+  │  Dataset: BREAST                                   │
+  ├─────────────────────────────────────────────────────────┤
+  │  Step 1 Baseline:   87.18%  (AUC: 0.9190)      │
+  │  Step 2v2 Result:   73.08%  (AUC: 0.7596)      │
+  │  Δ Accuracy:       -14.10%                           │
+  │  Δ AUC:            -0.1594                           │
+  │  Poly Degree:      2                                │
+  │  Best Epoch:        17                                  │
+  │  Train Time:       50.3s                           │
+  └─────────────────────────────────────────────────────────┘
+
+  Learned polynomial coefficients per block:
+    Block 0: f(x) = 0.2578·x² + 0.4996·x + 0.0726
+    Block 1: f(x) = 0.2578·x² + 0.5006·x + 0.0690
+    Block 2: f(x) = 0.2564·x² + 0.5015·x + 0.0695
+    Block 3: f(x) = 0.2559·x² + 0.5018·x + 0.0693
+    Block 4: f(x) = 0.2564·x² + 0.5012·x + 0.0696
+    Block 5: f(x) = 0.2561·x² + 0.5014·x + 0.0694
+    Block 6: f(x) = 0.2560·x² + 0.5014·x + 0.0694
+    Block 7: f(x) = 0.2562·x² + 0.5013·x + 0.0696
+    Block 8: f(x) = 0.2564·x² + 0.5009·x + 0.0701
+    Block 9: f(x) = 0.2576·x² + 0.4998·x + 0.0714
+    Block 10: f(x) = 0.2578·x² + 0.4996·x + 0.0714
+    Block 11: f(x) = 0.2579·x² + 0.4995·x + 0.0714
+
+  Per-class classification report:
+              precision    recall  f1-score   support
+
+     Class 0      0.000     0.000     0.000        42
+     Class 1      0.731     1.000     0.844       114
+
+    accuracy                          0.731       156
+   macro avg      0.365     0.500     0.422       156
+weighted avg      0.534     0.731     0.617       156
+
+  Results saved to results_step2v2/breast/results.json
+
+=================================================================
+  Step 2v2: Warm-Start Polynomial GELU — PATH
+  Degree: 2 | Transition: epochs 3→15
+=================================================================
+  Train: 89996 | Val: 10004 | Test: 7180
+  ✓ Loaded Step 1 checkpoint: results/path/best_model.pth
+  Replaced 12 GELU → degree-2 polynomial (α=0, pure GELU mode)
+  Total: 5.53M | Trainable: 1.78M
+  Polynomial params: 36 (12 layers × 3 coeffs)
+  Blocks frozen: 8/12 (poly coeffs remain trainable)
+
+  ── Checkpoint Verification ──
+  Loaded model test acc:  93.87%
+  Step 1 baseline acc:    93.87%
+  Match: ✓ PASS
+
+  Initial polynomial coefficients (before training):
+    Block 0: f(x) = 0.2576·x² + 0.5000·x + 0.0711
+    Block 1: f(x) = 0.2576·x² + 0.5000·x + 0.0711
+
+  Training for 30 epochs (warm-start from Step 1)...
+  Schedule: warmup (ep 1-2) → transition (ep 3-15) → pure poly (ep 16-30)
+  Epoch  1/30 [   GELU] | Loss: 0.5028 | Train: 99.3% | Val: 98.2% | AUC: 0.9994 | LR: 2.50e-05
+  Epoch  2/30 [   GELU] | Loss: 0.5076 | Train: 99.0% | Val: 97.9% | AUC: 0.9989 | LR: 5.00e-05
+  Epoch  3/30 [   GELU] | Loss: 0.5062 | Train: 99.1% | Val: 98.2% | AUC: 0.9993 | LR: 4.98e-05
+  Epoch  4/30 [ α=0.08] | Loss: 0.5567 | Train: 97.0% | Val: 98.2% | AUC: 0.9993 | LR: 4.94e-05
+  Epoch  5/30 [ α=0.17] | Loss: 0.5309 | Train: 98.0% | Val: 98.1% | AUC: 0.9992 | LR: 4.86e-05
+  Epoch  6/30 [ α=0.25] | Loss: 0.5337 | Train: 97.9% | Val: 97.9% | AUC: 0.9993 | LR: 4.76e-05
+  Epoch  7/30 [ α=0.33] | Loss: 0.5380 | Train: 97.6% | Val: 97.9% | AUC: 0.9993 | LR: 4.62e-05
+  Epoch  8/30 [ α=0.42] | Loss: 0.5434 | Train: 97.4% | Val: 97.8% | AUC: 0.9993 | LR: 4.47e-05
+  Epoch  9/30 [ α=0.50] | Loss: 0.5489 | Train: 97.2% | Val: 97.8% | AUC: 0.9992 | LR: 4.28e-05
+  Epoch 10/30 [ α=0.58] | Loss: 0.5563 | Train: 96.8% | Val: 97.3% | AUC: 0.9989 | LR: 4.08e-05
+  Epoch 11/30 [ α=0.67] | Loss: 0.5620 | Train: 96.5% | Val: 97.3% | AUC: 0.9990 | LR: 3.85e-05
+  Epoch 12/30 [ α=0.75] | Loss: 0.5697 | Train: 96.1% | Val: 96.5% | AUC: 0.9989 | LR: 3.61e-05
+  Epoch 13/30 [ α=0.83] | Loss: 0.5767 | Train: 95.9% | Val: 96.3% | AUC: 0.9987 | LR: 3.36e-05
+  Epoch 14/30 [ α=0.92] | Loss: 0.5852 | Train: 95.5% | Val: 96.1% | AUC: 0.9984 | LR: 3.10e-05
+  Epoch 15/30 [   POLY] | Loss: 0.5939 | Train: 95.1% | Val: 95.2% | AUC: 0.9978 | LR: 2.82e-05
+  Epoch 16/30 [   POLY] | Loss: 0.5764 | Train: 95.9% | Val: 95.9% | AUC: 0.9983 | LR: 2.55e-05
+  Epoch 17/30 [   POLY] | Loss: 0.5678 | Train: 96.3% | Val: 96.1% | AUC: 0.9985 | LR: 2.28e-05
+  Epoch 18/30 [   POLY] | Loss: 0.5589 | Train: 96.7% | Val: 96.8% | AUC: 0.9987 | LR: 2.00e-05
+  Epoch 19/30 [   POLY] | Loss: 0.5526 | Train: 97.1% | Val: 97.2% | AUC: 0.9990 | LR: 1.74e-05
+  Epoch 20/30 [   POLY] | Loss: 0.5469 | Train: 97.2% | Val: 96.8% | AUC: 0.9989 | LR: 1.49e-05
+  Epoch 21/30 [   POLY] | Loss: 0.5437 | Train: 97.4% | Val: 97.2% | AUC: 0.9989 | LR: 1.25e-05
+  Epoch 22/30 [   POLY] | Loss: 0.5393 | Train: 97.6% | Val: 97.6% | AUC: 0.9992 | LR: 1.02e-05
+  Epoch 23/30 [   POLY] | Loss: 0.5358 | Train: 97.7% | Val: 97.9% | AUC: 0.9992 | LR: 8.18e-06
+  Epoch 24/30 [   POLY] | Loss: 0.5340 | Train: 97.9% | Val: 97.8% | AUC: 0.9993 | LR: 6.35e-06
+  Epoch 25/30 [   POLY] | Loss: 0.5317 | Train: 97.9% | Val: 97.8% | AUC: 0.9993 | LR: 4.76e-06
+  Epoch 26/30 [   POLY] | Loss: 0.5283 | Train: 98.1% | Val: 98.0% | AUC: 0.9993 | LR: 3.43e-06
+  Epoch 27/30 [   POLY] | Loss: 0.5280 | Train: 98.1% | Val: 97.8% | AUC: 0.9991 | LR: 2.37e-06
+  Epoch 28/30 [   POLY] | Loss: 0.5262 | Train: 98.2% | Val: 98.0% | AUC: 0.9992 | LR: 1.61e-06
+  Epoch 29/30 [   POLY] | Loss: 0.5251 | Train: 98.3% | Val: 98.0% | AUC: 0.9991 | LR: 1.15e-06
+  Epoch 30/30 [   POLY] | Loss: 0.5241 | Train: 98.3% | Val: 98.1% | AUC: 0.9992 | LR: 1.00e-06
+
+  Loaded best POLY-phase checkpoint (epoch 24)
+
+  ┌─────────────────────────────────────────────────────────┐
+  │  RESULTS: Poly-GELU DeiT-Tiny (warm-start)             │
+  │  Dataset: PATH                                     │
+  ├─────────────────────────────────────────────────────────┤
+  │  Step 1 Baseline:   93.87%  (AUC: 0.9924)      │
+  │  Step 2v2 Result:   88.83%  (AUC: 0.9843)      │
+  │  Δ Accuracy:        -5.04%                           │
+  │  Δ AUC:            -0.0081                           │
+  │  Poly Degree:      2                                │
+  │  Best Epoch:        24                                  │
+  │  Train Time:       3205.9s                           │
+  └─────────────────────────────────────────────────────────┘
+
+  Learned polynomial coefficients per block:
+    Block 0: f(x) = 0.1849·x² + 0.4613·x + -0.0011
+    Block 1: f(x) = 0.1934·x² + 0.4540·x + 0.0708
+    Block 2: f(x) = 0.2209·x² + 0.4998·x + 0.0097
+    Block 3: f(x) = 0.2053·x² + 0.4970·x + 0.0516
+    Block 4: f(x) = 0.2116·x² + 0.4772·x + 0.0603
+    Block 5: f(x) = 0.1785·x² + 0.5162·x + 0.0362
+    Block 6: f(x) = 0.1958·x² + 0.4961·x + 0.0520
+    Block 7: f(x) = 0.1642·x² + 0.4904·x + 0.0717
+    Block 8: f(x) = 0.1960·x² + 0.5010·x + 0.0651
+    Block 9: f(x) = 0.2014·x² + 0.4924·x + 0.0628
+    Block 10: f(x) = 0.2077·x² + 0.4919·x + 0.0620
+    Block 11: f(x) = 0.2186·x² + 0.5072·x + 0.0523
+
+  Per-class classification report:
+              precision    recall  f1-score   support
+
+     Class 0      0.978     0.970     0.974      1338
+     Class 1      0.874     1.000     0.933       847
+     Class 2      0.563     0.847     0.676       339
+     Class 3      0.927     0.995     0.960       634
+     Class 4      0.964     0.902     0.932      1035
+     Class 5      0.793     0.738     0.765       592
+     Class 6      0.945     0.792     0.862       741
+     Class 7      0.783     0.454     0.574       421
+     Class 8      0.891     0.946     0.918      1233
+
+    accuracy                          0.888      7180
+   macro avg      0.858     0.849     0.844      7180
+weighted avg      0.895     0.888     0.886      7180
+
+  Results saved to results_step2v2/path/results.json
+
+================================================================================
+  SUMMARY: Step 2v2 — Polynomial GELU (degree-2, warm-start) vs Baseline
+================================================================================
+  Dataset          Baseline  Poly-GELU    Δ Acc    Base AUC   Poly AUC    Δ AUC
+  ──────────────────────────────────────────────────────────────────────────
+  retina             53.75%     43.50%  -10.25%      0.7505    0.6908 -0.0597
+  pneumonia          86.86%     77.72%   -9.14%      0.9712    0.8611 -0.1101
+  blood              95.32%     94.30%   -1.02%      0.9962    0.9965 +0.0003
+  derma              76.66%     73.57%   -3.09%      0.9291    0.8943 -0.0348
+  breast             87.18%     73.08%  -14.10%      0.9190    0.7596 -0.1594
+  path               93.87%     88.83%   -5.04%      0.9924    0.9843 -0.0081
+  ──────────────────────────────────────────────────────────────────────────
+
+  Average accuracy change: -7.11%
+  ~ Moderate degradation — KD in Step 5 should recover most of this
+
+  Comparison with Step 2 v1 (cold-start):
+  v1 collapsed on small datasets (Retina: -36%, Breast: -14%, Derma: -14%)
+  v2 warm-start should show significantly less degradation on these datasets
+
+  Next: Step 3 (replace softmax) or Step 5 (apply KD to recover accuracy)
+
+Step 2 v2 complete. Results in results_step2v2/
+Timestamp: Friday 13 March 2026 07:23:31 PM IST
+
+═══════════════════════════════════════════════════
+  STEP 5: Knowledge Distillation + Polynomial GELU
+  Output: results_step5_kd/
+═══════════════════════════════════════════════════
+Device: cuda
+GPU: NVIDIA RTX A6000
+
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  Step 5: Knowledge Distillation + Polynomial GELU           ║
+  ║  Teacher: Step 1 DeiT-Tiny (GELU, frozen)                   ║
+  ║  Student: DeiT-Tiny (poly GELU, warm-start)                 ║
+  ║  KD: τ=4.0   α=0.5   Degree: 2                       ║
+  ╚══════════════════════════════════════════════════════════════╝
+
+======================================================================
+  Step 5: KD for Polynomial GELU — RETINA
+  Temperature: 4.0 | Alpha: 0.5 | Degree: 2
+======================================================================
+  Train: 1080 | Val: 120 | Test: 400
+  Teacher: loaded from results/retina/best_model.pth
+  Teacher test acc: 53.75% | AUC: 0.7505
+  Student: warm-started from results/retina/best_model.pth
+  Student: replaced 12 GELU → degree-2 polynomial
+  Student: 5.53M total | 1.78M trainable
+  Student init acc: 53.75% (match teacher: ✓)
+
+  Training for 30 epochs with KD (τ=4.0, α=0.5)...
+  Schedule: warmup (ep 1-2) → transition (ep 3-15) → pure poly (ep 16-30)
+  Epoch  1/30 [   GELU] | Total: 0.5612 (D:0.013 T:1.110) | Train: 62.3% | Val: 54.2% | AUC: 0.7985 | LR: 2.50e-05
+  Epoch  2/30 [   GELU] | Total: 0.5593 (D:0.017 T:1.102) | Train: 61.6% | Val: 56.7% | AUC: 0.7905 | LR: 5.00e-05
+  Epoch  3/30 [   GELU] | Total: 0.5489 (D:0.022 T:1.076) | Train: 63.2% | Val: 56.7% | AUC: 0.7958 | LR: 4.98e-05
+  Epoch  4/30 [ α=0.08] | Total: 1.0707 (D:0.593 T:1.549) | Train: 31.2% | Val: 45.0% | AUC: 0.7311 | LR: 4.94e-05
+  Epoch  5/30 [ α=0.17] | Total: 0.9353 (D:0.400 T:1.471) | Train: 45.0% | Val: 45.0% | AUC: 0.4751 | LR: 4.86e-05
+  Epoch  6/30 [ α=0.25] | Total: 0.9233 (D:0.393 T:1.453) | Train: 45.0% | Val: 45.0% | AUC: 0.4793 | LR: 4.76e-05
+  Epoch  7/30 [ α=0.33] | Total: 0.9232 (D:0.379 T:1.468) | Train: 45.0% | Val: 45.0% | AUC: 0.6654 | LR: 4.62e-05
+  Epoch  8/30 [ α=0.42] | Total: 0.9246 (D:0.391 T:1.458) | Train: 45.0% | Val: 45.0% | AUC: 0.6973 | LR: 4.47e-05
+  Epoch  9/30 [ α=0.50] | Total: 0.9201 (D:0.378 T:1.462) | Train: 45.0% | Val: 45.0% | AUC: 0.7085 | LR: 4.28e-05
+  Epoch 10/30 [ α=0.58] | Total: 0.9210 (D:0.385 T:1.457) | Train: 45.0% | Val: 45.0% | AUC: 0.7237 | LR: 4.08e-05
+  Epoch 11/30 [ α=0.67] | Total: 0.9174 (D:0.375 T:1.460) | Train: 45.0% | Val: 45.0% | AUC: 0.7298 | LR: 3.85e-05
+  Epoch 12/30 [ α=0.75] | Total: 0.9143 (D:0.377 T:1.452) | Train: 45.0% | Val: 45.0% | AUC: 0.7282 | LR: 3.61e-05
+  Epoch 13/30 [ α=0.83] | Total: 0.9116 (D:0.368 T:1.455) | Train: 45.0% | Val: 45.0% | AUC: 0.7158 | LR: 3.36e-05
+  Epoch 14/30 [ α=0.92] | Total: 0.9050 (D:0.363 T:1.447) | Train: 45.0% | Val: 45.0% | AUC: 0.7100 | LR: 3.10e-05
+  Epoch 15/30 [   POLY] | Total: 0.8998 (D:0.363 T:1.436) | Train: 45.0% | Val: 45.0% | AUC: 0.7085 | LR: 2.82e-05
+  Epoch 16/30 [   POLY] | Total: 0.8970 (D:0.353 T:1.441) | Train: 45.0% | Val: 45.0% | AUC: 0.7076 | LR: 2.55e-05
+  Epoch 17/30 [   POLY] | Total: 0.8903 (D:0.354 T:1.427) | Train: 45.0% | Val: 45.0% | AUC: 0.7072 | LR: 2.28e-05
+  Epoch 18/30 [   POLY] | Total: 0.8793 (D:0.338 T:1.420) | Train: 45.0% | Val: 45.0% | AUC: 0.7063 | LR: 2.00e-05
+  Epoch 19/30 [   POLY] | Total: 0.8727 (D:0.328 T:1.418) | Train: 45.0% | Val: 45.0% | AUC: 0.7054 | LR: 1.74e-05
+  Epoch 20/30 [   POLY] | Total: 0.8654 (D:0.326 T:1.404) | Train: 44.9% | Val: 45.0% | AUC: 0.7052 | LR: 1.49e-05
+  Epoch 21/30 [   POLY] | Total: 0.8584 (D:0.317 T:1.400) | Train: 45.0% | Val: 45.0% | AUC: 0.7053 | LR: 1.25e-05
+  Epoch 22/30 [   POLY] | Total: 0.8529 (D:0.309 T:1.397) | Train: 44.7% | Val: 45.0% | AUC: 0.7059 | LR: 1.02e-05
+  Epoch 23/30 [   POLY] | Total: 0.8488 (D:0.308 T:1.390) | Train: 44.8% | Val: 45.0% | AUC: 0.7058 | LR: 8.18e-06
+  Epoch 24/30 [   POLY] | Total: 0.8413 (D:0.299 T:1.383) | Train: 45.4% | Val: 45.0% | AUC: 0.7061 | LR: 6.35e-06
+  Epoch 25/30 [   POLY] | Total: 0.8399 (D:0.298 T:1.382) | Train: 45.7% | Val: 45.0% | AUC: 0.7062 | LR: 4.76e-06
+  Epoch 26/30 [   POLY] | Total: 0.8372 (D:0.294 T:1.380) | Train: 45.4% | Val: 44.2% | AUC: 0.7066 | LR: 3.43e-06
+  Epoch 27/30 [   POLY] | Total: 0.8347 (D:0.288 T:1.381) | Train: 45.7% | Val: 43.3% | AUC: 0.7065 | LR: 2.37e-06
+  Epoch 28/30 [   POLY] | Total: 0.8296 (D:0.286 T:1.374) | Train: 45.7% | Val: 43.3% | AUC: 0.7068 | LR: 1.61e-06
+  Epoch 29/30 [   POLY] | Total: 0.8298 (D:0.287 T:1.373) | Train: 45.4% | Val: 43.3% | AUC: 0.7068 | LR: 1.15e-06
+  Epoch 30/30 [   POLY] | Total: 0.8323 (D:0.290 T:1.375) | Train: 44.8% | Val: 43.3% | AUC: 0.7069 | LR: 1.00e-06
+
+  Loaded best POLY-phase checkpoint (epoch 15)
+
+  ┌─────────────────────────────────────────────────────────────┐
+  │  RESULTS: KD + Poly-GELU DeiT-Tiny                         │
+  │  Dataset: RETINA           τ=4.0  α=0.5           │
+  ├─────────────────────────────────────────────────────────────┤
+  │  Step 1 Baseline (teacher):  53.75%  (AUC: 0.7505)│
+  │  Step 2 Poly-GELU (no KD):   43.50%                      │
+  │  Step 5 Poly-GELU + KD:      43.50%  (AUC: 0.6890)│
+  │                                                             │
+  │  Δ vs Baseline:             -10.25%                     │
+  │  KD Recovery:                +0.00%  (0.0% recovered)│
+  │  Best Epoch:                 15                            │
+  │  Train Time:                73.4s                        │
+  └─────────────────────────────────────────────────────────────┘
+
+  Learned polynomial coefficients per block:
+    Block 0: f(x) = 0.2584·x² + 0.4994·x + 0.0784
+    Block 1: f(x) = 0.2566·x² + 0.5041·x + 0.0649
+    Block 2: f(x) = 0.2539·x² + 0.5064·x + 0.0706
+    Block 3: f(x) = 0.2566·x² + 0.5070·x + 0.0627
+    Block 4: f(x) = 0.2503·x² + 0.5075·x + 0.0622
+    Block 5: f(x) = 0.2506·x² + 0.5071·x + 0.0634
+    Block 6: f(x) = 0.2518·x² + 0.5056·x + 0.0649
+    Block 7: f(x) = 0.2536·x² + 0.5035·x + 0.0676
+    Block 8: f(x) = 0.2560·x² + 0.5020·x + 0.0695
+    Block 9: f(x) = 0.2567·x² + 0.5006·x + 0.0706
+    Block 10: f(x) = 0.2578·x² + 0.4998·x + 0.0708
+    Block 11: f(x) = 0.2564·x² + 0.5009·x + 0.0700
+
+  Per-class classification report:
+              precision    recall  f1-score   support
+
+     Class 0      0.435     1.000     0.606       174
+     Class 1      0.000     0.000     0.000        46
+     Class 2      0.000     0.000     0.000        92
+     Class 3      0.000     0.000     0.000        68
+     Class 4      0.000     0.000     0.000        20
+
+    accuracy                          0.435       400
+   macro avg      0.087     0.200     0.121       400
+weighted avg      0.189     0.435     0.264       400
+
+  Results saved to results_step5_kd/retina/results.json
+
+======================================================================
+  Step 5: KD for Polynomial GELU — PNEUMONIA
+  Temperature: 4.0 | Alpha: 0.5 | Degree: 2
+======================================================================
+  Train: 4708 | Val: 524 | Test: 624
+  Teacher: loaded from results/pneumonia/best_model.pth
+  Teacher test acc: 86.86% | AUC: 0.9712
+  Student: warm-started from results/pneumonia/best_model.pth
+  Student: replaced 12 GELU → degree-2 polynomial
+  Student: 5.52M total | 1.78M trainable
+  Student init acc: 86.86% (match teacher: ✓)
+
+  Training for 30 epochs with KD (τ=4.0, α=0.5)...
+  Schedule: warmup (ep 1-2) → transition (ep 3-15) → pure poly (ep 16-30)
+  Epoch  1/30 [   GELU] | Total: 0.1262 (D:0.003 T:0.249) | Train: 96.9% | Val: 96.9% | AUC: 0.9932 | LR: 2.50e-05
+  Epoch  2/30 [   GELU] | Total: 0.1271 (D:0.007 T:0.247) | Train: 97.3% | Val: 96.6% | AUC: 0.9917 | LR: 5.00e-05
+  Epoch  3/30 [   GELU] | Total: 0.1264 (D:0.008 T:0.244) | Train: 97.2% | Val: 96.8% | AUC: 0.9923 | LR: 4.98e-05
+  Epoch  4/30 [ α=0.08] | Total: 0.4170 (D:0.375 T:0.459) | Train: 80.3% | Val: 95.2% | AUC: 0.9899 | LR: 4.94e-05
+  Epoch  5/30 [ α=0.17] | Total: 0.4594 (D:0.431 T:0.488) | Train: 78.8% | Val: 89.7% | AUC: 0.9706 | LR: 4.86e-05
+  Epoch  6/30 [ α=0.25] | Total: 0.5359 (D:0.522 T:0.550) | Train: 75.7% | Val: 85.5% | AUC: 0.9434 | LR: 4.76e-05
+  Epoch  7/30 [ α=0.33] | Total: 0.5586 (D:0.554 T:0.564) | Train: 71.3% | Val: 86.3% | AUC: 0.9360 | LR: 4.62e-05
+  Epoch  8/30 [ α=0.42] | Total: 0.6187 (D:0.632 T:0.605) | Train: 68.5% | Val: 75.8% | AUC: 0.9181 | LR: 4.47e-05
+  Epoch  9/30 [ α=0.50] | Total: 0.5361 (D:0.535 T:0.537) | Train: 73.3% | Val: 85.1% | AUC: 0.9290 | LR: 4.28e-05
+  Epoch 10/30 [ α=0.58] | Total: 0.5369 (D:0.537 T:0.536) | Train: 74.0% | Val: 82.3% | AUC: 0.9249 | LR: 4.08e-05
+  Epoch 11/30 [ α=0.67] | Total: 0.4359 (D:0.400 T:0.472) | Train: 81.0% | Val: 83.2% | AUC: 0.9266 | LR: 3.85e-05
+  Epoch 12/30 [ α=0.75] | Total: 0.4017 (D:0.352 T:0.452) | Train: 83.2% | Val: 81.1% | AUC: 0.9026 | LR: 3.61e-05
+  Epoch 13/30 [ α=0.83] | Total: 0.3739 (D:0.315 T:0.433) | Train: 85.0% | Val: 78.1% | AUC: 0.8820 | LR: 3.36e-05
+  Epoch 14/30 [ α=0.92] | Total: 0.3647 (D:0.304 T:0.425) | Train: 85.0% | Val: 79.4% | AUC: 0.9013 | LR: 3.10e-05
+  Epoch 15/30 [   POLY] | Total: 0.3727 (D:0.318 T:0.427) | Train: 84.3% | Val: 78.4% | AUC: 0.8779 | LR: 2.82e-05
+  Epoch 16/30 [   POLY] | Total: 0.3502 (D:0.291 T:0.409) | Train: 85.8% | Val: 78.1% | AUC: 0.8870 | LR: 2.55e-05
+  Epoch 17/30 [   POLY] | Total: 0.3507 (D:0.287 T:0.414) | Train: 85.4% | Val: 77.1% | AUC: 0.8494 | LR: 2.28e-05
+  Epoch 18/30 [   POLY] | Total: 0.3446 (D:0.282 T:0.408) | Train: 86.3% | Val: 79.6% | AUC: 0.9030 | LR: 2.00e-05
+  Epoch 19/30 [   POLY] | Total: 0.3355 (D:0.266 T:0.405) | Train: 86.7% | Val: 80.7% | AUC: 0.9208 | LR: 1.74e-05
+  Epoch 20/30 [   POLY] | Total: 0.3248 (D:0.259 T:0.391) | Train: 86.8% | Val: 84.4% | AUC: 0.9245 | LR: 1.49e-05
+  Epoch 21/30 [   POLY] | Total: 0.3196 (D:0.250 T:0.389) | Train: 87.5% | Val: 83.8% | AUC: 0.9204 | LR: 1.25e-05
+  Epoch 22/30 [   POLY] | Total: 0.3167 (D:0.248 T:0.385) | Train: 87.7% | Val: 81.1% | AUC: 0.9215 | LR: 1.02e-05
+  Epoch 23/30 [   POLY] | Total: 0.3080 (D:0.237 T:0.379) | Train: 88.4% | Val: 84.9% | AUC: 0.9292 | LR: 8.18e-06
+  Epoch 24/30 [   POLY] | Total: 0.3085 (D:0.238 T:0.379) | Train: 87.8% | Val: 85.3% | AUC: 0.9273 | LR: 6.35e-06
+  Epoch 25/30 [   POLY] | Total: 0.3045 (D:0.232 T:0.377) | Train: 88.4% | Val: 84.9% | AUC: 0.9285 | LR: 4.76e-06
+  Epoch 26/30 [   POLY] | Total: 0.2976 (D:0.223 T:0.372) | Train: 89.7% | Val: 83.8% | AUC: 0.9298 | LR: 3.43e-06
+  Epoch 27/30 [   POLY] | Total: 0.3021 (D:0.228 T:0.376) | Train: 88.3% | Val: 85.5% | AUC: 0.9312 | LR: 2.37e-06
+  Epoch 28/30 [   POLY] | Total: 0.2957 (D:0.222 T:0.370) | Train: 88.6% | Val: 85.1% | AUC: 0.9317 | LR: 1.61e-06
+  Epoch 29/30 [   POLY] | Total: 0.2943 (D:0.221 T:0.368) | Train: 89.0% | Val: 85.5% | AUC: 0.9319 | LR: 1.15e-06
+  Epoch 30/30 [   POLY] | Total: 0.2928 (D:0.218 T:0.368) | Train: 88.8% | Val: 85.3% | AUC: 0.9318 | LR: 1.00e-06
+
+  Loaded best POLY-phase checkpoint (epoch 29)
+
+  ┌─────────────────────────────────────────────────────────────┐
+  │  RESULTS: KD + Poly-GELU DeiT-Tiny                         │
+  │  Dataset: PNEUMONIA        τ=4.0  α=0.5           │
+  ├─────────────────────────────────────────────────────────────┤
+  │  Step 1 Baseline (teacher):  86.86%  (AUC: 0.9712)│
+  │  Step 2 Poly-GELU (no KD):   77.72%                      │
+  │  Step 5 Poly-GELU + KD:      79.49%  (AUC: 0.9044)│
+  │                                                             │
+  │  Δ vs Baseline:              -7.37%                     │
+  │  KD Recovery:                -1.77%  (-19.3% recovered)│
+  │  Best Epoch:                 29                            │
+  │  Train Time:                239.9s                        │
+  └─────────────────────────────────────────────────────────────┘
+
+  Learned polynomial coefficients per block:
+    Block 0: f(x) = 0.2604·x² + 0.4973·x + 0.0701
+    Block 1: f(x) = 0.2582·x² + 0.4997·x + 0.0685
+    Block 2: f(x) = 0.2486·x² + 0.5108·x + 0.0522
+    Block 3: f(x) = 0.2444·x² + 0.5145·x + 0.0560
+    Block 4: f(x) = 0.2363·x² + 0.5199·x + 0.0466
+    Block 5: f(x) = 0.2366·x² + 0.5189·x + 0.0505
+    Block 6: f(x) = 0.2395·x² + 0.5158·x + 0.0541
+    Block 7: f(x) = 0.2444·x² + 0.5104·x + 0.0598
+    Block 8: f(x) = 0.2509·x² + 0.5062·x + 0.0628
+    Block 9: f(x) = 0.2502·x² + 0.5062·x + 0.0641
+    Block 10: f(x) = 0.2552·x² + 0.5018·x + 0.0668
+    Block 11: f(x) = 0.2556·x² + 0.5010·x + 0.0683
+
+  Per-class classification report:
+              precision    recall  f1-score   support
+
+     Class 0      0.835     0.564     0.673       234
+     Class 1      0.781     0.933     0.850       390
+
+    accuracy                          0.795       624
+   macro avg      0.808     0.749     0.762       624
+weighted avg      0.801     0.795     0.784       624
+
+  Results saved to results_step5_kd/pneumonia/results.json
+
+======================================================================
+  Step 5: KD for Polynomial GELU — BLOOD
+  Temperature: 4.0 | Alpha: 0.5 | Degree: 2
+======================================================================
+  Train: 11959 | Val: 1712 | Test: 3421
+  Teacher: loaded from results/blood/best_model.pth
+  Teacher test acc: 95.32% | AUC: 0.9962
+  Student: warm-started from results/blood/best_model.pth
+  Student: replaced 12 GELU → degree-2 polynomial
+  Student: 5.53M total | 1.78M trainable
+  Student init acc: 95.32% (match teacher: ✓)
+
+  Training for 30 epochs with KD (τ=4.0, α=0.5)...
+  Schedule: warmup (ep 1-2) → transition (ep 3-15) → pure poly (ep 16-30)
+  Epoch  1/30 [   GELU] | Total: 0.2534 (D:0.005 T:0.502) | Train: 98.4% | Val: 95.7% | AUC: 0.9968 | LR: 2.50e-05
+  Epoch  2/30 [   GELU] | Total: 0.2600 (D:0.013 T:0.507) | Train: 98.3% | Val: 95.7% | AUC: 0.9972 | LR: 5.00e-05
+  Epoch  3/30 [   GELU] | Total: 0.2626 (D:0.014 T:0.512) | Train: 97.9% | Val: 95.8% | AUC: 0.9964 | LR: 4.98e-05
+  Epoch  4/30 [ α=0.08] | Total: 0.8008 (D:0.579 T:1.023) | Train: 75.2% | Val: 94.8% | AUC: 0.9972 | LR: 4.94e-05
+  Epoch  5/30 [ α=0.17] | Total: 0.5099 (D:0.286 T:0.734) | Train: 88.3% | Val: 94.1% | AUC: 0.9973 | LR: 4.86e-05
+  Epoch  6/30 [ α=0.25] | Total: 0.4494 (D:0.225 T:0.674) | Train: 90.7% | Val: 93.8% | AUC: 0.9968 | LR: 4.76e-05
+  Epoch  7/30 [ α=0.33] | Total: 0.4197 (D:0.193 T:0.646) | Train: 91.8% | Val: 92.9% | AUC: 0.9954 | LR: 4.62e-05
+  Epoch  8/30 [ α=0.42] | Total: 0.4224 (D:0.197 T:0.648) | Train: 91.7% | Val: 92.7% | AUC: 0.9952 | LR: 4.47e-05
+  Epoch  9/30 [ α=0.50] | Total: 0.4249 (D:0.198 T:0.651) | Train: 91.6% | Val: 92.9% | AUC: 0.9961 | LR: 4.28e-05
+  Epoch 10/30 [ α=0.58] | Total: 0.4371 (D:0.214 T:0.660) | Train: 91.2% | Val: 93.1% | AUC: 0.9961 | LR: 4.08e-05
+  Epoch 11/30 [ α=0.67] | Total: 0.4279 (D:0.204 T:0.652) | Train: 91.5% | Val: 92.5% | AUC: 0.9949 | LR: 3.85e-05
+  Epoch 12/30 [ α=0.75] | Total: 0.4395 (D:0.216 T:0.663) | Train: 91.0% | Val: 91.6% | AUC: 0.9946 | LR: 3.61e-05
+  Epoch 13/30 [ α=0.83] | Total: 0.4485 (D:0.225 T:0.672) | Train: 90.3% | Val: 92.8% | AUC: 0.9953 | LR: 3.36e-05
+  Epoch 14/30 [ α=0.92] | Total: 0.4422 (D:0.221 T:0.663) | Train: 90.9% | Val: 92.1% | AUC: 0.9937 | LR: 3.10e-05
+  Epoch 15/30 [   POLY] | Total: 0.4531 (D:0.232 T:0.674) | Train: 90.7% | Val: 91.4% | AUC: 0.9924 | LR: 2.82e-05
+  Epoch 16/30 [   POLY] | Total: 0.4222 (D:0.199 T:0.645) | Train: 91.9% | Val: 91.6% | AUC: 0.9930 | LR: 2.55e-05
+  Epoch 17/30 [   POLY] | Total: 0.4098 (D:0.184 T:0.636) | Train: 92.4% | Val: 93.2% | AUC: 0.9950 | LR: 2.28e-05
+  Epoch 18/30 [   POLY] | Total: 0.3957 (D:0.171 T:0.621) | Train: 92.9% | Val: 93.0% | AUC: 0.9952 | LR: 2.00e-05
+  Epoch 19/30 [   POLY] | Total: 0.3879 (D:0.162 T:0.614) | Train: 93.5% | Val: 93.5% | AUC: 0.9949 | LR: 1.74e-05
+  Epoch 20/30 [   POLY] | Total: 0.3791 (D:0.153 T:0.605) | Train: 93.5% | Val: 92.7% | AUC: 0.9949 | LR: 1.49e-05
+  Epoch 21/30 [   POLY] | Total: 0.3720 (D:0.145 T:0.599) | Train: 94.0% | Val: 93.0% | AUC: 0.9961 | LR: 1.25e-05
+  Epoch 22/30 [   POLY] | Total: 0.3637 (D:0.137 T:0.590) | Train: 94.3% | Val: 94.2% | AUC: 0.9965 | LR: 1.02e-05
+  Epoch 23/30 [   POLY] | Total: 0.3603 (D:0.133 T:0.587) | Train: 94.5% | Val: 93.8% | AUC: 0.9962 | LR: 8.18e-06
+  Epoch 24/30 [   POLY] | Total: 0.3559 (D:0.131 T:0.580) | Train: 94.8% | Val: 94.3% | AUC: 0.9970 | LR: 6.35e-06
+  Epoch 25/30 [   POLY] | Total: 0.3530 (D:0.126 T:0.580) | Train: 94.9% | Val: 94.2% | AUC: 0.9968 | LR: 4.76e-06
+  Epoch 26/30 [   POLY] | Total: 0.3506 (D:0.124 T:0.577) | Train: 94.9% | Val: 94.2% | AUC: 0.9967 | LR: 3.43e-06
+  Epoch 27/30 [   POLY] | Total: 0.3489 (D:0.125 T:0.573) | Train: 95.2% | Val: 94.1% | AUC: 0.9969 | LR: 2.37e-06
+  Epoch 28/30 [   POLY] | Total: 0.3487 (D:0.123 T:0.575) | Train: 95.0% | Val: 93.9% | AUC: 0.9969 | LR: 1.61e-06
+  Epoch 29/30 [   POLY] | Total: 0.3458 (D:0.121 T:0.571) | Train: 95.3% | Val: 94.5% | AUC: 0.9970 | LR: 1.15e-06
+  Epoch 30/30 [   POLY] | Total: 0.3441 (D:0.117 T:0.571) | Train: 95.3% | Val: 94.6% | AUC: 0.9971 | LR: 1.00e-06
+
+  Loaded best POLY-phase checkpoint (epoch 30)
+
+  ┌─────────────────────────────────────────────────────────────┐
+  │  RESULTS: KD + Poly-GELU DeiT-Tiny                         │
+  │  Dataset: BLOOD            τ=4.0  α=0.5           │
+  ├─────────────────────────────────────────────────────────────┤
+  │  Step 1 Baseline (teacher):  95.32%  (AUC: 0.9962)│
+  │  Step 2 Poly-GELU (no KD):   94.30%                      │
+  │  Step 5 Poly-GELU + KD:      94.21%  (AUC: 0.9960)│
+  │                                                             │
+  │  Δ vs Baseline:              -1.11%                     │
+  │  KD Recovery:                +0.09%  (8.6% recovered)│
+  │  Best Epoch:                 30                            │
+  │  Train Time:                568.5s                        │
+  └─────────────────────────────────────────────────────────────┘
+
+  Learned polynomial coefficients per block:
+    Block 0: f(x) = 0.2090·x² + 0.5298·x + 0.0362
+    Block 1: f(x) = 0.2512·x² + 0.4823·x + 0.0757
+    Block 2: f(x) = 0.2131·x² + 0.5414·x + 0.0440
+    Block 3: f(x) = 0.2360·x² + 0.5179·x + 0.0493
+    Block 4: f(x) = 0.2223·x² + 0.5265·x + 0.0353
+    Block 5: f(x) = 0.2152·x² + 0.5318·x + 0.0338
+    Block 6: f(x) = 0.2180·x² + 0.5304·x + 0.0373
+    Block 7: f(x) = 0.2176·x² + 0.5245·x + 0.0514
+    Block 8: f(x) = 0.2316·x² + 0.5168·x + 0.0565
+    Block 9: f(x) = 0.2351·x² + 0.5160·x + 0.0540
+    Block 10: f(x) = 0.2428·x² + 0.5093·x + 0.0594
+    Block 11: f(x) = 0.2394·x² + 0.5165·x + 0.0535
+
+  Per-class classification report:
+              precision    recall  f1-score   support
+
+     Class 0      0.832     0.951     0.887       244
+     Class 1      0.990     0.992     0.991       624
+     Class 2      0.966     0.926     0.946       311
+     Class 3      0.897     0.860     0.878       579
+     Class 4      0.913     0.947     0.929       243
+     Class 5      0.890     0.827     0.858       284
+     Class 6      0.963     0.979     0.971       666
+     Class 7      0.996     0.998     0.997       470
+
+    accuracy                          0.942      3421
+   macro avg      0.931     0.935     0.932      3421
+weighted avg      0.943     0.942     0.942      3421
+
+  Results saved to results_step5_kd/blood/results.json
+
+======================================================================
+  Step 5: KD for Polynomial GELU — DERMA
+  Temperature: 4.0 | Alpha: 0.5 | Degree: 2
+======================================================================
+  Train: 7007 | Val: 1003 | Test: 2005
+  Teacher: loaded from results/derma/best_model.pth
+  Teacher test acc: 76.66% | AUC: 0.9291
+  Student: warm-started from results/derma/best_model.pth
+  Student: replaced 12 GELU → degree-2 polynomial
+  Student: 5.53M total | 1.78M trainable
+  Student init acc: 76.66% (match teacher: ✓)
+
+  Training for 30 epochs with KD (τ=4.0, α=0.5)...
+  Schedule: warmup (ep 1-2) → transition (ep 3-15) → pure poly (ep 16-30)
+  Epoch  1/30 [   GELU] | Total: 0.3947 (D:0.010 T:0.779) | Train: 83.9% | Val: 76.6% | AUC: 0.9263 | LR: 2.50e-05
+  Epoch  2/30 [   GELU] | Total: 0.3963 (D:0.017 T:0.775) | Train: 83.9% | Val: 77.1% | AUC: 0.9253 | LR: 5.00e-05
+  Epoch  3/30 [   GELU] | Total: 0.3900 (D:0.021 T:0.759) | Train: 85.1% | Val: 75.9% | AUC: 0.9233 | LR: 4.98e-05
+  Epoch  4/30 [ α=0.08] | Total: 0.7852 (D:0.412 T:1.159) | Train: 68.2% | Val: 75.0% | AUC: 0.9053 | LR: 4.94e-05
+  Epoch  5/30 [ α=0.17] | Total: 0.7028 (D:0.323 T:1.083) | Train: 71.3% | Val: 75.0% | AUC: 0.9091 | LR: 4.86e-05
+  Epoch  6/30 [ α=0.25] | Total: 0.6640 (D:0.275 T:1.053) | Train: 71.5% | Val: 75.3% | AUC: 0.9088 | LR: 4.76e-05
+  Epoch  7/30 [ α=0.33] | Total: 0.6753 (D:0.289 T:1.061) | Train: 71.0% | Val: 73.1% | AUC: 0.9066 | LR: 4.62e-05
+  Epoch  8/30 [ α=0.42] | Total: 0.6521 (D:0.269 T:1.035) | Train: 72.0% | Val: 75.1% | AUC: 0.9044 | LR: 4.47e-05
+  Epoch  9/30 [ α=0.50] | Total: 0.6580 (D:0.276 T:1.040) | Train: 72.0% | Val: 76.1% | AUC: 0.9043 | LR: 4.28e-05
+  Epoch 10/30 [ α=0.58] | Total: 0.6640 (D:0.284 T:1.044) | Train: 71.9% | Val: 74.2% | AUC: 0.9065 | LR: 4.08e-05
+  Epoch 11/30 [ α=0.67] | Total: 0.6591 (D:0.280 T:1.038) | Train: 71.6% | Val: 72.4% | AUC: 0.9039 | LR: 3.85e-05
+  Epoch 12/30 [ α=0.75] | Total: 0.6731 (D:0.296 T:1.050) | Train: 70.9% | Val: 70.4% | AUC: 0.8930 | LR: 3.61e-05
+  Epoch 13/30 [ α=0.83] | Total: 0.6700 (D:0.300 T:1.040) | Train: 71.7% | Val: 71.4% | AUC: 0.8851 | LR: 3.36e-05
+  Epoch 14/30 [ α=0.92] | Total: 0.6675 (D:0.299 T:1.036) | Train: 71.3% | Val: 72.7% | AUC: 0.8876 | LR: 3.10e-05
+  Epoch 15/30 [   POLY] | Total: 0.6740 (D:0.305 T:1.043) | Train: 71.5% | Val: 70.4% | AUC: 0.8810 | LR: 2.82e-05
+  Epoch 16/30 [   POLY] | Total: 0.6460 (D:0.275 T:1.017) | Train: 72.8% | Val: 72.8% | AUC: 0.8893 | LR: 2.55e-05
+  Epoch 17/30 [   POLY] | Total: 0.6389 (D:0.266 T:1.012) | Train: 72.6% | Val: 73.4% | AUC: 0.8907 | LR: 2.28e-05
+  Epoch 18/30 [   POLY] | Total: 0.6222 (D:0.252 T:0.992) | Train: 73.7% | Val: 73.5% | AUC: 0.8940 | LR: 2.00e-05
+  Epoch 19/30 [   POLY] | Total: 0.6192 (D:0.247 T:0.991) | Train: 73.7% | Val: 73.6% | AUC: 0.9014 | LR: 1.74e-05
+  Epoch 20/30 [   POLY] | Total: 0.6120 (D:0.240 T:0.983) | Train: 74.0% | Val: 73.0% | AUC: 0.8984 | LR: 1.49e-05
+  Epoch 21/30 [   POLY] | Total: 0.6104 (D:0.237 T:0.984) | Train: 73.7% | Val: 73.1% | AUC: 0.8999 | LR: 1.25e-05
+  Epoch 22/30 [   POLY] | Total: 0.6074 (D:0.238 T:0.976) | Train: 74.3% | Val: 72.5% | AUC: 0.8986 | LR: 1.02e-05
+  Epoch 23/30 [   POLY] | Total: 0.6069 (D:0.234 T:0.980) | Train: 74.3% | Val: 74.2% | AUC: 0.9063 | LR: 8.18e-06
+  Epoch 24/30 [   POLY] | Total: 0.5994 (D:0.228 T:0.971) | Train: 74.4% | Val: 74.0% | AUC: 0.9085 | LR: 6.35e-06
+  Epoch 25/30 [   POLY] | Total: 0.5950 (D:0.223 T:0.967) | Train: 74.9% | Val: 74.9% | AUC: 0.9094 | LR: 4.76e-06
+  Epoch 26/30 [   POLY] | Total: 0.5975 (D:0.225 T:0.970) | Train: 74.3% | Val: 73.9% | AUC: 0.9081 | LR: 3.43e-06
+  Epoch 27/30 [   POLY] | Total: 0.5954 (D:0.223 T:0.968) | Train: 74.6% | Val: 73.9% | AUC: 0.9079 | LR: 2.37e-06
+  Epoch 28/30 [   POLY] | Total: 0.5891 (D:0.221 T:0.958) | Train: 74.9% | Val: 74.5% | AUC: 0.9097 | LR: 1.61e-06
+  Epoch 29/30 [   POLY] | Total: 0.5863 (D:0.216 T:0.957) | Train: 75.1% | Val: 74.6% | AUC: 0.9098 | LR: 1.15e-06
+  Epoch 30/30 [   POLY] | Total: 0.5877 (D:0.217 T:0.959) | Train: 75.1% | Val: 74.0% | AUC: 0.9097 | LR: 1.00e-06
+
+  Loaded best POLY-phase checkpoint (epoch 29)
+
+  ┌─────────────────────────────────────────────────────────────┐
+  │  RESULTS: KD + Poly-GELU DeiT-Tiny                         │
+  │  Dataset: DERMA            τ=4.0  α=0.5           │
+  ├─────────────────────────────────────────────────────────────┤
+  │  Step 1 Baseline (teacher):  76.66%  (AUC: 0.9291)│
+  │  Step 2 Poly-GELU (no KD):   73.57%                      │
+  │  Step 5 Poly-GELU + KD:      73.67%  (AUC: 0.9028)│
+  │                                                             │
+  │  Δ vs Baseline:              -2.99%                     │
+  │  KD Recovery:                -0.10%  (-3.1% recovered)│
+  │  Best Epoch:                 29                            │
+  │  Train Time:                341.2s                        │
+  └─────────────────────────────────────────────────────────────┘
+
+  Learned polynomial coefficients per block:
+    Block 0: f(x) = 0.2322·x² + 0.5308·x + 0.0467
+    Block 1: f(x) = 0.2396·x² + 0.5011·x + 0.0603
+    Block 2: f(x) = 0.2435·x² + 0.5065·x + 0.0723
+    Block 3: f(x) = 0.2297·x² + 0.5312·x + 0.0456
+    Block 4: f(x) = 0.2214·x² + 0.5320·x + 0.0367
+    Block 5: f(x) = 0.2179·x² + 0.5337·x + 0.0362
+    Block 6: f(x) = 0.2229·x² + 0.5298·x + 0.0386
+    Block 7: f(x) = 0.2248·x² + 0.5240·x + 0.0503
+    Block 8: f(x) = 0.2408·x² + 0.5114·x + 0.0615
+    Block 9: f(x) = 0.2429·x² + 0.5103·x + 0.0583
+    Block 10: f(x) = 0.2524·x² + 0.5034·x + 0.0652
+    Block 11: f(x) = 0.2501·x² + 0.5062·x + 0.0619
+
+  Per-class classification report:
+              precision    recall  f1-score   support
+
+     Class 0      0.500     0.106     0.175        66
+     Class 1      0.397     0.485     0.437       103
+     Class 2      0.518     0.327     0.401       220
+     Class 3      0.000     0.000     0.000        23
+     Class 4      0.573     0.211     0.308       223
+     Class 5      0.791     0.959     0.867      1341
+     Class 6      0.789     0.517     0.625        29
+
+    accuracy                          0.737      2005
+   macro avg      0.510     0.372     0.402      2005
+weighted avg      0.698     0.737     0.696      2005
+
+  Results saved to results_step5_kd/derma/results.json
+
+======================================================================
+  Step 5: KD for Polynomial GELU — BREAST
+  Temperature: 4.0 | Alpha: 0.5 | Degree: 2
+======================================================================
+  Train: 546 | Val: 78 | Test: 156
+  Teacher: loaded from results/breast/best_model.pth
+  Teacher test acc: 87.18% | AUC: 0.9190
+  Student: warm-started from results/breast/best_model.pth
+  Student: replaced 12 GELU → degree-2 polynomial
+  Student: 5.52M total | 1.78M trainable
+  Student init acc: 87.18% (match teacher: ✓)
+
+  Training for 30 epochs with KD (τ=4.0, α=0.5)...
+  Schedule: warmup (ep 1-2) → transition (ep 3-15) → pure poly (ep 16-30)
+  Epoch  1/30 [   GELU] | Total: 0.2058 (D:0.014 T:0.398) | Train: 88.1% | Val: 87.2% | AUC: 0.8764 | LR: 2.50e-05
+  Epoch  2/30 [   GELU] | Total: 0.2028 (D:0.014 T:0.391) | Train: 88.3% | Val: 85.9% | AUC: 0.8730 | LR: 5.00e-05
+  Epoch  3/30 [   GELU] | Total: 0.1982 (D:0.006 T:0.390) | Train: 87.7% | Val: 87.2% | AUC: 0.8596 | LR: 4.98e-05
+  Epoch  4/30 [ α=0.08] | Total: 0.4549 (D:0.324 T:0.585) | Train: 73.1% | Val: 73.1% | AUC: 0.8003 | LR: 4.94e-05
+  Epoch  5/30 [ α=0.17] | Total: 0.4925 (D:0.357 T:0.628) | Train: 73.1% | Val: 73.1% | AUC: 0.6683 | LR: 4.86e-05
+  Epoch  6/30 [ α=0.25] | Total: 0.4870 (D:0.361 T:0.613) | Train: 73.1% | Val: 73.1% | AUC: 0.6750 | LR: 4.76e-05
+  Epoch  7/30 [ α=0.33] | Total: 0.4908 (D:0.368 T:0.613) | Train: 73.1% | Val: 73.1% | AUC: 0.6767 | LR: 4.62e-05
+  Epoch  8/30 [ α=0.42] | Total: 0.4782 (D:0.348 T:0.608) | Train: 73.1% | Val: 73.1% | AUC: 0.7260 | LR: 4.47e-05
+  Epoch  9/30 [ α=0.50] | Total: 0.4709 (D:0.343 T:0.599) | Train: 73.1% | Val: 73.1% | AUC: 0.7126 | LR: 4.28e-05
+  Epoch 10/30 [ α=0.58] | Total: 0.4799 (D:0.354 T:0.606) | Train: 73.1% | Val: 73.1% | AUC: 0.6817 | LR: 4.08e-05
+  Epoch 11/30 [ α=0.67] | Total: 0.4825 (D:0.355 T:0.610) | Train: 73.1% | Val: 73.1% | AUC: 0.6817 | LR: 3.85e-05
+  Epoch 12/30 [ α=0.75] | Total: 0.4739 (D:0.346 T:0.602) | Train: 73.1% | Val: 73.1% | AUC: 0.7034 | LR: 3.61e-05
+  Epoch 13/30 [ α=0.83] | Total: 0.4739 (D:0.339 T:0.609) | Train: 73.1% | Val: 73.1% | AUC: 0.7268 | LR: 3.36e-05
+  Epoch 14/30 [ α=0.92] | Total: 0.4808 (D:0.349 T:0.613) | Train: 73.1% | Val: 73.1% | AUC: 0.7460 | LR: 3.10e-05
+  Epoch 15/30 [   POLY] | Total: 0.4718 (D:0.347 T:0.596) | Train: 73.1% | Val: 73.1% | AUC: 0.7510 | LR: 2.82e-05
+  Epoch 16/30 [   POLY] | Total: 0.4663 (D:0.332 T:0.600) | Train: 73.1% | Val: 73.1% | AUC: 0.7552 | LR: 2.55e-05
+  Epoch 17/30 [   POLY] | Total: 0.4776 (D:0.350 T:0.605) | Train: 73.1% | Val: 73.1% | AUC: 0.7544 | LR: 2.28e-05
+  Epoch 18/30 [   POLY] | Total: 0.4807 (D:0.351 T:0.610) | Train: 73.1% | Val: 73.1% | AUC: 0.7502 | LR: 2.00e-05
+  Epoch 19/30 [   POLY] | Total: 0.4725 (D:0.347 T:0.598) | Train: 73.1% | Val: 73.1% | AUC: 0.7527 | LR: 1.74e-05
+  Epoch 20/30 [   POLY] | Total: 0.4684 (D:0.339 T:0.598) | Train: 73.1% | Val: 73.1% | AUC: 0.7502 | LR: 1.49e-05
+  Epoch 21/30 [   POLY] | Total: 0.4749 (D:0.347 T:0.603) | Train: 73.1% | Val: 73.1% | AUC: 0.7485 | LR: 1.25e-05
+  Epoch 22/30 [   POLY] | Total: 0.4734 (D:0.342 T:0.605) | Train: 73.1% | Val: 73.1% | AUC: 0.7494 | LR: 1.02e-05
+  Epoch 23/30 [   POLY] | Total: 0.4724 (D:0.341 T:0.603) | Train: 73.1% | Val: 73.1% | AUC: 0.7494 | LR: 8.18e-06
+  Epoch 24/30 [   POLY] | Total: 0.4786 (D:0.354 T:0.603) | Train: 73.1% | Val: 73.1% | AUC: 0.7477 | LR: 6.35e-06
+  Epoch 25/30 [   POLY] | Total: 0.4643 (D:0.325 T:0.603) | Train: 73.1% | Val: 73.1% | AUC: 0.7477 | LR: 4.76e-06
+  Epoch 26/30 [   POLY] | Total: 0.4687 (D:0.342 T:0.595) | Train: 73.1% | Val: 73.1% | AUC: 0.7485 | LR: 3.43e-06
+  Epoch 27/30 [   POLY] | Total: 0.4796 (D:0.356 T:0.603) | Train: 73.1% | Val: 73.1% | AUC: 0.7485 | LR: 2.37e-06
+  Epoch 28/30 [   POLY] | Total: 0.4728 (D:0.346 T:0.599) | Train: 73.1% | Val: 73.1% | AUC: 0.7485 | LR: 1.61e-06
+  Epoch 29/30 [   POLY] | Total: 0.4754 (D:0.348 T:0.602) | Train: 73.1% | Val: 73.1% | AUC: 0.7485 | LR: 1.15e-06
+  Epoch 30/30 [   POLY] | Total: 0.4710 (D:0.343 T:0.599) | Train: 73.1% | Val: 73.1% | AUC: 0.7485 | LR: 1.00e-06
+
+  Loaded best POLY-phase checkpoint (epoch 16)
+
+  ┌─────────────────────────────────────────────────────────────┐
+  │  RESULTS: KD + Poly-GELU DeiT-Tiny                         │
+  │  Dataset: BREAST           τ=4.0  α=0.5           │
+  ├─────────────────────────────────────────────────────────────┤
+  │  Step 1 Baseline (teacher):  87.18%  (AUC: 0.9190)│
+  │  Step 2 Poly-GELU (no KD):   73.08%                      │
+  │  Step 5 Poly-GELU + KD:      73.08%  (AUC: 0.7592)│
+  │                                                             │
+  │  Δ vs Baseline:             -14.10%                     │
+  │  KD Recovery:                +0.00%  (0.0% recovered)│
+  │  Best Epoch:                 16                            │
+  │  Train Time:                53.9s                        │
+  └─────────────────────────────────────────────────────────────┘
+
+  Learned polynomial coefficients per block:
+    Block 0: f(x) = 0.2582·x² + 0.4994·x + 0.0726
+    Block 1: f(x) = 0.2580·x² + 0.5004·x + 0.0695
+    Block 2: f(x) = 0.2566·x² + 0.5017·x + 0.0693
+    Block 3: f(x) = 0.2562·x² + 0.5016·x + 0.0692
+    Block 4: f(x) = 0.2565·x² + 0.5012·x + 0.0696
+    Block 5: f(x) = 0.2560·x² + 0.5016·x + 0.0693
+    Block 6: f(x) = 0.2560·x² + 0.5014·x + 0.0694
+    Block 7: f(x) = 0.2562·x² + 0.5012·x + 0.0697
+    Block 8: f(x) = 0.2566·x² + 0.5008·x + 0.0702
+    Block 9: f(x) = 0.2574·x² + 0.5001·x + 0.0712
+    Block 10: f(x) = 0.2576·x² + 0.4998·x + 0.0712
+    Block 11: f(x) = 0.2578·x² + 0.4997·x + 0.0713
+
+  Per-class classification report:
+              precision    recall  f1-score   support
+
+     Class 0      0.000     0.000     0.000        42
+     Class 1      0.731     1.000     0.844       114
+
+    accuracy                          0.731       156
+   macro avg      0.365     0.500     0.422       156
+weighted avg      0.534     0.731     0.617       156
+
+  Results saved to results_step5_kd/breast/results.json
+
+======================================================================
+  Step 5: KD for Polynomial GELU — PATH
+  Temperature: 4.0 | Alpha: 0.5 | Degree: 2
+======================================================================
+  Train: 89996 | Val: 10004 | Test: 7180
+  Teacher: loaded from results/path/best_model.pth
+  Teacher test acc: 93.87% | AUC: 0.9924
+  Student: warm-started from results/path/best_model.pth
+  Student: replaced 12 GELU → degree-2 polynomial
+  Student: 5.53M total | 1.78M trainable
+  Student init acc: 93.87% (match teacher: ✓)
+
+  Training for 30 epochs with KD (τ=4.0, α=0.5)...
+  Schedule: warmup (ep 1-2) → transition (ep 3-15) → pure poly (ep 16-30)
+  Epoch  1/30 [   GELU] | Total: 0.2529 (D:0.004 T:0.502) | Train: 99.3% | Val: 98.3% | AUC: 0.9992 | LR: 2.50e-05
+  Epoch  2/30 [   GELU] | Total: 0.2575 (D:0.009 T:0.506) | Train: 99.1% | Val: 98.0% | AUC: 0.9993 | LR: 5.00e-05
+  Epoch  3/30 [   GELU] | Total: 0.2577 (D:0.010 T:0.506) | Train: 99.1% | Val: 98.1% | AUC: 0.9993 | LR: 4.98e-05
+  Epoch  4/30 [ α=0.08] | Total: 0.3090 (D:0.064 T:0.554) | Train: 97.1% | Val: 98.3% | AUC: 0.9993 | LR: 4.94e-05
+  Epoch  5/30 [ α=0.17] | Total: 0.2845 (D:0.040 T:0.529) | Train: 98.1% | Val: 98.3% | AUC: 0.9995 | LR: 4.86e-05
+  Epoch  6/30 [ α=0.25] | Total: 0.2873 (D:0.044 T:0.531) | Train: 98.0% | Val: 97.9% | AUC: 0.9992 | LR: 4.76e-05
+  Epoch  7/30 [ α=0.33] | Total: 0.2942 (D:0.051 T:0.537) | Train: 97.7% | Val: 97.8% | AUC: 0.9992 | LR: 4.62e-05
+  Epoch  8/30 [ α=0.42] | Total: 0.2994 (D:0.056 T:0.542) | Train: 97.5% | Val: 97.6% | AUC: 0.9993 | LR: 4.47e-05
+  Epoch  9/30 [ α=0.50] | Total: 0.3073 (D:0.065 T:0.549) | Train: 97.2% | Val: 97.1% | AUC: 0.9988 | LR: 4.28e-05
+  Epoch 10/30 [ α=0.58] | Total: 0.3155 (D:0.074 T:0.557) | Train: 96.8% | Val: 96.9% | AUC: 0.9987 | LR: 4.08e-05
+  Epoch 11/30 [ α=0.67] | Total: 0.3218 (D:0.081 T:0.563) | Train: 96.6% | Val: 96.7% | AUC: 0.9988 | LR: 3.85e-05
+  Epoch 12/30 [ α=0.75] | Total: 0.3324 (D:0.092 T:0.573) | Train: 96.2% | Val: 96.3% | AUC: 0.9985 | LR: 3.61e-05
+  Epoch 13/30 [ α=0.83] | Total: 0.3405 (D:0.100 T:0.581) | Train: 95.8% | Val: 96.5% | AUC: 0.9986 | LR: 3.36e-05
+  Epoch 14/30 [ α=0.92] | Total: 0.3484 (D:0.109 T:0.588) | Train: 95.5% | Val: 95.0% | AUC: 0.9973 | LR: 3.10e-05
+  Epoch 15/30 [   POLY] | Total: 0.3585 (D:0.120 T:0.597) | Train: 95.1% | Val: 94.7% | AUC: 0.9974 | LR: 2.82e-05
+  Epoch 16/30 [   POLY] | Total: 0.3418 (D:0.102 T:0.582) | Train: 95.8% | Val: 96.3% | AUC: 0.9982 | LR: 2.55e-05
+  Epoch 17/30 [   POLY] | Total: 0.3300 (D:0.091 T:0.569) | Train: 96.3% | Val: 96.7% | AUC: 0.9986 | LR: 2.28e-05
+  Epoch 18/30 [   POLY] | Total: 0.3227 (D:0.083 T:0.562) | Train: 96.6% | Val: 97.0% | AUC: 0.9987 | LR: 2.00e-05
+  Epoch 19/30 [   POLY] | Total: 0.3157 (D:0.076 T:0.555) | Train: 96.9% | Val: 97.1% | AUC: 0.9989 | LR: 1.74e-05
+  Epoch 20/30 [   POLY] | Total: 0.3100 (D:0.071 T:0.549) | Train: 97.2% | Val: 97.2% | AUC: 0.9989 | LR: 1.49e-05
+  Epoch 21/30 [   POLY] | Total: 0.3071 (D:0.068 T:0.547) | Train: 97.3% | Val: 97.5% | AUC: 0.9992 | LR: 1.25e-05
+  Epoch 22/30 [   POLY] | Total: 0.3027 (D:0.063 T:0.542) | Train: 97.5% | Val: 97.5% | AUC: 0.9991 | LR: 1.02e-05
+  Epoch 23/30 [   POLY] | Total: 0.2994 (D:0.060 T:0.539) | Train: 97.7% | Val: 97.5% | AUC: 0.9986 | LR: 8.18e-06
+  Epoch 24/30 [   POLY] | Total: 0.2965 (D:0.057 T:0.536) | Train: 97.8% | Val: 97.5% | AUC: 0.9990 | LR: 6.35e-06
+  Epoch 25/30 [   POLY] | Total: 0.2944 (D:0.055 T:0.534) | Train: 97.9% | Val: 97.8% | AUC: 0.9991 | LR: 4.76e-06
+  Epoch 26/30 [   POLY] | Total: 0.2927 (D:0.054 T:0.532) | Train: 98.0% | Val: 97.9% | AUC: 0.9992 | LR: 3.43e-06
+  Epoch 27/30 [   POLY] | Total: 0.2911 (D:0.052 T:0.530) | Train: 98.0% | Val: 98.0% | AUC: 0.9993 | LR: 2.37e-06
+  Epoch 28/30 [   POLY] | Total: 0.2891 (D:0.050 T:0.528) | Train: 98.1% | Val: 98.0% | AUC: 0.9992 | LR: 1.61e-06
+  Epoch 29/30 [   POLY] | Total: 0.2888 (D:0.050 T:0.527) | Train: 98.2% | Val: 98.0% | AUC: 0.9993 | LR: 1.15e-06
+  Epoch 30/30 [   POLY] | Total: 0.2881 (D:0.049 T:0.527) | Train: 98.2% | Val: 98.0% | AUC: 0.9993 | LR: 1.00e-06
+
+  Loaded best POLY-phase checkpoint (epoch 27)
+
+  ┌─────────────────────────────────────────────────────────────┐
+  │  RESULTS: KD + Poly-GELU DeiT-Tiny                         │
+  │  Dataset: PATH             τ=4.0  α=0.5           │
+  ├─────────────────────────────────────────────────────────────┤
+  │  Step 1 Baseline (teacher):  93.87%  (AUC: 0.9924)│
+  │  Step 2 Poly-GELU (no KD):   88.83%                      │
+  │  Step 5 Poly-GELU + KD:      88.93%  (AUC: 0.9831)│
+  │                                                             │
+  │  Δ vs Baseline:              -4.94%                     │
+  │  KD Recovery:                -0.10%  (-1.9% recovered)│
+  │  Best Epoch:                 27                            │
+  │  Train Time:                3981.5s                        │
+  └─────────────────────────────────────────────────────────────┘
+
+  Learned polynomial coefficients per block:
+    Block 0: f(x) = 0.1842·x² + 0.4581·x + -0.0032
+    Block 1: f(x) = 0.1898·x² + 0.4502·x + 0.0699
+    Block 2: f(x) = 0.2210·x² + 0.4966·x + 0.0100
+    Block 3: f(x) = 0.2014·x² + 0.4967·x + 0.0512
+    Block 4: f(x) = 0.2103·x² + 0.4720·x + 0.0645
+    Block 5: f(x) = 0.1780·x² + 0.5136·x + 0.0384
+    Block 6: f(x) = 0.1943·x² + 0.4954·x + 0.0524
+    Block 7: f(x) = 0.1611·x² + 0.4893·x + 0.0747
+    Block 8: f(x) = 0.1958·x² + 0.4999·x + 0.0656
+    Block 9: f(x) = 0.2011·x² + 0.4919·x + 0.0635
+    Block 10: f(x) = 0.2062·x² + 0.4919·x + 0.0624
+    Block 11: f(x) = 0.2050·x² + 0.5015·x + 0.0684
+
+  Per-class classification report:
+              precision    recall  f1-score   support
+
+     Class 0      0.963     0.981     0.971      1338
+     Class 1      0.878     1.000     0.935       847
+     Class 2      0.588     0.844     0.693       339
+     Class 3      0.905     0.994     0.947       634
+     Class 4      0.975     0.873     0.922      1035
+     Class 5      0.798     0.772     0.785       592
+     Class 6      0.940     0.788     0.858       741
+     Class 7      0.881     0.473     0.615       421
+     Class 8      0.881     0.946     0.912      1233
+
+    accuracy                          0.889      7180
+   macro avg      0.868     0.852     0.849      7180
+weighted avg      0.897     0.889     0.886      7180
+
+  Results saved to results_step5_kd/path/results.json
+
+=====================================================================================
+  SUMMARY: Step 5 — KD + Polynomial GELU (τ=4.0, α=0.5)
+=====================================================================================
+  Dataset         Baseline     Step2  Step5 KD   Δ Base   KD Recov
+  ──────────────────────────────────────────────────────────────
+  retina            53.75%    43.50%    43.50%  -10.25% +0.00% (0%)
+  pneumonia         86.86%    77.72%    79.49%   -7.37% +-1.77% (-19%)
+  blood             95.32%    94.30%    94.21%   -1.11% +0.09% (9%)
+  derma             76.66%    73.57%    73.67%   -2.99% +-0.10% (-3%)
+  breast            87.18%    73.08%    73.08%  -14.10% +0.00% (0%)
+  path              93.87%    88.83%    88.93%   -4.94% +-0.10% (-2%)
+  ──────────────────────────────────────────────────────────────
+
+  Average Δ vs baseline: -6.79%
+  Average KD recovery:  -0.31%
+
+  Interpretation:
+  - Positive KD recovery = KD helped vs Step 2 (polynomial without KD)
+  - This is the core finding: KD recovers accuracy lost from poly replacement
+
+  Next: Step 3 (replace softmax) or Step 6 (encrypted inference with CKKS)
+
+═══════════════════════════════════════════════════
+  ALL EXPERIMENTS COMPLETE
+  Finished at: Friday 13 March 2026 08:51:51 PM IST
+═══════════════════════════════════════════════════
+
+Directory structure:
+  results/           → Step 1 plaintext baselines
+  results_step2/     → Step 2 v1 cold-start poly GELU
+  results_step2v2/   → Step 2 v2 warm-start poly GELU
+  results_step5_kd/  → Step 5 KD + poly GELU

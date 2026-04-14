@@ -1,0 +1,26 @@
+{
+  "retina": {
+    "accuracy": 53.75,
+    "auc": 0.7505
+  },
+  "pneumonia": {
+    "accuracy": 86.86,
+    "auc": 0.9712
+  },
+  "blood": {
+    "accuracy": 95.32,
+    "auc": 0.9962
+  },
+  "derma": {
+    "accuracy": 76.66,
+    "auc": 0.9291
+  },
+  "breast": {
+    "accuracy": 87.18,
+    "auc": 0.919
+  },
+  "path": {
+    "accuracy": 93.87,
+    "auc": 0.9924
+  }
+}

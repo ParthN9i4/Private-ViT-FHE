@@ -1,0 +1,391 @@
+{
+  "step": "3+4",
+  "description": "Fully polynomial DeiT-Tiny: GELU deg-2 + poly_softmax depth-3 + PolyLayerNorm + cold-start KD (\u03c4=4.0, \u03b1=0.5)",
+  "dataset": "retina",
+  "test_accuracy": 43.5,
+  "test_auc": 0.0,
+  "baseline_accuracy": 53.75,
+  "baseline_auc": 0.7505,
+  "step5b_accuracy": 52.5,
+  "accuracy_delta_vs_baseline": -10.25,
+  "nonpoly_ops_remaining": 0,
+  "replacements": {
+    "gelu": 12,
+    "softmax": 12,
+    "layernorm": 25,
+    "total": 49
+  },
+  "poly_degree": 2,
+  "softmax_depth": 3,
+  "temperature": 4.0,
+  "alpha": 0.5,
+  "best_epoch": 30,
+  "epochs": 30,
+  "lr": 0.0001,
+  "freeze_blocks": 8,
+  "train_time_seconds": 94.4,
+  "learned_gelu_coefficients": {
+    "blocks.0.mlp.act": [
+      NaN,
+      NaN,
+      NaN
+    ],
+    "blocks.1.mlp.act": [
+      NaN,
+      NaN,
+      NaN
+    ],
+    "blocks.2.mlp.act": [
+      NaN,
+      NaN,
+      NaN
+    ],
+    "blocks.3.mlp.act": [
+      NaN,
+      NaN,
+      NaN
+    ],
+    "blocks.4.mlp.act": [
+      NaN,
+      NaN,
+      NaN
+    ],
+    "blocks.5.mlp.act": [
+      NaN,
+      NaN,
+      NaN
+    ],
+    "blocks.6.mlp.act": [
+      NaN,
+      NaN,
+      NaN
+    ],
+    "blocks.7.mlp.act": [
+      NaN,
+      NaN,
+      NaN
+    ],
+    "blocks.8.mlp.act": [
+      NaN,
+      NaN,
+      NaN
+    ],
+    "blocks.9.mlp.act": [
+      NaN,
+      NaN,
+      NaN
+    ],
+    "blocks.10.mlp.act": [
+      NaN,
+      NaN,
+      NaN
+    ],
+    "blocks.11.mlp.act": [
+      NaN,
+      NaN,
+      NaN
+    ]
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "total_loss": NaN,
+      "distill_loss": NaN,
+      "task_loss": NaN,
+      "train_acc": 45.0,
+      "val_acc": 45.0,
+      "val_auc": 0.0,
+      "lr": 2e-05
+    },
+    {
+      "epoch": 2,
+      "total_loss": NaN,
+      "distill_loss": NaN,
+      "task_loss": NaN,
+      "train_acc": 45.0,
+      "val_acc": 45.0,
+      "val_auc": 0.0,
+      "lr": 4e-05
+    },
+    {
+      "epoch": 3,
+      "total_loss": NaN,
+      "distill_loss": NaN,
+      "task_loss": NaN,
+      "train_acc": 45.0,
+      "val_acc": 45.0,
+      "val_auc": 0.0,
+      "lr": 6e-05
+    },
+    {
+      "epoch": 4,
+      "total_loss": NaN,
+      "distill_loss": NaN,
+      "task_loss": NaN,
+      "train_acc": 45.0,
+      "val_acc": 45.0,
+      "val_auc": 0.0,
+      "lr": 8e-05
+    },
+    {
+      "epoch": 5,
+      "total_loss": NaN,
+      "distill_loss": NaN,
+      "task_loss": NaN,
+      "train_acc": 45.0,
+      "val_acc": 45.0,
+      "val_auc": 0.0,
+      "lr": 0.0001
+    },
+    {
+      "epoch": 6,
+      "total_loss": NaN,
+      "distill_loss": NaN,
+      "task_loss": NaN,
+      "train_acc": 45.0,
+      "val_acc": 45.0,
+      "val_auc": 0.0,
+      "lr": 9.96e-05
+    },
+    {
+      "epoch": 7,
+      "total_loss": NaN,
+      "distill_loss": NaN,
+      "task_loss": NaN,
+      "train_acc": 45.0,
+      "val_acc": 45.0,
+      "val_auc": 0.0,
+      "lr": 9.84e-05
+    },
+    {
+      "epoch": 8,
+      "total_loss": NaN,
+      "distill_loss": NaN,
+      "task_loss": NaN,
+      "train_acc": 45.0,
+      "val_acc": 45.0,
+      "val_auc": 0.0,
+      "lr": 9.65e-05
+    },
+    {
+      "epoch": 9,
+      "total_loss": NaN,
+      "distill_loss": NaN,
+      "task_loss": NaN,
+      "train_acc": 45.0,
+      "val_acc": 45.0,
+      "val_auc": 0.0,
+      "lr": 9.39e-05
+    },
+    {
+      "epoch": 10,
+      "total_loss": NaN,
+      "distill_loss": NaN,
+      "task_loss": NaN,
+      "train_acc": 45.0,
+      "val_acc": 45.0,
+      "val_auc": 0.0,
+      "lr": 9.05e-05
+    },
+    {
+      "epoch": 11,
+      "total_loss": NaN,
+      "distill_loss": NaN,
+      "task_loss": NaN,
+      "train_acc": 45.0,
+      "val_acc": 45.0,
+      "val_auc": 0.0,
+      "lr": 8.66e-05
+    },
+    {
+      "epoch": 12,
+      "total_loss": NaN,
+      "distill_loss": NaN,
+      "task_loss": NaN,
+      "train_acc": 45.0,
+      "val_acc": 45.0,
+      "val_auc": 0.0,
+      "lr": 8.21e-05
+    },
+    {
+      "epoch": 13,
+      "total_loss": NaN,
+      "distill_loss": NaN,
+      "task_loss": NaN,
+      "train_acc": 45.0,
+      "val_acc": 45.0,
+      "val_auc": 0.0,
+      "lr": 7.7e-05
+    },
+    {
+      "epoch": 14,
+      "total_loss": NaN,
+      "distill_loss": NaN,
+      "task_loss": NaN,
+      "train_acc": 45.0,
+      "val_acc": 45.0,
+      "val_auc": 0.0,
+      "lr": 7.16e-05
+    },
+    {
+      "epoch": 15,
+      "total_loss": NaN,
+      "distill_loss": NaN,
+      "task_loss": NaN,
+      "train_acc": 45.0,
+      "val_acc": 45.0,
+      "val_auc": 0.0,
+      "lr": 6.58e-05
+    },
+    {
+      "epoch": 16,
+      "total_loss": NaN,
+      "distill_loss": NaN,
+      "task_loss": NaN,
+      "train_acc": 45.0,
+      "val_acc": 45.0,
+      "val_auc": 0.0,
+      "lr": 5.98e-05
+    },
+    {
+      "epoch": 17,
+      "total_loss": NaN,
+      "distill_loss": NaN,
+      "task_loss": NaN,
+      "train_acc": 45.0,
+      "val_acc": 45.0,
+      "val_auc": 0.0,
+      "lr": 5.36e-05
+    },
+    {
+      "epoch": 18,
+      "total_loss": NaN,
+      "distill_loss": NaN,
+      "task_loss": NaN,
+      "train_acc": 45.0,
+      "val_acc": 45.0,
+      "val_auc": 0.0,
+      "lr": 4.74e-05
+    },
+    {
+      "epoch": 19,
+      "total_loss": NaN,
+      "distill_loss": NaN,
+      "task_loss": NaN,
+      "train_acc": 45.0,
+      "val_acc": 45.0,
+      "val_auc": 0.0,
+      "lr": 4.12e-05
+    },
+    {
+      "epoch": 20,
+      "total_loss": NaN,
+      "distill_loss": NaN,
+      "task_loss": NaN,
+      "train_acc": 45.0,
+      "val_acc": 45.0,
+      "val_auc": 0.0,
+      "lr": 3.52e-05
+    },
+    {
+      "epoch": 21,
+      "total_loss": NaN,
+      "distill_loss": NaN,
+      "task_loss": NaN,
+      "train_acc": 45.0,
+      "val_acc": 45.0,
+      "val_auc": 0.0,
+      "lr": 2.94e-05
+    },
+    {
+      "epoch": 22,
+      "total_loss": NaN,
+      "distill_loss": NaN,
+      "task_loss": NaN,
+      "train_acc": 45.0,
+      "val_acc": 45.0,
+      "val_auc": 0.0,
+      "lr": 2.4e-05
+    },
+    {
+      "epoch": 23,
+      "total_loss": NaN,
+      "distill_loss": NaN,
+      "task_loss": NaN,
+      "train_acc": 45.0,
+      "val_acc": 45.0,
+      "val_auc": 0.0,
+      "lr": 1.89e-05
+    },
+    {
+      "epoch": 24,
+      "total_loss": NaN,
+      "distill_loss": NaN,
+      "task_loss": NaN,
+      "train_acc": 45.0,
+      "val_acc": 45.0,
+      "val_auc": 0.0,
+      "lr": 1.44e-05
+    },
+    {
+      "epoch": 25,
+      "total_loss": NaN,
+      "distill_loss": NaN,
+      "task_loss": NaN,
+      "train_acc": 45.0,
+      "val_acc": 45.0,
+      "val_auc": 0.0,
+      "lr": 1.05e-05
+    },
+    {
+      "epoch": 26,
+      "total_loss": NaN,
+      "distill_loss": NaN,
+      "task_loss": NaN,
+      "train_acc": 45.0,
+      "val_acc": 45.0,
+      "val_auc": 0.0,
+      "lr": 7.1e-06
+    },
+    {
+      "epoch": 27,
+      "total_loss": NaN,
+      "distill_loss": NaN,
+      "task_loss": NaN,
+      "train_acc": 45.0,
+      "val_acc": 45.0,
+      "val_auc": 0.0,
+      "lr": 4.5e-06
+    },
+    {
+      "epoch": 28,
+      "total_loss": NaN,
+      "distill_loss": NaN,
+      "task_loss": NaN,
+      "train_acc": 45.0,
+      "val_acc": 45.0,
+      "val_auc": 0.0,
+      "lr": 2.6e-06
+    },
+    {
+      "epoch": 29,
+      "total_loss": NaN,
+      "distill_loss": NaN,
+      "task_loss": NaN,
+      "train_acc": 45.0,
+      "val_acc": 45.0,
+      "val_auc": 0.0,
+      "lr": 1.4e-06
+    },
+    {
+      "epoch": 30,
+      "total_loss": NaN,
+      "distill_loss": NaN,
+      "task_loss": NaN,
+      "train_acc": 45.0,
+      "val_acc": 45.0,
+      "val_auc": 0.0,
+      "lr": 1e-06
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "teacher_acc": 71.59,
+  "d_accs": [
+    72.1,
+    70.33,
+    69.62
+  ],
+  "e_accs": [
+    47.14,
+    60.69,
+    46.79
+  ],
+  "fix_results": {
+    "Fix 1: PolyAttn clamped to [0,1] + BatchNorm": 70.94,
+    "Fix 2: PolyAttn row-normalized + BatchNorm": 80.63,
+    "Fix 3: RMSNorm (per-token, simpler than LayerNorm)": 70.48
+  }
+}

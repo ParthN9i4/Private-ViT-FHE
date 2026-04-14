@@ -1,0 +1,16 @@
+{
+  "model": "Fix3_RMSNorm",
+  "n_samples": 10000,
+  "plaintext_accuracy": 70.5,
+  "encrypted_accuracy": 70.5,
+  "prediction_match_rate": 100.0,
+  "accuracy_degradation": 0.0,
+  "max_logit_error": 4.77e-06,
+  "mean_logit_error": 1.69e-06,
+  "mean_time_ms": 173.8,
+  "ckks_params": {
+    "poly_modulus_degree": 8192,
+    "scale_bits": 40,
+    "mult_levels": 1
+  }
+}
