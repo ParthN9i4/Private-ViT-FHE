@@ -1,0 +1,12 @@
+data/
+ckks_models/
+results/
+results_*/
+experiment_results/
+__pycache__/
+*.pyc
+*.txt
+!README.txt
+*.pth
+*.pt
+*.ckpt
