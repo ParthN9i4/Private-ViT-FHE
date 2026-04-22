@@ -1,0 +1,121 @@
+{
+  "args": {
+    "seeds": [
+      42
+    ],
+    "epochs": 30,
+    "lr": 0.001,
+    "wd": 0.05,
+    "batch_size": 128,
+    "skip_train": false,
+    "teacher_seed": 42,
+    "ckpt_dir": "./checkpoints_bloodmnist",
+    "results_dir": "./experiment_results",
+    "data_root": "./data",
+    "num_workers": 2
+  },
+  "results": {
+    "Teacher": [
+      {
+        "config_name": "Teacher",
+        "seed": 42,
+        "test_acc": 0.9318912598655364,
+        "test_bal_acc": 0.9262530550532209,
+        "best_val_acc": 0.9380841121495327,
+        "best_val_bal": 0.9377779912711143,
+        "best_epoch": 28,
+        "total_epochs": 30,
+        "time_seconds": 162.78804802894592,
+        "ckpt_path": "./checkpoints_bloodmnist/Teacher_seed42.pt"
+      }
+    ],
+    "Config_E": [
+      {
+        "config_name": "Config_E",
+        "seed": 42,
+        "test_acc": 0.19467991815258695,
+        "test_bal_acc": 0.125,
+        "best_val_acc": 0.19450934579439252,
+        "best_val_bal": 0.125,
+        "best_epoch": 0,
+        "total_epochs": 30,
+        "time_seconds": 166.50284600257874,
+        "ckpt_path": "./checkpoints_bloodmnist/Config_E_seed42.pt"
+      }
+    ],
+    "Fix2_Normalized": [
+      {
+        "config_name": "Fix2_Normalized",
+        "seed": 42,
+        "test_acc": 0.9327681964337913,
+        "test_bal_acc": 0.9291296824273313,
+        "best_val_acc": 0.9445093457943925,
+        "best_val_bal": 0.9447361978239867,
+        "best_epoch": 24,
+        "total_epochs": 30,
+        "time_seconds": 169.32075333595276,
+        "ckpt_path": "./checkpoints_bloodmnist/Fix2_Normalized_seed42.pt"
+      }
+    ]
+  },
+  "summary": {
+    "per_config": {
+      "Teacher": {
+        "test_acc_mean": 0.9318912598655364,
+        "test_acc_std": 0.0,
+        "test_acc_min": 0.9318912598655364,
+        "test_acc_max": 0.9318912598655364,
+        "test_acc_seeds": [
+          0.9318912598655364
+        ],
+        "test_bal_acc_mean": 0.9262530550532209,
+        "test_bal_acc_std": 0.0,
+        "test_bal_acc_seeds": [
+          0.9262530550532209
+        ],
+        "n_seeds": 1
+      },
+      "Config_E": {
+        "test_acc_mean": 0.19467991815258695,
+        "test_acc_std": 0.0,
+        "test_acc_min": 0.19467991815258695,
+        "test_acc_max": 0.19467991815258695,
+        "test_acc_seeds": [
+          0.19467991815258695
+        ],
+        "test_bal_acc_mean": 0.125,
+        "test_bal_acc_std": 0.0,
+        "test_bal_acc_seeds": [
+          0.125
+        ],
+        "n_seeds": 1
+      },
+      "Fix2_Normalized": {
+        "test_acc_mean": 0.9327681964337913,
+        "test_acc_std": 0.0,
+        "test_acc_min": 0.9327681964337913,
+        "test_acc_max": 0.9327681964337913,
+        "test_acc_seeds": [
+          0.9327681964337913
+        ],
+        "test_bal_acc_mean": 0.9291296824273313,
+        "test_bal_acc_std": 0.0,
+        "test_bal_acc_seeds": [
+          0.9291296824273313
+        ],
+        "n_seeds": 1
+      }
+    },
+    "tests": {}
+  },
+  "dataset": "BloodMNIST",
+  "num_classes": 8,
+  "img_size": 32,
+  "patch_size": 4,
+  "depth": 6,
+  "embed_dim": 192,
+  "num_heads": 3,
+  "kd_T": 4.0,
+  "kd_alpha": 0.1,
+  "grad_clip": 5.0
+}

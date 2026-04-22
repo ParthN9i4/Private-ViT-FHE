@@ -1,0 +1,109 @@
+{
+  "args": {
+    "seeds": [
+      42
+    ],
+    "epochs": 30,
+    "lr": 0.001,
+    "wd": 0.05,
+    "batch_size": 64,
+    "skip_train": false,
+    "teacher_seed": 42,
+    "ckpt_dir": "./checkpoints_retinamnist",
+    "results_dir": "./experiment_results",
+    "data_root": "./data",
+    "num_workers": 2
+  },
+  "results": {
+    "Teacher": [
+      {
+        "config_name": "Teacher",
+        "seed": 42,
+        "test_acc": 0.53,
+        "test_bal_acc": 0.35301025957609433,
+        "best_val_acc": 0.5583333333333333,
+        "best_epoch": 16,
+        "total_epochs": 30,
+        "time_seconds": 34.579230308532715,
+        "ckpt_path": "./checkpoints_retinamnist/Teacher_seed42.pt"
+      }
+    ],
+    "Config_E": [
+      {
+        "config_name": "Config_E",
+        "seed": 42,
+        "test_acc": 0.435,
+        "test_bal_acc": 0.2,
+        "best_val_acc": 0.45,
+        "best_epoch": 0,
+        "total_epochs": 30,
+        "time_seconds": 33.91578912734985,
+        "ckpt_path": "./checkpoints_retinamnist/Config_E_seed42.pt"
+      }
+    ],
+    "Fix2_Normalized": [
+      {
+        "config_name": "Fix2_Normalized",
+        "seed": 42,
+        "test_acc": 0.5175,
+        "test_bal_acc": 0.35134197607078815,
+        "best_val_acc": 0.6166666666666667,
+        "best_epoch": 5,
+        "total_epochs": 30,
+        "time_seconds": 35.599276542663574,
+        "ckpt_path": "./checkpoints_retinamnist/Fix2_Normalized_seed42.pt"
+      }
+    ]
+  },
+  "summary": {
+    "per_config": {
+      "Teacher": {
+        "test_acc_mean": 0.53,
+        "test_acc_std": 0.0,
+        "test_acc_min": 0.53,
+        "test_acc_max": 0.53,
+        "test_acc_seeds": [
+          0.53
+        ],
+        "test_bal_acc_mean": 0.35301025957609433,
+        "test_bal_acc_std": 0.0,
+        "n_seeds": 1
+      },
+      "Config_E": {
+        "test_acc_mean": 0.435,
+        "test_acc_std": 0.0,
+        "test_acc_min": 0.435,
+        "test_acc_max": 0.435,
+        "test_acc_seeds": [
+          0.435
+        ],
+        "test_bal_acc_mean": 0.2,
+        "test_bal_acc_std": 0.0,
+        "n_seeds": 1
+      },
+      "Fix2_Normalized": {
+        "test_acc_mean": 0.5175,
+        "test_acc_std": 0.0,
+        "test_acc_min": 0.5175,
+        "test_acc_max": 0.5175,
+        "test_acc_seeds": [
+          0.5175
+        ],
+        "test_bal_acc_mean": 0.35134197607078815,
+        "test_bal_acc_std": 0.0,
+        "n_seeds": 1
+      }
+    },
+    "tests": {}
+  },
+  "dataset": "RetinaMNIST",
+  "num_classes": 5,
+  "img_size": 32,
+  "patch_size": 4,
+  "depth": 6,
+  "embed_dim": 192,
+  "num_heads": 3,
+  "kd_T": 4.0,
+  "kd_alpha": 0.1,
+  "grad_clip": 5.0
+}

@@ -1,0 +1,50 @@
+{
+  "retina": {
+    "baseline": 53.75,
+    "step2": 43.5,
+    "step5_warmstart": 43.5,
+    "step5b_coldstart": 52.5,
+    "delta_baseline": -1.25,
+    "kd_recovery": -9.0
+  },
+  "pneumonia": {
+    "baseline": 86.86,
+    "step2": 87.34,
+    "step5_warmstart": 79.49,
+    "step5b_coldstart": 84.78,
+    "delta_baseline": -2.08,
+    "kd_recovery": 2.56
+  },
+  "blood": {
+    "baseline": 95.32,
+    "step2": 95.7,
+    "step5_warmstart": 94.21,
+    "step5b_coldstart": 94.42,
+    "delta_baseline": -0.91,
+    "kd_recovery": 1.28
+  },
+  "derma": {
+    "baseline": 76.66,
+    "step2": 73.57,
+    "step5_warmstart": 73.67,
+    "step5b_coldstart": 75.61,
+    "delta_baseline": -1.05,
+    "kd_recovery": -2.04
+  },
+  "breast": {
+    "baseline": 87.18,
+    "step2": 73.08,
+    "step5_warmstart": 73.08,
+    "step5b_coldstart": 78.21,
+    "delta_baseline": -8.97,
+    "kd_recovery": -5.13
+  },
+  "path": {
+    "baseline": 93.87,
+    "step2": 92.01,
+    "step5_warmstart": 88.93,
+    "step5b_coldstart": 89.28,
+    "delta_baseline": -4.6,
+    "kd_recovery": 2.73
+  }
+}

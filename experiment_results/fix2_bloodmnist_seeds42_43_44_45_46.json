@@ -1,0 +1,318 @@
+{
+  "args": {
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "epochs": 150,
+    "lr": 0.001,
+    "wd": 0.05,
+    "batch_size": 128,
+    "skip_train": false,
+    "teacher_seed": 42,
+    "ckpt_dir": "./checkpoints_bloodmnist",
+    "results_dir": "./experiment_results",
+    "data_root": "./data",
+    "num_workers": 2
+  },
+  "results": {
+    "Teacher": [
+      {
+        "config_name": "Teacher",
+        "seed": 42,
+        "test_acc": 0.9485530546623794,
+        "test_bal_acc": 0.9464586550719118,
+        "best_val_acc": 0.945677570093458,
+        "best_val_bal": 0.9474575421798771,
+        "best_epoch": 126,
+        "total_epochs": 150,
+        "time_seconds": 819.5272386074066,
+        "ckpt_path": "./checkpoints_bloodmnist/Teacher_seed42.pt"
+      },
+      {
+        "config_name": "Teacher",
+        "seed": 43,
+        "test_acc": 0.9427068108740134,
+        "test_bal_acc": 0.9366730273970314,
+        "best_val_acc": 0.9491822429906542,
+        "best_val_bal": 0.9484203606120147,
+        "best_epoch": 95,
+        "total_epochs": 150,
+        "time_seconds": 825.4273438453674,
+        "ckpt_path": "./checkpoints_bloodmnist/Teacher_seed43.pt"
+      },
+      {
+        "config_name": "Teacher",
+        "seed": 44,
+        "test_acc": 0.9453376205787781,
+        "test_bal_acc": 0.9370411488336368,
+        "best_val_acc": 0.9491822429906542,
+        "best_val_bal": 0.9471735872490239,
+        "best_epoch": 118,
+        "total_epochs": 150,
+        "time_seconds": 821.1867918968201,
+        "ckpt_path": "./checkpoints_bloodmnist/Teacher_seed44.pt"
+      },
+      {
+        "config_name": "Teacher",
+        "seed": 45,
+        "test_acc": 0.9429991230634317,
+        "test_bal_acc": 0.9384856954646184,
+        "best_val_acc": 0.9503504672897196,
+        "best_val_bal": 0.9486360992427045,
+        "best_epoch": 139,
+        "total_epochs": 150,
+        "time_seconds": 829.0115630626678,
+        "ckpt_path": "./checkpoints_bloodmnist/Teacher_seed45.pt"
+      },
+      {
+        "config_name": "Teacher",
+        "seed": 46,
+        "test_acc": 0.9476761180941246,
+        "test_bal_acc": 0.9396164455959342,
+        "best_val_acc": 0.9509345794392523,
+        "best_val_bal": 0.9504754842523697,
+        "best_epoch": 113,
+        "total_epochs": 150,
+        "time_seconds": 838.5978853702545,
+        "ckpt_path": "./checkpoints_bloodmnist/Teacher_seed46.pt"
+      }
+    ],
+    "Config_E": [
+      {
+        "config_name": "Config_E",
+        "seed": 42,
+        "test_acc": 0.7331189710610932,
+        "test_bal_acc": 0.6791168383952442,
+        "best_val_acc": 0.7383177570093458,
+        "best_val_bal": 0.6827494881008203,
+        "best_epoch": 144,
+        "total_epochs": 150,
+        "time_seconds": 836.2838966846466,
+        "ckpt_path": "./checkpoints_bloodmnist/Config_E_seed42.pt"
+      },
+      {
+        "config_name": "Config_E",
+        "seed": 43,
+        "test_acc": 0.8281204326220404,
+        "test_bal_acc": 0.8247439374393719,
+        "best_val_acc": 0.8533878504672897,
+        "best_val_bal": 0.8534553058897545,
+        "best_epoch": 112,
+        "total_epochs": 150,
+        "time_seconds": 846.1432962417603,
+        "ckpt_path": "./checkpoints_bloodmnist/Config_E_seed43.pt"
+      },
+      {
+        "config_name": "Config_E",
+        "seed": 44,
+        "test_acc": 0.1824028061970184,
+        "test_bal_acc": 0.125,
+        "best_val_acc": 0.1822429906542056,
+        "best_val_bal": 0.125,
+        "best_epoch": 0,
+        "total_epochs": 150,
+        "time_seconds": 843.8839497566223,
+        "ckpt_path": "./checkpoints_bloodmnist/Config_E_seed44.pt"
+      },
+      {
+        "config_name": "Config_E",
+        "seed": 45,
+        "test_acc": 0.9017831043554516,
+        "test_bal_acc": 0.8895678645354543,
+        "best_val_acc": 0.919392523364486,
+        "best_val_bal": 0.9094505273824484,
+        "best_epoch": 129,
+        "total_epochs": 150,
+        "time_seconds": 846.007420539856,
+        "ckpt_path": "./checkpoints_bloodmnist/Config_E_seed45.pt"
+      },
+      {
+        "config_name": "Config_E",
+        "seed": 46,
+        "test_acc": 0.9280912014030985,
+        "test_bal_acc": 0.9226378971289129,
+        "best_val_acc": 0.9398364485981309,
+        "best_val_bal": 0.9394562906017265,
+        "best_epoch": 128,
+        "total_epochs": 150,
+        "time_seconds": 859.4554314613342,
+        "ckpt_path": "./checkpoints_bloodmnist/Config_E_seed46.pt"
+      }
+    ],
+    "Fix2_Normalized": [
+      {
+        "config_name": "Fix2_Normalized",
+        "seed": 42,
+        "test_acc": 0.9500146156094709,
+        "test_bal_acc": 0.9471277093305993,
+        "best_val_acc": 0.9620327102803738,
+        "best_val_bal": 0.9624302524598732,
+        "best_epoch": 122,
+        "total_epochs": 150,
+        "time_seconds": 869.723687171936,
+        "ckpt_path": "./checkpoints_bloodmnist/Fix2_Normalized_seed42.pt"
+      },
+      {
+        "config_name": "Fix2_Normalized",
+        "seed": 43,
+        "test_acc": 0.9494299912306343,
+        "test_bal_acc": 0.942962463489036,
+        "best_val_acc": 0.9620327102803738,
+        "best_val_bal": 0.9617205026032457,
+        "best_epoch": 128,
+        "total_epochs": 150,
+        "time_seconds": 872.4452836513519,
+        "ckpt_path": "./checkpoints_bloodmnist/Fix2_Normalized_seed43.pt"
+      },
+      {
+        "config_name": "Fix2_Normalized",
+        "seed": 44,
+        "test_acc": 0.9476761180941246,
+        "test_bal_acc": 0.9451388716003232,
+        "best_val_acc": 0.959696261682243,
+        "best_val_bal": 0.9591031157540051,
+        "best_epoch": 109,
+        "total_epochs": 150,
+        "time_seconds": 850.0473101139069,
+        "ckpt_path": "./checkpoints_bloodmnist/Fix2_Normalized_seed44.pt"
+      },
+      {
+        "config_name": "Fix2_Normalized",
+        "seed": 45,
+        "test_acc": 0.9497223034200526,
+        "test_bal_acc": 0.949291924850279,
+        "best_val_acc": 0.9573598130841121,
+        "best_val_bal": 0.9608372052495419,
+        "best_epoch": 86,
+        "total_epochs": 150,
+        "time_seconds": 848.1763551235199,
+        "ckpt_path": "./checkpoints_bloodmnist/Fix2_Normalized_seed45.pt"
+      },
+      {
+        "config_name": "Fix2_Normalized",
+        "seed": 46,
+        "test_acc": 0.9450453083893599,
+        "test_bal_acc": 0.9404326344181777,
+        "best_val_acc": 0.9585280373831776,
+        "best_val_bal": 0.9571076562048999,
+        "best_epoch": 93,
+        "total_epochs": 150,
+        "time_seconds": 850.039874792099,
+        "ckpt_path": "./checkpoints_bloodmnist/Fix2_Normalized_seed46.pt"
+      }
+    ]
+  },
+  "summary": {
+    "per_config": {
+      "Teacher": {
+        "test_acc_mean": 0.9454545454545455,
+        "test_acc_std": 0.0026518371072883416,
+        "test_acc_min": 0.9427068108740134,
+        "test_acc_max": 0.9485530546623794,
+        "test_acc_seeds": [
+          0.9485530546623794,
+          0.9427068108740134,
+          0.9453376205787781,
+          0.9429991230634317,
+          0.9476761180941246
+        ],
+        "test_bal_acc_mean": 0.9396549944726266,
+        "test_bal_acc_std": 0.0039806676701493755,
+        "test_bal_acc_seeds": [
+          0.9464586550719118,
+          0.9366730273970314,
+          0.9370411488336368,
+          0.9384856954646184,
+          0.9396164455959342
+        ],
+        "n_seeds": 5
+      },
+      "Config_E": {
+        "test_acc_mean": 0.7147033031277404,
+        "test_acc_std": 0.30703405685633084,
+        "test_acc_min": 0.1824028061970184,
+        "test_acc_max": 0.9280912014030985,
+        "test_acc_seeds": [
+          0.7331189710610932,
+          0.8281204326220404,
+          0.1824028061970184,
+          0.9017831043554516,
+          0.9280912014030985
+        ],
+        "test_bal_acc_mean": 0.6882133074997967,
+        "test_bal_acc_std": 0.3284170878123325,
+        "test_bal_acc_seeds": [
+          0.6791168383952442,
+          0.8247439374393719,
+          0.125,
+          0.8895678645354543,
+          0.9226378971289129
+        ],
+        "n_seeds": 5
+      },
+      "Fix2_Normalized": {
+        "test_acc_mean": 0.9483776673487284,
+        "test_acc_std": 0.0020731509180353077,
+        "test_acc_min": 0.9450453083893599,
+        "test_acc_max": 0.9500146156094709,
+        "test_acc_seeds": [
+          0.9500146156094709,
+          0.9494299912306343,
+          0.9476761180941246,
+          0.9497223034200526,
+          0.9450453083893599
+        ],
+        "test_bal_acc_mean": 0.944990720737683,
+        "test_bal_acc_std": 0.0034633439081803155,
+        "test_bal_acc_seeds": [
+          0.9471277093305993,
+          0.942962463489036,
+          0.9451388716003232,
+          0.949291924850279,
+          0.9404326344181777
+        ],
+        "n_seeds": 5
+      }
+    },
+    "tests": {
+      "Fix2_Normalized_vs_Config_E": {
+        "acc_t": 1.7017651317694145,
+        "acc_p": 0.16400881965253972,
+        "acc_diff_pp": 23.3674364220988,
+        "bal_t": 1.7482032711950912,
+        "bal_p": 0.15532594877404865,
+        "bal_diff_pp": 25.677741323788627
+      },
+      "Fix2_Normalized_vs_Teacher": {
+        "acc_t": 1.9418390934514664,
+        "acc_p": 0.09021051384807216,
+        "acc_diff_pp": 0.29231218941828674,
+        "bal_t": 2.2612068488585493,
+        "bal_p": 0.0542351206467526,
+        "bal_diff_pp": 0.5335726265056406
+      },
+      "Config_E_vs_Teacher": {
+        "acc_t": -1.680452732241866,
+        "acc_p": 0.16815488237427842,
+        "acc_diff_pp": -23.075124232680512,
+        "bal_t": -1.711845788833263,
+        "bal_p": 0.1620689796437596,
+        "bal_diff_pp": -25.144168697282986
+      }
+    }
+  },
+  "dataset": "BloodMNIST",
+  "num_classes": 8,
+  "img_size": 32,
+  "patch_size": 4,
+  "depth": 6,
+  "embed_dim": 192,
+  "num_heads": 3,
+  "kd_T": 4.0,
+  "kd_alpha": 0.1,
+  "grad_clip": 5.0
+}

@@ -1,0 +1,38 @@
+{
+  "retina": {
+    "baseline": 53.75,
+    "step5b_gelu_only": 52.5,
+    "step3_gelu_softmax": 52.5,
+    "delta_baseline": -1.25
+  },
+  "pneumonia": {
+    "baseline": 86.86,
+    "step5b_gelu_only": 84.78,
+    "step3_gelu_softmax": 81.57,
+    "delta_baseline": -5.29
+  },
+  "blood": {
+    "baseline": 95.32,
+    "step5b_gelu_only": 94.42,
+    "step3_gelu_softmax": 94.18,
+    "delta_baseline": -1.14
+  },
+  "derma": {
+    "baseline": 76.66,
+    "step5b_gelu_only": 75.61,
+    "step3_gelu_softmax": 74.26,
+    "delta_baseline": -2.39
+  },
+  "breast": {
+    "baseline": 87.18,
+    "step5b_gelu_only": 78.21,
+    "step3_gelu_softmax": 73.08,
+    "delta_baseline": -14.1
+  },
+  "path": {
+    "baseline": 93.87,
+    "step5b_gelu_only": 89.28,
+    "step3_gelu_softmax": 89.11,
+    "delta_baseline": -4.76
+  }
+}
